@@ -1,75 +1,54 @@
-﻿---
+---
 name: web-design-polish
-description: Use when the user asks for website UI polishing, visual design review, redesign, web aesthetics, design-system extraction, DESIGN.md generation, responsive/layout/color/typography/CTA improvements, or asks to use Open Design with a URL, screenshot, source code, or reference site. This is an Antigravity global agent skill for web visual design work.
+description: Use when the user asks for website UI polishing, visual design review, redesign, DESIGN.md generation, Open Design, Taste Skill, UI UX Pro Max, reference-site analysis, screenshot-to-UI, responsive polish, or frontend visual improvements.
 ---
 
 # Web Design Polish
 
-Use this skill as the dedicated website visual-design agent skill. Its job is to turn a website, screenshot, source tree, or reference site into a clear design system and then improve the UI with that system.
+A low-context orchestrator for website design polish. It coordinates UI UX Pro Max, Open Design, and Taste Skill through short intermediate artifacts instead of loading all three rule sets into context.
 
-## When to Use
+## Core Principle
 
-Use for:
+Do not keep Open Design, Taste Skill, and UI UX Pro Max fully resident in context. Make them collaborate through compact handoffs:
 
-- Website UI polish, visual redesign, landing page beautification, component styling, CSS cleanup.
-- Extracting or creating `DESIGN.md` from a URL, screenshot, source code, brand material, or reference site.
-- Auditing layout, visual hierarchy, color, typography, spacing, CTA clarity, RWD, accessibility, and brand consistency.
-- Applying `DESIGN.md` to real frontend source code.
+```text
+UI UX Pro Max -> Design Strategy Brief -> Open Design -> DESIGN.md -> Taste Skill -> UI implementation/polish
+```
 
-Do not use for non-web backend work unless it affects user-facing UI.
+## Stage 1: UI UX Pro Max Strategy Brief
 
-## Routing
+First produce a `Design Strategy Brief` of 300-600 words. Use `ui-ux-pro-max` only as a strategy engine and only for task-relevant slices:
 
-1. Start through `using-superpowers` routing.
-2. Because this is creative UI/UX work, use `brainstorming` before major redesign decisions.
-3. Fast-track is allowed for tiny, local CSS/UI fixes: color, spacing, alignment, copy, one component.
-4. Use full Superpowers mode for cross-file component work, new pages, design-system migration, or risky frontend refactors.
-5. Before editing real code, inspect the existing framework, CSS architecture, component boundaries, and current visual language.
-6. Before claiming completion, use `verification-before-completion` and include visual/browser evidence when possible.
+- `industry-fit`: product/industry, audience expectations, trust cues, CTA type.
+- `layout-pattern`: page structure and section rhythm.
+- `palette-type`: 1-2 palette directions.
+- `typography-pairing`: 1-2 font pairing directions.
+- `ux-checklist`: only necessary UX/RWD/accessibility checks.
+- `anti-patterns`: what this site must avoid.
 
-## Open Design Integration
+Token control: never load the full 67 styles, 161 rules, 161 palettes, or 57 font pairings. If raw data is needed, search the local UI UX Pro Max data files and extract only the top 1-2 matches.
 
-Prefer Open Design when available.
+## Stage 2: Open Design DESIGN.md
 
-- MCP server name: `open-design`
-- Preferred MCP command shape: `od mcp --daemon-url http://127.0.0.1:7456`
-- If using a source checkout instead of packaged `od`, point the MCP command to that machine's built `apps/daemon/dist/cli.js`.
-- If Open Design daemon is running, use it to list skills/design systems, read or generate artifacts, and consult `DESIGN.md` systems.
-- If the MCP server is unavailable, continue manually using the workflow below and note the limitation.
+Pass only the `Design Strategy Brief` plus the user's actual inputs to Open Design: URL, localhost, screenshot, reference site, source code, or existing `DESIGN.md`.
 
-## Input Handling
+Use Open Design MCP (`open-design`) when available to analyze artifacts, read or create design systems, and generate/update task-specific `DESIGN.md`. Keep only the relevant `DESIGN.md` in context. If useful, ask Open Design to generate a prototype/artifact; do not replace the brief with a huge rules dump.
 
-Accept any combination of:
+## Stage 3: Taste Skill Implementation
 
-- Website URL or localhost URL.
-- Screenshot or visual reference image.
-- Source files, repo, CSS, components, HTML, Tailwind config, design tokens.
-- Reference websites or desired brands.
-- Existing `DESIGN.md`.
+Use Taste Skill only when implementation or polish begins:
 
-When inputs are incomplete, make reasonable assumptions for low-risk polish. Ask only when brand direction, audience, or edit scope is genuinely ambiguous.
+- `design-taste-frontend`: default anti-generic frontend quality layer.
+- `redesign-existing-projects`: existing site/codebase redesigns.
+- `image-to-code`: screenshot/reference-image-first work.
 
-## Analysis Checklist
-
-Evaluate:
-
-- Visual hierarchy: first viewport, heading scale, content rhythm, contrast, scan path.
-- Layout and spacing: grid, alignment, density, whitespace, section rhythm, card usage.
-- Color system: palette, contrast, semantic roles, accent discipline, CTA visibility.
-- Typography: font pairing, scale, weight, line-height, readable measure, language support.
-- Components: buttons, cards, forms, nav, tables, badges, empty/loading/error states.
-- CTA and conversion: primary action clarity, secondary action restraint, repeated CTA placement.
-- RWD: mobile/tablet/desktop behavior, wrapping, overflow, tap targets, stable constraints.
-- Brand consistency: tone, imagery, icon style, motion, product/domain fit.
-- Accessibility: contrast, focus states, keyboard states, semantic structure.
+Taste Skill should work from `DESIGN.md`, not from all upstream rules. Apply concrete improvements to visual hierarchy, typography, spacing, CTA, interaction states, RWD, and anti-template UI.
 
 ## DESIGN.md Contract
 
-Create or update `DESIGN.md` when the task involves design-system extraction, reference-site translation, broad UI polish, or cross-file UI work.
+For broad polish or cross-file work, create/update:
 
-Recommended sections:
-
-``markdown
+```markdown
 # DESIGN.md
 
 ## Design Summary
@@ -81,31 +60,21 @@ Recommended sections:
 ## Responsive Rules
 ## Accessibility Rules
 ## Implementation Notes
-``
+```
 
-Make `DESIGN.md` actionable: include concrete tokens, sizes, CSS variable names, component rules, and dos/don'ts. Avoid vague adjectives without implementation rules.
+Make it executable: token names, CSS variables, sizes, component states, responsive rules, and dos/don'ts.
 
-## Implementation Workflow
+## Design Rules
 
-1. Capture current state: inspect files and, when possible, browser screenshots at desktop and mobile widths.
-2. Extract the current visual system and identify mismatches against the target direction.
-3. Draft or update `DESIGN.md`.
-4. Apply UI changes in the smallest sensible surface: CSS variables, design tokens, shared components, then page-specific styling.
-5. Preserve behavior and data flow; do not redesign by deleting functionality.
-6. Verify with build/test/lint as appropriate and visual inspection in browser.
-7. Report what changed, which `DESIGN.md` rules were applied, and any residual design tradeoffs.
+- Do not copy a reference site 1:1.
+- Preserve the user's brand content and information architecture.
+- Borrow style language, not proprietary assets.
+- Prefer fewer, sharper design moves over decoration.
+- With source code, land the changes directly in HTML/CSS/React/Next/Vue components.
+- Verify desktop and mobile visual behavior before claiming completion.
 
-## Output Style
+## Output
 
-For review-only tasks, return:
+For review-only tasks: return the brief, DESIGN.md recommendations, and highest-impact fixes.
 
-- Overall design diagnosis.
-- Top 5-10 highest-impact fixes.
-- Concrete token/component recommendations.
-- `DESIGN.md` draft or patch when requested.
-
-For implementation tasks, return:
-
-- Files changed.
-- Visual/design-system changes made.
-- Verification performed, including browser/screenshot checks when available.
+For implementation tasks: report files changed, design rules applied, and verification evidence.
