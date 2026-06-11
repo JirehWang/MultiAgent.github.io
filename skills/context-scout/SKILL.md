@@ -1,71 +1,24 @@
 ---
 name: context-scout
-description: Use when starting medium or large code changes, unfamiliar repo work, cross-file behavior changes, or when the relevant files, entry points, data flow, or existing patterns are not yet clear
+description: Use when starting medium or large code changes, unfamiliar repo work, or when the relevant files, entry points, or data flow are not yet clear
 ---
 
 # Context Scout
 
-Map the codebase before changing it. This skill prevents premature edits by finding the relevant files, ownership boundaries, data flow, and local conventions first.
+Map the codebase without over-reading it.
 
-## When To Use
+Use for unfamiliar repos, cross-file changes, or unclear entry points. Skip tiny single-file edits.
 
-Use for:
+Workflow:
+1. Start with local search: `rg`, filenames, routes, config, scripts, tests.
+2. If the repo is large or boundaries are still unclear, use `Gitingest` for a high-level map.
+3. Narrow to the few files or directories that matter.
+4. If exact cross-file logic is still unclear, use `Repomix` only on that narrowed subtree or file set.
+5. Read the real source, trace input -> module -> side effect, and report:
+   relevant files, flow, patterns to follow, risks, next step.
 
-- Unfamiliar repositories or areas of the codebase.
-- Medium or large changes touching multiple files.
-- Behavior changes where the entry point is unclear.
-- Features involving routes, APIs, state, storage, jobs, scripts, or integrations.
-- Before planning work when you need a reliable mental map.
-
-Skip for:
-
-- Tiny single-file edits with obvious context.
-- Pure text/content updates.
-- User explicitly asks to skip exploration.
-
-## Scout Workflow
-
-1. Identify the repo shape: top-level files, package/framework markers, docs, tests.
-2. Find likely entry points with `rg`, `rg --files`, routes, config, package scripts, or filenames from the request.
-3. Trace the path from user action/input to output/side effect.
-4. Find local patterns: nearby similar features, helper APIs, naming, test style, error handling.
-5. Note risk areas: shared modules, generated files, external services, caches, migrations, global state.
-6. Return a concise map before implementation or planning.
-
-## Output Format
-
-Keep the scout report short:
-
-```text
-Relevant files:
-- path: why it matters
-
-Flow:
-input/action -> module/function -> side effect/output
-
-Patterns to follow:
-- existing convention or helper
-
-Risks / unknowns:
-- item needing care or confirmation
-
-Recommended next step:
-- direct edit, plan, test-first fix, or ask one question
-```
-
-## Red Flags
-
-- Editing before knowing the entry point.
-- Searching only for one exact name and stopping.
-- Ignoring nearby similar implementations.
-- Treating generated/build/vendor files as source of truth.
-- Producing a huge repo summary instead of a focused map.
-
-## Handoff
-
-After scouting:
-
-- For small clear work, proceed directly.
-- For multi-step work, use `writing-plans`.
-- For bugs discovered during scouting, switch to `systematic-debugging`.
-- For UI changes, pair with `visual-qa` during verification.
+Rules:
+- `Gitingest` is for orientation, not proof.
+- `Repomix` is for focused deep context, not whole-repo dumping.
+- Never let generated summaries replace exact file reads.
+- Ignore generated, vendor, or build output unless they are the true source of behavior.
