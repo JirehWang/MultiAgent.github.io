@@ -42,14 +42,37 @@ Search for candidate repositories only if at least 2 of these are true:
    - license constraints
    - integration boundaries
    - required standards
-3. If the trigger rule is met, use AnySearch first for repository discovery and alternative search.
-4. Narrow to 2-4 serious candidates only.
-5. Use DeepWiki to understand each candidate's purpose, architecture, and core modules.
-6. Verify each candidate using GitHub pages, GitHub API, or official docs before recommending it.
-7. Conclude with one of:
+3. If the trigger rule is met, start with curated seed sources when relevant:
+   - Awesome-GitHub-Repo
+   - domain-specific awesome lists
+   - official ecosystem showcases or plugin registries
+4. Run the quick quality gate on curated candidates.
+5. Use AnySearch only when the gate fails, evidence is uncertain, candidate coverage is thin, or alternatives/negative evidence are needed.
+6. Narrow to 2-4 serious candidates only.
+7. Use DeepWiki to understand each candidate's purpose, architecture, and core modules.
+8. Verify each candidate using GitHub pages, GitHub API, or official docs before recommending it.
+9. Conclude with one of:
    - adopt a repo
    - reference a repo's design and implement locally
    - do not adopt; continue building in-repo
+
+## Curated Source Gate
+
+Treat awesome lists as candidate seed sources, not proof of quality.
+
+Quick gate:
+
+- The repo appears active within the last 6-12 months.
+- License is clear enough to evaluate.
+- README explains purpose, install path, and a minimal usage example.
+- Community signals look plausible for the problem space: stars, forks, issues, PRs, integrations, or downstream examples.
+- It fits the current constraints closely enough to avoid heavy glue code.
+
+Gate outcomes:
+
+- Pass: move directly to DeepWiki and official/GitHub verification.
+- Uncertain: use AnySearch for alternatives, comparisons, ecosystem mentions, and risk signals.
+- Fail: skip deep review and use AnySearch to find better candidates.
 
 ## Mature OSS Repository Criteria
 
@@ -87,13 +110,14 @@ Decision rule:
 
 ## Source Roles
 
-- AnySearch: first-pass repository discovery, alternative search, and broad web/domain search.
+- Curated awesome lists: fast first-pass candidate seeds and category discovery.
+- AnySearch: fallback and expansion search for missing candidates, alternatives, comparisons, ecosystem mentions, and negative evidence.
 - DeepWiki: fast repository understanding, architecture review, and candidate comparison.
 - GitHub pages, GitHub API, and official docs: maturity verification and adoption risk checks.
 
 ## Verification Rule
 
-Do not treat AnySearch or DeepWiki alone as sufficient proof of maturity.
+Do not treat awesome lists, AnySearch, or DeepWiki alone as sufficient proof of maturity.
 Always verify license, maintenance, release patterns, documentation quality, and integration feasibility with GitHub metadata, GitHub API data, and official documentation before recommending adoption.
 
 ## Output Format
@@ -112,6 +136,8 @@ Provide:
 Do not:
 
 - search for repos just because one exists
+- trust awesome-list inclusion as quality proof
+- run broad search when a curated candidate clearly passes the quick gate
 - recommend an immature repo to save time
 - skip license or maintenance checks
 - force OSS adoption when local implementation is clearly smaller and safer
