@@ -24,12 +24,14 @@ Use this skill only when decomposition improves clarity, safety, or speed.
    - parallel-investigation
    - subagent-implementation
    - plan-first
-6. If dispatching, create a handoff packet with:
+6. For large tasks, dispatch by stage, not all at once.
+7. Keep simultaneously active agents within about 3-4, including the manager when relevant.
+8. If dispatching, create a handoff packet with:
    - goal
    - exact scope
    - non-goals
    - required verification
-7. Recompose results and verify final integration yourself.
+9. Recompose results and verify final integration yourself.
 
 ## Rules
 

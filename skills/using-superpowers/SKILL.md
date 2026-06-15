@@ -45,6 +45,9 @@ Treat context isolation as useful when 1 or more of these are true:
 - a track benefits from deep focus in one domain such as frontend, backend, or tests
 - results can be returned in a fixed format and recomposed cleanly
 
+For large tasks, dispatch by stage, not all at once.
+Keep simultaneously active agents within about 3-4, including the manager when relevant.
+
 ## Skill Routing
 
 - creative design -> `brainstorming`

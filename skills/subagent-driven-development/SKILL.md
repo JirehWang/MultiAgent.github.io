@@ -39,6 +39,9 @@ Treat context isolation as beneficial when 1 or more of these are true:
 - a track needs concentrated domain focus
 - returned outputs can be recomposed from a standard summary format
 
+For large tasks, dispatch by stage, not all at once.
+Keep simultaneously active agents within about 3-4, including the manager when relevant.
+
 ## Workflow
 
 1. Read the decomposition or plan.
