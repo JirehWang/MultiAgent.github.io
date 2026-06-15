@@ -1,23 +1,60 @@
 ---
 name: subagent-driven-development
-description: Use when executing a written plan with 3 or more mostly independent tasks where isolated context will improve speed or quality
+description: Use when a decomposed plan has moderate or high complexity and includes implementation tracks that are mostly independent, context-heavy, or better isolated for quality.
 ---
 
 # Subagent-Driven Development
 
-Use subagents for substantial planned work, not small fixes.
+Use subagents for substantial decomposed work, not small fixes.
 
-Workflow:
-1. Read the plan and extract clear task boundaries.
-2. Dispatch only tasks that are mostly independent.
-3. For each subagent, provide: goal, exact scope, non-goals, verification, and summary format.
-4. If plan context is broad, add a short `Gitingest` summary for the relevant subsystem.
-5. If implementation detail is needed, add a focused `Repomix` pack for only the narrowed files or subtree.
-6. Review returned work and run verification yourself.
+## Trigger
 
-Rules:
-- Start from the written plan, not from whole-repo context.
-- Keep prompts self-contained and small.
-- Never use whole-repo `Repomix` by default.
-- Do not trust summaries alone when code behavior matters.
-- Avoid subagents when tasks touch the same files heavily.
+Prefer subagents when these are true:
+- the task was decomposed first
+- complexity is moderate or high
+- at least one implementation track benefits from context isolation
+- tracks have limited file overlap
+
+Task count is only a hint, not the main rule.
+
+## Complexity Signals
+
+- cross-subsystem scope
+- dependency depth
+- unclear local reasoning burden
+- large context packs
+- high verification burden
+- conflict risk if one agent keeps all context
+
+Treat complexity as moderate/high when 2 or more of these are true:
+- 2+ subsystems or responsibility boundaries are involved
+- there are meaningful dependencies between tracks
+- some coding should wait on investigation or design choice
+- verification spans multiple surfaces such as code, tests, UI, or data flow
+- one agent would likely carry too much context at once
+
+Treat context isolation as beneficial when 1 or more of these are true:
+- a track can be solved from a narrow repo slice
+- file overlap between tracks is low
+- a track needs concentrated domain focus
+- returned outputs can be recomposed from a standard summary format
+
+## Workflow
+
+1. Read the decomposition or plan.
+2. Extract only the tracks worth isolating.
+3. Dispatch each subagent with:
+   - goal
+   - exact scope
+   - non-goals
+   - verification
+   - return summary format
+4. Keep prompts self-contained and narrow.
+5. Review returned work and run final verification yourself.
+
+## Rules
+
+- Do not dispatch purely because there are many tasks.
+- Avoid subagents when tracks touch the same files heavily.
+- Do not trust summaries alone when behavior matters.
+- The manager agent owns recomposition and final judgment.
