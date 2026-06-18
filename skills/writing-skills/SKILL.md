@@ -1,98 +1,51 @@
 ---
 name: writing-skills
-description: Use when creating, editing, simplifying, or verifying Codex/agent skills and their trigger descriptions
+description: Use when creating, editing, simplifying, or verifying Codex/agent skills and other technical documentation such as README files, guides, and developer-facing instructions
 ---
 
 # Writing Skills
 
-Skills are reusable operating instructions. They should make future agents more effective with the fewest tokens and the least ceremony that still protects quality.
+Write documentation that helps the next person act correctly and quickly.
+
+Use for skill editing, README work, developer guides, onboarding docs, API-facing instructions, and other technical writing where clarity and correctness matter.
 
 ## Core Principles
 
 - Trigger precisely: the description says when to use the skill, not the whole workflow.
 - Keep the loaded file short; move heavy reference material into separate files.
 - Prefer judgment over ritual. Heavy gates belong only where skipping them has caused real failures.
-- Optimize for day-to-day use: a skill that fires often must be especially lightweight.
-
-## Editing Modes
-
-### Light Edit
-
-Use for wording, trigger cleanup, token reduction, examples, or reducing friction.
-
-Flow:
-
-```text
-read current skill -> identify behavior change -> edit -> verify frontmatter and readability
-```
-
-No failing pressure test is required for obvious documentation cleanup.
-
-### Full Skill Design
-
-Use for new skills or discipline-enforcing skills that change agent behavior under pressure.
-
-Flow:
-
-```text
-define failure mode -> create pressure scenario -> observe likely failure if practical -> write minimal skill -> test scenario -> refine
-```
-
-For discipline skills such as TDD, debugging, safety, verification, or review, explicitly close common rationalizations.
-
-## Frontmatter
-
-Required:
-
-```yaml
----
-name: skill-name
-description: Use when ...
----
-```
-
-Guidelines:
-
-- `name`: lowercase letters, numbers, and hyphens.
-- `description`: trigger conditions only.
-- Start with “Use when...” for English skills, or the equivalent concise trigger in another language.
-- Include concrete symptoms, contexts, or user intents.
-- Do not summarize step-by-step workflow in the description.
+- Optimize for day-to-day use: a frequently triggered skill must stay lightweight.
+- Write for action: a future reader should know what to do next, not just what you meant.
+- Make audience and task obvious when the right level of detail is not self-evident.
+- Prefer structure that survives skimming: short sections, concrete bullets, one good example over many abstract notes.
+- Treat bad docs as a product bug: missing prerequisites, stale examples, and ambiguous steps are correctness issues, not polish issues.
 
 ## Structure
 
-A good `SKILL.md` usually has:
-
+A good writing artifact usually has:
 - Purpose / core principle.
+- Audience or usage boundary when that is easy to misuse.
 - When to use and when not to use.
-- Short workflow or checklist.
-- Common mistakes or red flags.
+- Short workflow, checklist, or quick start.
+- Common mistakes, prerequisites, or red flags.
 - Links to supporting files only when needed.
+- If examples matter, prefer one runnable or realistic example over decorative snippets.
 
 Avoid:
-
 - Long stories about past sessions.
 - Multiple redundant examples.
 - Flowcharts for linear steps.
-- Mandatory commits, subagents, or approvals unless the skill truly needs them.
 - Rules that make tiny tasks feel like large projects.
-
-## Token Budget
-
-Frequently triggered skills should usually stay under 500 words. Rare reference skills can be longer, but should split heavy details into supporting files.
-
-When shortening, preserve:
-
-- Trigger accuracy.
-- Non-obvious constraints.
-- Safety or correctness gates.
-- The smallest example that teaches the pattern.
+- Hiding prerequisites, constraints, or maintenance caveats near the end.
+- Reference-style prose when a checklist or example would teach faster.
+- Mixing setup, configuration, usage, and troubleshooting into one undifferentiated wall of text.
 
 ## Verification
 
-Before calling the edit done:
-
-- Confirm YAML frontmatter parses visually.
-- Confirm the description matches the intended trigger.
-- Re-read the skill as a future agent and remove ambiguity.
-- Check that the new wording does not force unnecessary workflow on small tasks.
+Before calling the writing done:
+- Confirm the title, frontmatter, or opening sentence matches the real purpose.
+- Re-read the document as a future reader and remove ambiguity.
+- Check that the wording does not force unnecessary workflow on small tasks.
+- Check that headings and bullets are scannable under time pressure.
+- If misuse is likely, include one concrete example or counterexample.
+- If the document contains examples, verify that they are plausible, current, and consistent with the instructions around them.
