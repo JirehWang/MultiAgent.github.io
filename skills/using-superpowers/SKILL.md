@@ -7,6 +7,17 @@ description: Use when starting a substantive task, choosing which workflow skill
 
 Classify the task before doing meaningful work. Choose the smallest workflow that still protects correctness.
 
+This skill remains the top-level router. It does not replace specialist skills or workflow skills; it decides when to use them.
+
+## Required Reads For Routing
+
+When the task requires agent selection, workflow-node selection, or primary/support-agent decisions, read these files in the same folder before routing:
+
+- `agent-routing-rules.yaml`
+- `AGENT_ROUTER_PROMPT.md`
+
+Use `LANGGRAPH_AGENT_ROUTING.md` in the same folder as the reference model when the workflow shape, node boundaries, or dispatch logic are unclear.
+
 ## Fast-Track
 
 Use fast-track for low-risk local work:
@@ -15,9 +26,27 @@ Use fast-track for low-risk local work:
 - small obvious edits
 - mechanical cleanup
 
+If fast-track is enough, do not force the task through the full routing graph.
+
+Fast-track specialist routing is defined in `agent-routing-rules.yaml`.
+
 ## Full Workflow
 
 Use a fuller workflow when design, integration, or verification risk is real.
+
+## Routing Order
+
+When full routing is needed, follow this order:
+1. identify the artifact being produced
+2. identify domain signals
+3. choose exactly one primary agent
+4. choose zero to two support agents
+5. choose the next workflow node
+6. only then decide whether extra workflow skills are needed
+
+Specialist-first rule:
+- if a narrow domain specialist clearly fits, choose it before a generic workflow skill
+- workflow skills shape the work; they do not replace the primary domain owner unless the artifact itself is a plan, review, or verification output
 
 ## Complexity Signals
 
@@ -54,11 +83,21 @@ Keep simultaneously active agents within about 3-4, including the manager when r
 - multi-step plan needed -> `writing-plans`
 - existing plan to execute -> `executing-plans`
 - 2+ independent investigations -> `dispatching-parallel-agents`
-- moderate/high complexity with isolatable implementation tracks -> `task-decomposition`
-- after decomposition, use `subagent-driven-development` only if delegation will reduce context load or improve quality
+- moderate/high complexity with isolatable implementation tracks -> `subagent-driven-development`
 - practical behavior change -> `test-driven-development`
 - broken or unexplained behavior -> `systematic-debugging`
 - done but needs verification -> `verification-before-completion`
+
+## Domain Routing
+
+When domain signals are clear, route to the narrow specialist first:
+
+- raw email, thread extraction, MIME, quoted replies, mailbox exports -> `email-intelligence-engineer`
+- prompt design, prompt testing, prompt evaluation, schema hardening -> `prompt-engineer`
+- multi-agent topology, handoffs, retries, role boundaries, failure recovery -> `multi-agent-systems-architect`
+- unfamiliar repo, unclear entry points, codebase onboarding -> `context-scout`
+
+Do not skip these specialists just because a generic workflow skill also seems applicable.
 
 ## Rules
 
@@ -66,3 +105,6 @@ Keep simultaneously active agents within about 3-4, including the manager when r
 - Use task count only as a weak hint.
 - Prefer decomposition before delegation.
 - Avoid heavy workflows for tiny obvious changes.
+- Choose one primary agent only.
+- Support agents advise; they do not create equal ownership.
+- If routing is ambiguous, use the artifact-first rule from `agent-routing-rules.yaml`.

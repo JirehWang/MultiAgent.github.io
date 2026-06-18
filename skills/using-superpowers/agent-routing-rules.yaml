@@ -1,0 +1,573 @@
+version: 1
+date: 2026-06-18
+
+purpose:
+  - classify requests into a LangGraph-style workflow
+  - choose one primary agent
+  - optionally choose up to two support agents
+  - decide the next workflow node
+
+global_categories:
+  router_control_plane:
+    - using-superpowers
+    - dispatching-parallel-agents
+    - subagent-driven-development
+    - using-git-worktrees
+    - finishing-a-development-branch
+  domain_specialists:
+    - email-intelligence-engineer
+    - prompt-engineer
+    - multi-agent-systems-architect
+    - context-scout
+    - oss-solution-scout
+  planning_execution:
+    - brainstorming
+    - writing-plans
+    - executing-plans
+    - test-driven-development
+    - systematic-debugging
+  review_quality_gates:
+    - requesting-code-review
+    - receiving-code-review
+    - verification-before-completion
+  writing_documentation:
+    - writing-skills
+  frontend_design:
+    - design-taste-frontend
+    - redesign-existing-projects
+    - web-design-polish
+    - visual-qa
+    - image-to-code
+    - ui-ux-pro-max
+
+state_schema:
+  required:
+    - user_request
+    - task_type
+    - artifact_type
+    - domain_signals
+    - chosen_primary_agent
+    - workflow_node
+  optional:
+    - chosen_support_agents
+    - needs_planning
+    - needs_debugging
+    - needs_review
+    - needs_visual_work
+    - needs_parallelism
+    - handoff_notes
+
+precedence:
+  - detect_domain_specialist
+  - detect_workflow_mode
+  - detect_review_or_verification_gate
+  - detect_finish_or_handoff_step
+
+hard_rules:
+  - choose exactly one primary agent
+  - choose zero to two support agents
+  - prefer the narrowest valid domain specialist over a generic workflow skill
+  - choose the agent closest to the artifact being produced
+  - do not use review skills before an execution artifact exists
+  - do not send tiny obvious tasks through every workflow node
+
+workflow_nodes:
+  - id: intent_router
+    purpose: classify the request before meaningful work
+    allowed_agents:
+      - using-superpowers
+    outputs:
+      - fast_track
+      - full_workflow
+      - likely_domain
+      - next_node
+  - id: domain_classification
+    purpose: decide whether the task belongs to a specialist domain
+    allowed_agents:
+      - email-intelligence-engineer
+      - prompt-engineer
+      - multi-agent-systems-architect
+      - context-scout
+      - oss-solution-scout
+      - design-taste-frontend
+      - redesign-existing-projects
+      - web-design-polish
+      - visual-qa
+      - image-to-code
+      - ui-ux-pro-max
+  - id: framing_planning
+    purpose: prepare the work contract before execution
+    allowed_agents:
+      - brainstorming
+      - writing-plans
+      - multi-agent-systems-architect
+      - writing-skills
+  - id: decomposition_dispatch
+    purpose: split work when single-agent execution is not enough
+    allowed_agents:
+      - dispatching-parallel-agents
+      - subagent-driven-development
+      - multi-agent-systems-architect
+  - id: execution
+    purpose: perform the main work
+    allowed_agents:
+      - executing-plans
+      - test-driven-development
+      - systematic-debugging
+      - writing-skills
+      - email-intelligence-engineer
+      - prompt-engineer
+      - multi-agent-systems-architect
+      - context-scout
+      - oss-solution-scout
+      - design-taste-frontend
+      - redesign-existing-projects
+      - web-design-polish
+      - visual-qa
+      - image-to-code
+      - ui-ux-pro-max
+  - id: review
+    purpose: inspect implementation or process review feedback
+    allowed_agents:
+      - requesting-code-review
+      - receiving-code-review
+      - writing-skills
+  - id: verification
+    purpose: prove that work is actually done
+    allowed_agents:
+      - verification-before-completion
+      - visual-qa
+  - id: finish_integration
+    purpose: merge, handoff, or clean up
+    allowed_agents:
+      - finishing-a-development-branch
+      - using-git-worktrees
+      - writing-skills
+
+route_rules:
+  - id: fast_track_email_extraction
+    match:
+      mode:
+        - fast-track
+      any_domain_signals:
+        - email
+        - eml
+        - mime
+        - mailbox-export
+        - forwarded-chain
+        - quoted-reply
+        - action-extraction
+      artifact_type:
+        - structured-data
+        - thread-summary
+        - extracted-actions
+    select:
+      primary: email-intelligence-engineer
+      support: []
+      workflow_node: execution
+
+  - id: fast_track_prompt_design
+    match:
+      mode:
+        - fast-track
+      any_domain_signals:
+        - prompt
+        - prompt-writing
+        - prompt-hardening
+        - prompt-tests
+        - output-schema
+      artifact_type:
+        - prompt
+        - prompt-spec
+        - prompt-test-plan
+    select:
+      primary: prompt-engineer
+      support: []
+      workflow_node: execution
+
+  - id: fast_track_multi_agent_design
+    match:
+      mode:
+        - fast-track
+      any_domain_signals:
+        - multi-agent
+        - workflow-sketch
+        - handoff
+        - role-boundaries
+        - recovery
+      artifact_type:
+        - workflow
+        - architecture
+        - routing-plan
+    select:
+      primary: multi-agent-systems-architect
+      support: []
+      workflow_node: execution
+
+  - id: fast_track_repo_onboarding
+    match:
+      mode:
+        - fast-track
+      any_domain_signals:
+        - repo-onboarding
+        - unfamiliar-repo
+        - entry-point-discovery
+        - codebase-map
+        - where-to-start
+      artifact_type:
+        - repo-map
+        - investigation
+        - onboarding-notes
+    select:
+      primary: context-scout
+      support: []
+      workflow_node: execution
+
+  - id: fast_track_docs
+    match:
+      mode:
+        - fast-track
+      any_domain_signals:
+        - readme
+        - guide
+        - docs
+        - handoff-doc
+      artifact_type:
+        - docs
+        - readme
+        - guide
+        - handoff-doc
+    select:
+      primary: writing-skills
+      support: []
+      workflow_node: execution
+
+  - id: fast_track_request_review
+    match:
+      mode:
+        - fast-track
+      any_domain_signals:
+        - review-request
+      artifact_type:
+        - code
+        - diff
+        - review-request
+    select:
+      primary: requesting-code-review
+      support: []
+      workflow_node: review
+
+  - id: fast_track_receive_review
+    match:
+      mode:
+        - fast-track
+      any_domain_signals:
+        - review-feedback
+        - review-comments
+      artifact_type:
+        - code
+        - review-response
+    select:
+      primary: receiving-code-review
+      support: []
+      workflow_node: review
+
+  - id: email_extraction
+    match:
+      any_domain_signals:
+        - email
+        - eml
+        - mime
+        - mailbox-export
+        - forwarded-chain
+        - quoted-reply
+      artifact_type:
+        - structured-data
+        - thread-summary
+        - extracted-actions
+    select:
+      primary: email-intelligence-engineer
+      support: []
+      workflow_node: execution
+
+  - id: prompt_design
+    match:
+      any_domain_signals:
+        - prompt
+        - prompt-testing
+        - prompt-evaluation
+        - output-schema
+      artifact_type:
+        - prompt
+        - prompt-spec
+        - prompt-test-plan
+    select:
+      primary: prompt-engineer
+      support: []
+      workflow_node: execution
+
+  - id: prompt_for_email_task
+    match:
+      all_domain_signals:
+        - prompt
+        - email
+      artifact_type:
+        - prompt
+        - prompt-spec
+    select:
+      primary: prompt-engineer
+      support:
+        - email-intelligence-engineer
+      workflow_node: execution
+
+  - id: multi_agent_workflow
+    match:
+      any_domain_signals:
+        - multi-agent
+        - handoff
+        - topology
+        - trust-boundary
+        - recovery
+      artifact_type:
+        - workflow
+        - architecture
+        - routing-plan
+    select:
+      primary: multi-agent-systems-architect
+      support: []
+      workflow_node: framing_planning
+
+  - id: multi_agent_email_workflow
+    match:
+      all_domain_signals:
+        - multi-agent
+        - email
+      artifact_type:
+        - workflow
+        - architecture
+    select:
+      primary: multi-agent-systems-architect
+      support:
+        - email-intelligence-engineer
+      workflow_node: framing_planning
+
+  - id: multi_agent_prompt_workflow
+    match:
+      all_domain_signals:
+        - multi-agent
+        - prompt
+      artifact_type:
+        - workflow
+        - architecture
+    select:
+      primary: multi-agent-systems-architect
+      support:
+        - prompt-engineer
+      workflow_node: framing_planning
+
+  - id: repo_onboarding
+    match:
+      any_domain_signals:
+        - repo-onboarding
+        - unfamiliar-repo
+        - unclear-entry-points
+        - codebase-map
+      artifact_type:
+        - repo-map
+        - investigation
+        - onboarding-notes
+    select:
+      primary: context-scout
+      support: []
+      workflow_node: domain_classification
+
+  - id: oss_research
+    match:
+      any_domain_signals:
+        - oss-scout
+        - package-selection
+        - build-vs-buy
+        - library-comparison
+      artifact_type:
+        - comparison
+        - recommendation
+        - package-evaluation
+    select:
+      primary: oss-solution-scout
+      support: []
+      workflow_node: domain_classification
+
+  - id: design_direction
+    match:
+      any_domain_signals:
+        - ui
+        - ux
+        - redesign
+        - landing-page
+        - visual-polish
+      artifact_type:
+        - design-direction
+        - ui-plan
+        - polished-ui
+    select:
+      primary: design-taste-frontend
+      support:
+        - ui-ux-pro-max
+      workflow_node: framing_planning
+
+  - id: screenshot_to_ui
+    match:
+      any_domain_signals:
+        - screenshot-ui
+        - image-to-code
+      artifact_type:
+        - implementation
+        - frontend
+    select:
+      primary: image-to-code
+      support:
+        - visual-qa
+      workflow_node: execution
+
+  - id: writing_docs
+    match:
+      any_domain_signals:
+        - docs
+        - readme
+        - guide
+        - handoff-doc
+      artifact_type:
+        - docs
+        - readme
+        - guide
+        - handoff-doc
+    select:
+      primary: writing-skills
+      support: []
+      workflow_node: execution
+
+  - id: planning_complex_work
+    match:
+      flags:
+        needs_planning: true
+      artifact_type:
+        - plan
+        - execution-plan
+    select:
+      primary: writing-plans
+      support: []
+      workflow_node: framing_planning
+
+  - id: execute_existing_plan
+    match:
+      any_domain_signals:
+        - execute-plan
+      artifact_type:
+        - implementation
+        - execution
+    select:
+      primary: executing-plans
+      support: []
+      workflow_node: execution
+
+  - id: bugfix
+    match:
+      flags:
+        needs_debugging: true
+      any_domain_signals:
+        - bug
+        - failing-test
+        - regression
+        - unexplained-behavior
+    select:
+      primary: systematic-debugging
+      support: []
+      workflow_node: execution
+
+  - id: behavior_change
+    match:
+      any_domain_signals:
+        - feature
+        - behavior-change
+        - implementation
+      artifact_type:
+        - code
+        - implementation
+    select:
+      primary: test-driven-development
+      support: []
+      workflow_node: execution
+
+  - id: request_review
+    match:
+      flags:
+        needs_review: true
+      any_domain_signals:
+        - review-request
+      artifact_type:
+        - code
+        - diff
+        - review-request
+    select:
+      primary: requesting-code-review
+      support: []
+      workflow_node: review
+
+  - id: process_review_feedback
+    match:
+      any_domain_signals:
+        - review-feedback
+        - review-comments
+      artifact_type:
+        - code
+        - review-response
+    select:
+      primary: receiving-code-review
+      support: []
+      workflow_node: review
+
+  - id: verify_completion
+    match:
+      any_domain_signals:
+        - verify
+        - completion
+      artifact_type:
+        - completed-work
+        - release-ready
+    select:
+      primary: verification-before-completion
+      support: []
+      workflow_node: verification
+
+defaults:
+  tiny_obvious_question:
+    primary: using-superpowers
+    support: []
+    workflow_node: intent_router
+  unclear_repo_task:
+    primary: context-scout
+    support: []
+    workflow_node: domain_classification
+  ambiguous_multi_step_task:
+    primary: writing-plans
+    support: []
+    workflow_node: framing_planning
+
+conflict_resolution:
+  order:
+    - choose_agent_closest_to_artifact
+    - choose_narrowest_valid_domain
+    - demote_others_to_support_agents
+  examples:
+    - request: Write a prompt to extract action items from emails
+      primary: prompt-engineer
+      support:
+        - email-intelligence-engineer
+    - request: Turn a mailbox export into structured tasks
+      primary: email-intelligence-engineer
+      support: []
+    - request: Design a workflow where one agent parses emails and another scores urgency
+      primary: multi-agent-systems-architect
+      support:
+        - email-intelligence-engineer
+        - prompt-engineer
