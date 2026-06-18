@@ -50,6 +50,7 @@ reasoning:
 5. Only if no narrow specialist fits, route to a workflow skill.
 6. If multiple agents fit, apply conflict resolution from `agent-routing-rules.yaml`.
 7. Do not choose more than one primary agent.
+8. If a design-direction signal is present but the exact overlay skill is not installed, route to the nearest installed design specialist and carry the missing-skill note forward in `reasoning` or `handoff_notes`.
 
 ## Primary-Agent Rules
 
@@ -67,6 +68,14 @@ Choose the primary agent closest to the artifact:
 - artifact is an implementation plan -> `writing-plans`
 - artifact is bug diagnosis/fix path -> `systematic-debugging`
 - artifact is a new feature implementation path -> `test-driven-development`
+
+For design-direction signals:
+
+- `minimalist`, `brutalist`, `soft-premium` -> default to `design-taste-frontend` + `ui-ux-pro-max` unless a dedicated overlay skill is installed
+- `brand-kit` -> default to `ui-ux-pro-max` + `writing-skills` unless `brandkit` is installed
+- `mobile-flow` -> default to `ui-ux-pro-max` + `design-taste-frontend` unless `imagegen-frontend-mobile` is installed for image-only output
+- `stitch` -> default to `web-design-polish` + `ui-ux-pro-max` unless `stitch-design-taste` is installed
+- `full-output-risk` -> keep the normal primary agent, but add a handoff note enforcing complete output; if this failure repeats, consider `full-output-enforcement`
 
 ## Support-Agent Examples
 

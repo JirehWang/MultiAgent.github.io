@@ -55,6 +55,7 @@ state_schema:
     - needs_review
     - needs_visual_work
     - needs_parallelism
+    - style_signals
     - handoff_notes
 
 precedence:
@@ -145,6 +146,143 @@ workflow_nodes:
       - writing-skills
 
 route_rules:
+  - id: minimalist_design_direction
+    match:
+      any_domain_signals:
+        - minimalist
+        - editorial-ui
+        - restrained-ui
+      artifact_type:
+        - design-direction
+        - ui-plan
+        - polished-ui
+        - frontend
+    select:
+      primary: design-taste-frontend
+      support:
+        - ui-ux-pro-max
+      workflow_node: framing_planning
+      handoff_notes:
+        - Use a restrained editorial direction with lower variance, lower motion, and cleaner hierarchy.
+        - If minimalist requests become frequent enough to deserve a dedicated overlay, consider installing `minimalist-ui`.
+
+  - id: brutalist_design_direction
+    match:
+      any_domain_signals:
+        - brutalist
+        - industrial-brutalist
+        - swiss-brutalist
+      artifact_type:
+        - design-direction
+        - ui-plan
+        - polished-ui
+        - frontend
+    select:
+      primary: design-taste-frontend
+      support:
+        - ui-ux-pro-max
+      workflow_node: framing_planning
+      handoff_notes:
+        - Push strong contrast, sharper structure, and deliberate anti-generic layout moves.
+        - If brutalist work becomes recurrent, consider installing `industrial-brutalist-ui` as a style overlay.
+
+  - id: soft_premium_design_direction
+    match:
+      any_domain_signals:
+        - soft-premium
+        - high-end-visual
+        - premium-soft
+        - luxury-ui
+      artifact_type:
+        - design-direction
+        - ui-plan
+        - polished-ui
+        - frontend
+    select:
+      primary: design-taste-frontend
+      support:
+        - ui-ux-pro-max
+      workflow_node: framing_planning
+      handoff_notes:
+        - Bias toward calm premium spacing, softer contrast, and polished type rhythm.
+        - If this direction becomes frequent, consider installing `high-end-visual-design` as a reusable overlay.
+
+  - id: brand_kit_strategy
+    match:
+      any_domain_signals:
+        - brand-kit
+        - brand-direction
+        - identity-board
+      artifact_type:
+        - brand-kit
+        - design-direction
+        - docs
+    select:
+      primary: ui-ux-pro-max
+      support:
+        - writing-skills
+      workflow_node: framing_planning
+      handoff_notes:
+        - Current installed skills can define strategy, palette direction, typography, and handoff notes, but there is no dedicated brand-kit image skill installed.
+        - If pure brand-board deliverables are common, install `brandkit`.
+
+  - id: mobile_flow_strategy
+    match:
+      any_domain_signals:
+        - mobile-flow
+        - app-flow
+        - mobile-ui
+      artifact_type:
+        - mobile-flow
+        - ui-plan
+        - frontend
+    select:
+      primary: ui-ux-pro-max
+      support:
+        - design-taste-frontend
+      workflow_node: framing_planning
+      handoff_notes:
+        - Current installed skills can produce mobile strategy and implementation guidance, but there is no dedicated mobile image-comps skill installed.
+        - If pure mobile comp generation is common, install `imagegen-frontend-mobile`.
+
+  - id: stitch_design_export
+    match:
+      any_domain_signals:
+        - stitch
+        - stitch-export
+        - design-md-export
+      artifact_type:
+        - design-system
+        - design-direction
+        - docs
+    select:
+      primary: web-design-polish
+      support:
+        - ui-ux-pro-max
+      workflow_node: framing_planning
+      handoff_notes:
+        - Current stack can produce a compact `DESIGN.md`, but there is no dedicated Stitch-compatible overlay installed.
+        - If Stitch-specific export or format compatibility becomes common, install `stitch-design-taste`.
+
+  - id: full_output_risk_design_task
+    match:
+      any_domain_signals:
+        - full-output-risk
+        - truncated-output-risk
+        - half-finished-output
+      artifact_type:
+        - frontend
+        - docs
+        - design-direction
+    select:
+      primary: web-design-polish
+      support:
+        - writing-skills
+      workflow_node: framing_planning
+      handoff_notes:
+        - Explicitly require complete deliverables, no placeholder comments, and no partial polish passes.
+        - If this failure mode recurs, install `full-output-enforcement`.
+
   - id: fast_track_email_extraction
     match:
       mode:
@@ -414,6 +552,8 @@ route_rules:
       support:
         - ui-ux-pro-max
       workflow_node: framing_planning
+      handoff_notes:
+        - Use `web-design-polish` as the orchestrator when the task spans strategy, DESIGN.md handoff, and implementation.
 
   - id: screenshot_to_ui
     match:
@@ -428,6 +568,8 @@ route_rules:
       support:
         - visual-qa
       workflow_node: execution
+      handoff_notes:
+        - If the deliverable is image comps only and no code should be produced, the current stack is missing a dedicated image-only website skill. Consider `imagegen-frontend-web`.
 
   - id: writing_docs
     match:
@@ -571,3 +713,11 @@ conflict_resolution:
       support:
         - email-intelligence-engineer
         - prompt-engineer
+    - request: Redesign this landing page with a minimalist editorial feel
+      primary: design-taste-frontend
+      support:
+        - ui-ux-pro-max
+    - request: Produce a brand kit board for a new fintech product
+      primary: ui-ux-pro-max
+      support:
+        - writing-skills
