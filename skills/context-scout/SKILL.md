@@ -9,6 +9,10 @@ Map the codebase without over-reading it. This skill is also the default home fo
 
 Use for unfamiliar repos, cross-file changes, unclear entry points, or when another agent would benefit from a crisp orientation pack. Skip tiny single-file edits.
 
+## Caveman Compression
+
+For context packs, use caveman style: terse bullets, exact paths, exact entry points, exact risks. Cut narrative. Do not compress source quotes, commands, or final user-facing explanation.
+
 Workflow:
 1. Start with local search: `rg`, filenames, routes, config, scripts, tests.
 2. If the repo is large or boundaries are still unclear, use `Gitingest` for a high-level map.

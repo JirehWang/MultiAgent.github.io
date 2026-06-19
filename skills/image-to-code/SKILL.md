@@ -1,4 +1,4 @@
----
+﻿---
 name: image-to-code
 description: Elite website image-to-code skill for Codex. For visually important web tasks, it must first generate the design image(s) itself, deeply analyze them, then implement the website to match them as closely as possible. In Codex, it must prefer large, readable, section-specific images instead of tiny compressed boards, generate fresh standalone images for sections or detail views instead of cropping old ones, avoid lazy under-generation, avoid cards-inside-cards-inside-cards UI, and keep the hero clean, spacious, readable, and visible on a small laptop.
 ---
@@ -23,7 +23,7 @@ This skill is for:
 Standard AI output tends to collapse into repetitive defaults:
 - one single giant compressed image for too many sections
 - text that becomes too small to read
-- centered dark hero clichés
+- centered dark hero cliches
 - generic card spam
 - repeated left-text/right-image layouts
 - weak typography hierarchy
@@ -96,10 +96,10 @@ Use these as defaults unless the user clearly wants something else.
 Adapt them to the prompt.
 
 Interpretation:
-- If the user says “clean”, reduce density and increase clarity.
-- If the user says “crazy creative”, increase variance and art direction.
-- If the user says “premium SaaS”, keep clarity high and art direction controlled.
-- If the user says “editorial”, allow stronger type and more asymmetry.
+- If the user says "clean", reduce density and increase clarity.
+- If the user says "crazy creative", increase variance and art direction.
+- If the user says "premium SaaS", keep clarity high and art direction controlled.
+- If the user says "editorial", allow stronger type and more asymmetry.
 - Keep sections breathable.
 - Prefer readability over squeezing too much into one image.
 - In Codex, bias strongly toward larger, more analyzable section images.
@@ -123,7 +123,7 @@ Do not:
 - start with freeform coding
 - skip straight to implementation
 - describe a website without first generating the visual reference when generation is available
-- rely on memory of “good frontend taste” instead of producing the actual reference
+- rely on memory of "good frontend taste" instead of producing the actual reference
 
 The image is the design source.
 The code is the translation layer.
@@ -166,16 +166,16 @@ Inside Codex, do not compress too many website sections into one single image if
 In Codex, prefer separate large images per section.
 
 Default rule inside Codex:
-- 1 section requested → generate 1 image
-- 2 sections requested → generate 2 images
-- 3 sections requested → generate 3 images
-- 4 sections requested → generate 4 images
-- 5 sections requested → generate 5 images
-- 6 sections requested → generate 6 images
-- 7 sections requested → generate 7 images
-- 8 sections requested → generate 8 images
-- 9 sections requested → generate 9 images
-- 10 sections requested → generate 10 images
+- 1 section requested -> generate 1 image
+- 2 sections requested -> generate 2 images
+- 3 sections requested -> generate 3 images
+- 4 sections requested -> generate 4 images
+- 5 sections requested -> generate 5 images
+- 6 sections requested -> generate 6 images
+- 7 sections requested -> generate 7 images
+- 8 sections requested -> generate 8 images
+- 9 sections requested -> generate 9 images
+- 10 sections requested -> generate 10 images
 - and so on when reasonable
 
 This is preferred because:
@@ -516,7 +516,7 @@ The hero must feel cinematic, clear, and intentional.
 - keep the hero composition very clean
 - do not overcrowd the first viewport
 - the main headline must feel short and powerful
-- the hero headline should ideally stay within 1–3 lines
+- the hero headline should ideally stay within 1-3 lines
 - do not allow long wrapped hero headlines
 - if the headline starts becoming too long, reduce words instead of forcing more lines
 - keep supporting text concise
@@ -541,7 +541,7 @@ Do not:
 - create multiple competing focal points
 - overfill the hero with cards or micro-details
 - make the hero noisy or busy
-- add unnecessary labels like “00 orchestration layer” or similar pseudo-system text if it does not add real value
+- add unnecessary labels like "00 orchestration layer" or similar pseudo-system text if it does not add real value
 
 ### Headline Rule
 Strong preference:
@@ -623,7 +623,7 @@ Avoid:
 - overdesigned labels that distract from the main layout
 
 Examples of things to avoid unless they are truly necessary:
-- “00 orchestration layer”
+- "00 orchestration layer"
 - tiny technical status pills
 - decorative runtime markers
 - overly specific pseudo-enterprise microcopy
@@ -644,10 +644,10 @@ Prefer:
 Inside Codex, treat each section as its own analyzable unit.
 
 If the user asks for:
-- a hero only → generate 1 hero image
-- 4 sections → generate 4 section images
-- 8 sections → generate 8 section images
-- 12 sections → generate 12 section images when reasonable
+- a hero only -> generate 1 hero image
+- 4 sections -> generate 4 section images
+- 8 sections -> generate 8 section images
+- 12 sections -> generate 12 section images when reasonable
 
 General preference:
 - one section = one primary image
@@ -744,7 +744,7 @@ The visible text is part of the design system and should influence implementatio
 
 ## 22. TYPOGRAPHY EXTRACTION RULE
 
-Do not only notice that typography “looks nice”.
+Do not only notice that typography "looks nice".
 Analyze it properly.
 
 Extract and observe:
@@ -847,7 +847,7 @@ This means:
 - preserve overall visual cleanliness
 
 Do not drift into a different design direction during implementation.
-Do not “improve” the design by replacing it with a generic coded layout.
+Do not "improve" the design by replacing it with a generic coded layout.
 
 The goal is not:
 - inspired by the image
@@ -869,7 +869,7 @@ During implementation:
 - do not replace distinctive sections with generic rows
 - do not compress generous spacing into dense layout
 - do not replace strong typography with plain hierarchy
-- do not remove the page’s visual identity for convenience
+- do not remove the page's visual identity for convenience
 - do not merge section logic into repetitive patterns that were not present in the source images
 - do not reintroduce nested-box complexity that was intentionally removed during analysis
 
@@ -1147,7 +1147,7 @@ Do not crop previously generated large images when a fresh cleaner section-speci
 
 ### Example 1
 User:
-“make me one hero section for an AI startup”
+"make me one hero section for an AI startup"
 
 Interpretation:
 - generate 1 hero image
@@ -1161,7 +1161,7 @@ Interpretation:
 
 ### Example 2
 User:
-“design me an 8-section landing page”
+"design me an 8-section landing page"
 
 Interpretation:
 - generate 8 separate section images in Codex
@@ -1175,7 +1175,7 @@ Interpretation:
 
 ### Example 3
 User:
-“make a premium creative agency website with 4 sections”
+"make a premium creative agency website with 4 sections"
 
 Interpretation:
 - generate 4 separate section images in Codex

@@ -60,7 +60,7 @@ The color architecture is uncompromising. Gradients, soft drop shadows, and mode
 *   **Background:** `#0A0A0A` or `#121212` (Deactivated CRT. Avoid pure `#000000`).
 *   **Foreground:** `#EAEAEA` (White phosphor). This is the primary text color.
 *   **Accent:** `#E61919` or `#FF2A2A` (Aviation/Hazard Red). Same red, same rules.
-*   **Terminal Green (`#4AF626`):** Optional. Use ONLY for a single specific UI element (e.g., one status indicator or one data readout) — never as a general text color. If it doesn't serve a clear purpose, omit it entirely.
+*   **Terminal Green (`#4AF626`):** Optional. Use ONLY for a single specific UI element (e.g., one status indicator or one data readout) - never as a general text color. If it doesn't serve a clear purpose, omit it entirely.
 
 ## 5. Layout and Spatial Engineering
 The layout must appear mathematically engineered. It rejects conventional web padding in favor of visible compartmentalization.
@@ -76,7 +76,7 @@ Standard web UI conventions are replaced with utilitarian, industrial graphic el
 *   **Syntax Decoration:** Utilization of ASCII characters to frame data points.
     *   *Framing:* `[ DELIVERY SYSTEMS ]`, `< RE-IND >`
     *   *Directional:* `>>>`, `///`, `\\\\`
-*   **Industrial Markers:** Prominent integration of registration (`®`), copyright (`©`), and trademark (`™`) symbols functioning as structural geometric elements rather than legal text.
+*   **Industrial Markers:** Prominent integration of registration (`(R)`), copyright (`(c)`), and trademark (`(TM)`) symbols functioning as structural geometric elements rather than legal text.
 *   **Technical Assets:** Integration of crosshairs (`+`) at grid intersections, repeating vertical lines (barcodes), thick horizontal warning stripes, and randomized string data (e.g., `REV 2.6`, `UNIT / D-01`) to simulate active mechanical processes.
 
 ## 7. Textural and Post-Processing Effects

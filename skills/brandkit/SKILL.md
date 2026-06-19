@@ -75,7 +75,7 @@ Every generated board must answer:
 Unless the user specifies otherwise:
 
 - Generate one brand-kit overview image
-- Default layout: `3 × 3`
+- Default layout: `3 x 3`
 - Default aspect ratio: `4:3` or `16:10`
 - Use a clean presentation grid
 - Use consistent gutters
@@ -83,11 +83,11 @@ Unless the user specifies otherwise:
 - Make every panel feel connected
 
 Allowed layouts:
-- `3 × 3` full identity system
-- `2 × 3` cinematic brand deck overview
-- `2 × 2` compact concept board
-- `1 × 3` horizontal brand strip
-- `4 × 2` wide contact-sheet layout
+- `3 x 3` full identity system
+- `2 x 3` cinematic brand deck overview
+- `2 x 2` compact concept board
+- `1 x 3` horizontal brand strip
+- `4 x 2` wide contact-sheet layout
 - custom layout when requested
 
 If the user gives references, match their quality and rhythm, not their exact content.
@@ -182,12 +182,12 @@ Use negative space, cuts, folds, or geometry.
 Turn the product's main action into a symbol.
 
 Examples:
-- build → frame, scaffold, block, cursor
-- protect → shield, boundary, watch mark
-- convert → switch, arrow, transformation shape
-- speak → waveform, mic, pulse
-- hunt threats → eye, raptor, radar, trace
-- automate → loop, handoff, path
+- build -> frame, scaffold, block, cursor
+- protect -> shield, boundary, watch mark
+- convert -> switch, arrow, transformation shape
+- speak -> waveform, mic, pulse
+- hunt threats -> eye, raptor, radar, trace
+- automate -> loop, handoff, path
 
 Make it abstract and premium, not literal.
 
@@ -269,7 +269,7 @@ The board should have rhythm:
 
 ---
 
-# DEFAULT 3 × 3 PANEL SYSTEM
+# DEFAULT 3 x 3 PANEL SYSTEM
 
 Use this if no layout is specified:
 
@@ -307,7 +307,7 @@ UI chips, input bar, command line, icon row, badge system, component strip, patt
 
 ---
 
-# 2 × 3 REFERENCE-STYLE LAYOUT
+# 2 x 3 REFERENCE-STYLE LAYOUT
 
 For boards like the uploaded references, use:
 
@@ -563,7 +563,7 @@ Good text:
 - one tagline
 - one URL
 - one command
-- 2–5 section labels
+- 2-5 section labels
 - short UI chips
 
 Bad text:
@@ -619,7 +619,7 @@ Use:
 Avoid:
 - generic stock people
 - random office photos
-- cliché robot imagery
+- cliche robot imagery
 - overbusy scenes
 - unrelated imagery
 
@@ -747,7 +747,7 @@ Brand strategy:
 - logo idea: [how the mark combines symbol + name + category meaning]
 
 Layout:
-[3×3 / 2×3 / custom] grid on a dark or light presentation canvas with strong gutters, clean alignment, and refined negative space.
+[3x3 / 2x3 / custom] grid on a dark or light presentation canvas with strong gutters, clean alignment, and refined negative space.
 
 Panels:
 - logo cover

@@ -7,6 +7,10 @@ description: Use when a task is large, cross-cutting, or naturally divisible, so
 
 Use this skill only when decomposition improves clarity, safety, or speed.
 
+## Caveman Compression
+
+For workstream summaries and handoff packets, use caveman style: compact labels, exact scope, dependencies, risks, and verification. No filler. Do not compress final user-facing rationale.
+
 ## Workflow
 
 1. Restate the goal and key constraints.

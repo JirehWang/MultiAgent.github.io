@@ -1,26 +1,40 @@
-# 代码质量审查者提示词模板
+# Code Quality Reviewer Prompt
 
-分派代码质量审查子智能体时使用此模板。
+Use this template after scope compliance is checked.
 
-**目的：** 验证实现是否构建良好（整洁、有测试、可维护）
+## Prompt
 
-**仅在规格合规性审查通过后才分派。**
+You are reviewing code quality and correctness risks.
+
+Diff or changed files:
+
+`[DIFF_OR_FILES]`
+
+Context:
+
+`[RELEVANT_CONTEXT]`
+
+Focus on:
+
+- bugs and regressions
+- security or data loss risk
+- compatibility issues
+- brittle assumptions
+- missing tests
+- excessive complexity
+- maintainability problems with real impact
+
+Do not spend time on style unless it affects correctness or maintainability.
+
+Return findings first:
 
 ```
-Task tool (superpowers:code-reviewer):
-  使用模板 requesting-code-review/code-reviewer.md
+Findings:
+- [priority] [file:line] [issue] [impact] [fix direction]
 
-  WHAT_WAS_IMPLEMENTED: [来自实现者的报告]
-  PLAN_OR_REQUIREMENTS: [plan-file] 中的任务 N
-  BASE_SHA: [任务开始前的提交]
-  HEAD_SHA: [当前提交]
-  DESCRIPTION: [任务摘要]
+Test gaps:
+- [gap or none]
+
+Verdict:
+- pass/fail
 ```
-
-**除标准代码质量关注点外，审查者还应检查：**
-- 每个文件是否有单一明确的职责和定义清晰的接口？
-- 各单元是否拆分得足以独立理解和测试？
-- 实现是否遵循了计划中的文件结构？
-- 本次实现是否创建了已经很大的新文件，或显著增大了现有文件？（不要标记已有的文件大小问题——聚焦于本次变更带来的影响。）
-
-**代码审查者返回：** 优点、问题（关键/重要/次要）、评估结论

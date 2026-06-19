@@ -1,4 +1,4 @@
----
+﻿---
 name: "imagegen"
 description: "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
 ---
@@ -185,27 +185,27 @@ Not allowed augmentations:
 Classify each request into one of these buckets and keep the slug consistent across prompts and references.
 
 Generate:
-- photorealistic-natural — candid/editorial lifestyle scenes with real texture and natural lighting.
-- product-mockup — product/packaging shots, catalog imagery, merch concepts.
-- ui-mockup — app/web interface mockups and wireframes; specify the desired fidelity.
-- infographic-diagram — diagrams/infographics with structured layout and text.
-- scientific-educational — classroom explainers, scientific diagrams, and learning visuals with required labels and accuracy constraints.
-- ads-marketing — campaign concepts and ad creatives with audience, brand position, scene, and exact tagline/copy.
-- productivity-visual — slide, chart, workflow, and data-heavy business visuals.
-- logo-brand — logo/mark exploration, vector-friendly.
-- illustration-story — comics, children’s book art, narrative scenes.
-- stylized-concept — style-driven concept art, 3D/stylized renders.
-- historical-scene — period-accurate/world-knowledge scenes.
+- photorealistic-natural - candid/editorial lifestyle scenes with real texture and natural lighting.
+- product-mockup - product/packaging shots, catalog imagery, merch concepts.
+- ui-mockup - app/web interface mockups and wireframes; specify the desired fidelity.
+- infographic-diagram - diagrams/infographics with structured layout and text.
+- scientific-educational - classroom explainers, scientific diagrams, and learning visuals with required labels and accuracy constraints.
+- ads-marketing - campaign concepts and ad creatives with audience, brand position, scene, and exact tagline/copy.
+- productivity-visual - slide, chart, workflow, and data-heavy business visuals.
+- logo-brand - logo/mark exploration, vector-friendly.
+- illustration-story - comics, children's book art, narrative scenes.
+- stylized-concept - style-driven concept art, 3D/stylized renders.
+- historical-scene - period-accurate/world-knowledge scenes.
 
 Edit:
-- text-localization — translate/replace in-image text, preserve layout.
-- identity-preserve — try-on, person-in-scene; lock face/body/pose.
-- precise-object-edit — remove/replace a specific element (including interior swaps).
-- lighting-weather — time-of-day/season/atmosphere changes only.
-- background-extraction — transparent background / clean cutout. Use built-in `image_gen` with chroma-key removal first for simple opaque subjects; ask before using CLI true transparency for complex subjects.
-- style-transfer — apply reference style while changing subject/scene.
-- compositing — multi-image insert/merge with matched lighting/perspective.
-- sketch-to-render — drawing/line art to photoreal render.
+- text-localization - translate/replace in-image text, preserve layout.
+- identity-preserve - try-on, person-in-scene; lock face/body/pose.
+- precise-object-edit - remove/replace a specific element (including interior swaps).
+- lighting-weather - time-of-day/season/atmosphere changes only.
+- background-extraction - transparent background / clean cutout. Use built-in `image_gen` with chroma-key removal first for simple opaque subjects; ask before using CLI true transparency for complex subjects.
+- style-transfer - apply reference style while changing subject/scene.
+- compositing - multi-image insert/merge with matched lighting/perspective.
+- sketch-to-render - drawing/line art to photoreal render.
 
 ## Shared prompt schema
 

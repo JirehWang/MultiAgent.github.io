@@ -1,4 +1,4 @@
----
+﻿---
 name: plugin-creator
 description: Create and scaffold plugin directories for Codex with a required `.codex-plugin/plugin.json`, optional plugin folders/files, valid manifest defaults, and personal-marketplace entries by default. Use when Codex needs to create a new personal plugin, add optional plugin structure, generate or update marketplace entries for plugin ordering and availability metadata, or update an existing local plugin during development with the CLI-driven cachebuster and reinstall flow.
 ---
@@ -89,8 +89,8 @@ See `references/installing-and-updating.md` for the expected cachebuster and rei
 - Creates or updates `~/.agents/plugins/marketplace.json` when `--with-marketplace` is set.
   - If the marketplace file does not exist yet, seed a personal marketplace root before adding the first plugin entry.
 - `<plugin-name>` is normalized using skill-creator naming rules:
-  - `My Plugin` → `my-plugin`
-  - `My--Plugin` → `my-plugin`
+  - `My Plugin` -> `my-plugin`
+  - `My--Plugin` -> `my-plugin`
   - underscores, spaces, and punctuation are converted to `-`
   - result is lower-case hyphen-delimited with consecutive hyphens collapsed
 - Supports optional creation of:

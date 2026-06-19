@@ -7,6 +7,10 @@ description: Use when important implementation is done and you want an independe
 
 Request review after implementation and before merging when independent scrutiny is valuable. The reviewer should act like a bug finder and mentor, not a co-author polishing style.
 
+## Caveman Compression
+
+For review packets and findings, use caveman style: priority, file, impact, evidence, fix direction. Keep each finding tight. Do not compress source quotes, code snippets, or final user-facing explanation.
+
 Workflow:
 1. Collect the diff, requirements, verification results, and any known risk areas.
 2. Ask the reviewer to inspect the diff first.

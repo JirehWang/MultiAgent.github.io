@@ -1,85 +1,31 @@
 ---
 name: receiving-code-review
-description: 收到代码审查反馈后、实施建议之前使用，尤其当反馈不明确或技术上有疑问时——需要技术严谨性和验证，而非敷衍附和或盲目执行
+description: Use after receiving code review feedback, especially when feedback is ambiguous or may require careful technical verification before implementation.
 ---
 
-# 接收代码审查
+# Receiving Code Review
 
-## 概述
+Use this skill when a reviewer, user, or CI comment asks for changes.
 
-代码审查需要的是技术评估，不是情绪表演。
+## Workflow
 
-核心原则：先验证再实施。先提问再假设。技术正确性优先于社交舒适度。
+1. Read every review item before editing.
+2. Classify each item: bug, requirement gap, test gap, style, question, or optional suggestion.
+3. Verify technical claims against the code.
+4. Ask for clarification only when intent cannot be inferred safely.
+5. Apply fixes for confirmed issues.
+6. Do not implement optional suggestions that conflict with requirements.
+7. Re-run relevant verification.
+8. Report what was changed, declined, or still open.
 
-## 响应模式
+## Rules
 
-```text
-收到代码审查反馈时：
+- Do not blindly accept review comments.
+- Do not dismiss comments without checking evidence.
+- Keep fixes scoped to the reviewed issue.
+- Preserve user changes unrelated to the review.
+- If a comment is wrong, explain with code evidence.
 
-1. 阅读：完整阅读反馈，不急于反应
-2. 理解：用自己的话复述需求，或先提问澄清
-3. 分类：这是正确性问题、回归风险、测试缺口、风格建议，还是澄清问题？
-4. 验证：对照代码库的实际情况检查
-5. 评估：对这个代码库来说技术上合理吗？
-6. 回应：技术性确认或有理有据的反驳
-7. 实施：一次一项，逐个测试
-```
+## Caveman Compression
 
-## 回应格式
-
-优先用这些回应方式：
-- 复述你理解的技术问题
-- 说明你验证过的事实
-- 如果认同，直接说明修复点
-- 如果不认同，指出具体代码路径、平台约束、兼容性原因或测试证据
-
-避免把风格建议说成缺陷，也不要把真实缺陷降格成“可选优化”。
-
-## 处理不明确的反馈
-
-如果有任何一项不明确：
-- 先不要实施任何内容
-- 就不明确的项目提出澄清
-- 不要先做“我确定的那几项”再补问其余项
-
-部分理解等于高风险实施。
-
-## 来自外部审查者的反馈
-
-实施之前检查：
-- 对这个代码库来说技术上正确吗？
-- 是否会破坏现有功能？
-- 当前实现这样写是否有原因？
-- 在所有平台、版本、运行条件上都适用吗？
-- 审查者是否拥有完整上下文？
-
-如果无法轻易验证，就明确说明限制，而不是假装已经确认。
-
-## 何时反驳
-
-在这些情况下应该反驳：
-- 建议会破坏现有功能
-- 审查者缺少完整上下文
-- 违反 YAGNI，功能根本没人用
-- 对当前技术栈来说技术上不正确
-- 存在遗留、兼容性或架构约束
-
-反驳时：
-- 用技术理由，不带防御情绪
-- 提出具体问题
-- 引用可工作的测试、代码路径或平台事实
-
-## 实施顺序
-
-多项反馈的默认顺序：
-1. 先澄清所有不明确的项
-2. 先处理阻塞性问题：崩溃、安全、数据风险、回归风险
-3. 再处理简单修复
-4. 最后处理复杂重构或结构调整
-5. 一次一项，逐个测试，并验证没有回归
-
-## 底线
-
-外部反馈是待评估的建议，不是必须执行的命令。
-
-验证。质疑。然后实施。
+For review triage, use caveman style: item, type, evidence, action, verification. Do not compress code snippets or final explanation that needs nuance.

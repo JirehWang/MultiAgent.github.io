@@ -9,6 +9,10 @@ Classify the task before doing meaningful work. Choose the smallest workflow tha
 
 This skill remains the top-level router. It does not replace specialist skills or workflow skills; it decides when to use them.
 
+## Caveman Compression
+
+For routing notes, use caveman style: short labels, exact decision, exact next step. Keep reasons only when they affect routing. Do not use caveman for final user-facing explanations.
+
 ## Required Reads For Routing
 
 When the task requires agent selection, workflow-node selection, or primary/support-agent decisions, read these files in the same folder before routing:

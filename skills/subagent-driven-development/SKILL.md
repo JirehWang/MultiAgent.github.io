@@ -7,6 +7,10 @@ description: Use when a decomposed plan has moderate or high complexity and incl
 
 Use subagents for substantial decomposed work, not small fixes.
 
+## Caveman Compression
+
+For manager notes and subagent handoffs, use caveman style: compact labels, exact scope, non-goals, verification, and return format. No filler. Do not compress final user-facing rationale.
+
 ## Trigger
 
 Prefer subagents when these are true:
