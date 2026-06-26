@@ -1,0 +1,4 @@
+display_name: Project Workflow Intake
+short_description: Create project contracts and scripts.
+default_prompt: Use before local project work. Check for project_contract.yml and standard scripts, create minimal versions when missing, then follow them.
+
