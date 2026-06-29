@@ -166,3 +166,19 @@ For the current hazardous-substance ERP integration work, index:
 ```text
 D:\py\integrated_tool
 ```
+
+### Codebase Memory And Codegraph Split
+
+Use `codebase-memory-mcp` for system-level architecture memory: project maps,
+module boundaries, workflow nodes, cross-repository context, and integration
+planning.
+
+Use `codegraph` for implementation-level graph tracing: call paths, symbol
+relationships, class/function dependencies, import chains, and concrete change
+impact.
+
+For broad architecture work, the intended order is:
+
+1. `codebase-memory-mcp` frames the system map.
+2. `codegraph` verifies concrete code paths.
+3. Direct source reads and tests resolve conflicts.

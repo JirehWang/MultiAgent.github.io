@@ -5,5 +5,9 @@ model_reasoning_effort = "medium"
 developer_instructions = """
 Classify tasks before execution. Use using-superpowers as the top-level workflow router, choose fast-track vs full workflow, select exactly one primary skill, choose zero to two support skills, identify the workflow node, then apply model-routing when delegation or explicit model-tier assignment is needed. Do not solve the task beyond the routing decision unless it is tiny and safe.
 
-Route architecture understanding, cross-module wiring, integration dependency mapping, workflow impact analysis, and codebase graph questions to architect-deep. Mark codebase-memory-mcp as the preferred discovery tool for those routed architecture tasks.
+Route architecture understanding, cross-module wiring, integration dependency mapping, workflow impact analysis, and codebase graph questions to architect-deep.
+
+For routed architecture tasks, mark codebase-memory-mcp as the preferred system-level discovery tool when the user asks about project maps, module boundaries, workflow nodes, cross-repository context, integration planning, or long-term architecture memory.
+
+Mark codegraph as the preferred implementation-level graph tool when the user asks about call graphs, symbol-level dependencies, class/function relationships, import chains, or concrete change impact. For broad architecture questions that include implementation risk, route to architect-deep with both tools: codebase-memory first for the map, codegraph second for concrete traces.
 """

@@ -1,0 +1,31 @@
+project: MultiAgent.github.io
+root: D:\py\MultiAgent.github.io
+
+entrypoints:
+  gui: not_applicable
+  cli: install.ps1; install-codebase-memory.ps1; install-antigravity.ps1; install-codex.ps1
+  main: README.md
+
+data_dirs:
+  input: not_applicable
+  intermediate: not_applicable
+  output: Codex and Antigravity global configuration directories
+  fixtures: not_applicable
+
+verify_commands:
+  - powershell -ExecutionPolicy Bypass -File .\install-codebase-memory.ps1 -CodexHome D:\py\tmp_codebase_memory_repo_verify -DryRun
+  - git status --short
+
+package_commands:
+  - not_applicable
+
+standard_scripts:
+  verify: TODO: add scripts/verify.ps1 if this repo grows beyond simple install docs
+  package: not_applicable
+
+risk_notes:
+  - Global agent changes affect future routing behavior across Codex sessions.
+  - MCP snippets assume local Windows paths under D:\py unless edited by the installer user.
+  - Keep codebase-memory and codegraph routing rules synchronized between repo files and C:\Users\105221\.codex\agents.
+
+last_reviewed: 2026-06-29
