@@ -1,0 +1,8 @@
+[mcp_servers.codebase_memory]
+command = 'D:\py\tools\codebase-memory-mcp\bin\codebase-memory-mcp.exe'
+args = ['--ui=true', '--port=9749']
+startup_timeout_sec = 120
+
+[mcp_servers.codebase_memory.env]
+CBM_CACHE_DIR = 'D:\py\tools\codebase-memory-mcp\cache'
+CBM_LOG_LEVEL = 'info'

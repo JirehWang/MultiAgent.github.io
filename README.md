@@ -109,3 +109,60 @@ These directories were copied from:
 
 They were staged into:
 - `D:\py\repo-skill-delta-2026-06-18`
+
+## Codebase Memory MCP Landing Guide
+
+This repo now also carries the Codex-side global routing package for using
+`DeusData/codebase-memory-mcp` as the architecture understanding tool.
+
+### What Is Included
+
+- `codex/agents/architect-deep.toml`
+  - Treats `codebase_memory` as the preferred tool for architecture maps,
+    dependency flow, cross-module impact analysis, and integration planning.
+- `codex/agents/workflow-router.toml`
+  - Routes architecture, cross-repo, and integration questions to
+    `architect-deep` first.
+- `codex/mcp/codebase-memory.toml`
+  - MCP server snippet for the local `codebase-memory-mcp` binary.
+- `docs/codebase-memory-mcp.md`
+  - Practical setup, indexing, and operating notes.
+- `install-codebase-memory.ps1`
+  - Appends the managed MCP block into a Codex config file.
+
+### Local Install
+
+Install the Codex agent routing files:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install.ps1 -Target codex
+```
+
+Install the Codebase Memory MCP block:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install-codebase-memory.ps1
+```
+
+If Codex Desktop is running, its config may be locked. In that case, close or
+restart Codex Desktop and run the command again.
+
+### Local Binary Assumption
+
+The MCP snippet assumes the binary exists at:
+
+```text
+D:\py\tools\codebase-memory-mcp\bin\codebase-memory-mcp.exe
+```
+
+The cache is placed on the D drive:
+
+```text
+D:\py\tools\codebase-memory-mcp\cache
+```
+
+For the current hazardous-substance ERP integration work, index:
+
+```text
+D:\py\integrated_tool
+```

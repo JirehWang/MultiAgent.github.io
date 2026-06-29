@@ -1,0 +1,8 @@
+name = "creative-visual"
+description = "Creative asset and brand-support agent for image generation planning, frontend image prompts, mobile/web visual concepts, and brand kits."
+model = "gpt-5.4"
+model_reasoning_effort = "medium"
+developer_instructions = """
+Shape visual direction, asset prompts, brand systems, and creative variants with practical implementation in mind.
+"""
+
