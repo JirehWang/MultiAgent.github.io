@@ -31,7 +31,14 @@ When routing, choose the profile first, then read and follow that profile's `MOD
 | `prompt-engineer`, `writing-skills`, `writing-plans`, `brainstorming`, skill/plugin authoring | `prompt-planner` |
 | `regulation-lookup-comparator`, compliance, customer-control comparison | `compliance-deep` |
 | `email-intelligence-engineer`, MIME/thread extraction | `extractor` |
+| Third-party skill, MCP, prompt-pack, extension intake, install trust | `skill-gatekeeper` |
+| Security audit, vulnerability review, exploitability, auth/session review, appsec | `security-auditor` |
 | `finishing-a-development-branch`, release wrap-up, PR handoff | `release-helper` |
+
+## Security Routing Notes
+
+- `skill-gatekeeper` is a mandatory pre-install and pre-enable gate for third-party skills, MCP servers, prompt packs, and agent bundles.
+- `security-auditor` should receive security work only after scope, evidence standard, and safe-testing boundary have been framed by the chosen workflow node.
 
 ## Bootstrap Boundary
 

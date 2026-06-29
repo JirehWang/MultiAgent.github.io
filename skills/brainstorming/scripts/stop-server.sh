@@ -13,6 +13,12 @@ if [[ -z "$SESSION_DIR" ]]; then
   exit 1
 fi
 
+CANONICAL_SESSION_DIR=$(python3 -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "$SESSION_DIR" 2>/dev/null)
+if [[ -z "$CANONICAL_SESSION_DIR" ]]; then
+  echo '{"status": "failed", "error": "unable to resolve session directory"}'
+  exit 1
+fi
+
 STATE_DIR="${SESSION_DIR}/state"
 PID_FILE="${STATE_DIR}/server.pid"
 
@@ -45,9 +51,9 @@ if [[ -f "$PID_FILE" ]]; then
 
   rm -f "$PID_FILE" "${STATE_DIR}/server.log"
 
-  # Only delete ephemeral /tmp directories
-  if [[ "$SESSION_DIR" == /tmp/* ]]; then
-    rm -rf "$SESSION_DIR"
+  # Only delete ephemeral /tmp directories after resolving the real path.
+  if [[ "$CANONICAL_SESSION_DIR" == /tmp/* && "$CANONICAL_SESSION_DIR" != "/tmp" ]]; then
+    rm -rf "$CANONICAL_SESSION_DIR"
   fi
 
   echo '{"status": "stopped"}'

@@ -51,6 +51,8 @@ reasoning:
 6. If multiple agents fit, apply conflict resolution from `agent-routing-rules.yaml`.
 7. Do not choose more than one primary agent.
 8. If a design-direction signal is present but the exact overlay skill is not installed, route to the nearest installed design specialist and carry the missing-skill note forward in `reasoning` or `handoff_notes`.
+9. If the request involves installing or trusting a third-party skill, MCP server, prompt pack, or agent bundle, route to `skill-gatekeeper` before any execution or install step.
+10. If the request is a security audit, choose a workflow node that frames scope, evidence standard, and safe-testing limits before execution.
 
 ## Primary-Agent Rules
 
@@ -68,6 +70,8 @@ Choose the primary agent closest to the artifact:
 - artifact is an implementation plan -> `writing-plans`
 - artifact is bug diagnosis/fix path -> `systematic-debugging`
 - artifact is a new feature implementation path -> `test-driven-development`
+- artifact is an install decision or extension trust review -> `skill-gatekeeper`
+- artifact is a security report, vulnerability report, or audit findings -> `security-auditor`
 
 For design-direction signals:
 
@@ -100,3 +104,5 @@ For design-direction signals:
 - do not send a tiny obvious task through a heavy workflow
 - do not route to review skills before an execution artifact exists
 - do not choose a generic workflow skill when a narrow domain specialist clearly fits
+- do not route third-party extension installs directly to execution before `skill-gatekeeper`
+- do not route security audits directly to execution before scope and evidence framing

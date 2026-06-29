@@ -91,6 +91,8 @@ Keep simultaneously active agents within about 3-4, including the manager when r
 - practical behavior change -> `test-driven-development`
 - broken or unexplained behavior -> `systematic-debugging`
 - done but needs verification -> `verification-before-completion`
+- third-party skill, MCP, prompt-pack, or agent intake review -> `skill-gatekeeper` before any install, enable, or promotion step
+- codebase, service, or workflow security audit -> `security-auditor` after scope, evidence standard, and safe-testing boundary are framed
 
 ## Domain Routing
 
@@ -100,6 +102,8 @@ When domain signals are clear, route to the narrow specialist first:
 - prompt design, prompt testing, prompt evaluation, schema hardening -> `prompt-engineer`
 - multi-agent topology, handoffs, retries, role boundaries, failure recovery -> `multi-agent-systems-architect`
 - unfamiliar repo, unclear entry points, codebase onboarding -> `context-scout`
+- third-party skill, MCP server, prompt pack, extension permissions, install trust -> `skill-gatekeeper`
+- exploitability review, appsec, vuln triage, auth/session weakness, trust-boundary abuse -> `security-auditor`
 
 Do not skip these specialists just because a generic workflow skill also seems applicable.
 
@@ -112,3 +116,5 @@ Do not skip these specialists just because a generic workflow skill also seems a
 - Choose one primary agent only.
 - Support agents advise; they do not create equal ownership.
 - If routing is ambiguous, use the artifact-first rule from `agent-routing-rules.yaml`.
+- Do not install, enable, or promote a third-party skill, MCP server, prompt pack, or agent bundle until `skill-gatekeeper` has produced an explicit allow, manual-review, or block decision.
+- Do not start a security audit in execution mode until the scope, evidence standard, and safe-testing boundary are stated.

@@ -26,6 +26,8 @@ Note:
 - `multi-agent-systems-architect`
 - `context-scout`
 - `oss-solution-scout`
+- `skill-gatekeeper`
+- `security-auditor`
 
 ### Planning / Execution
 - `brainstorming`
@@ -64,6 +66,8 @@ Note:
   - `multi-agent-systems-architect`
   - `context-scout`
   - `oss-solution-scout`
+  - `skill-gatekeeper`
+  - `security-auditor`
   - frontend specialists when UI/visual signals are present
 
 ### Framing / Planning
@@ -73,6 +77,7 @@ Note:
   - `writing-plans`
   - `multi-agent-systems-architect`
   - `writing-skills`
+  - `security-auditor` when scope, evidence standard, and safe-testing limits must be fixed before audit work
 
 ### Decomposition / Dispatch
 - purpose: split work when single-agent execution is not enough
@@ -90,6 +95,12 @@ Note:
   - `systematic-debugging`
   - `writing-skills`
   - frontend specialists
+
+## Security Constraints
+
+- Third-party skill, MCP, prompt-pack, and agent-bundle installs must be gated by `skill-gatekeeper` before execution or enablement.
+- Security audits should not enter execution until scope, evidence standard, and safe-testing boundaries are framed.
+- If `trust-boundary` appears with `security-audit`, `appsec`, `auth-review`, `session-review`, or `exploitability`, prefer `security-auditor` over `multi-agent-systems-architect` unless the artifact is explicitly a workflow design.
 
 ### Review
 - purpose: inspect implementation or process review feedback

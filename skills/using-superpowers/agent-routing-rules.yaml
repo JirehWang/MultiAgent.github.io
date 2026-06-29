@@ -20,6 +20,8 @@ global_categories:
     - multi-agent-systems-architect
     - context-scout
     - oss-solution-scout
+    - skill-gatekeeper
+    - security-auditor
   planning_execution:
     - brainstorming
     - writing-plans
@@ -57,6 +59,10 @@ state_schema:
     - needs_parallelism
     - style_signals
     - handoff_notes
+    - gate_decision
+    - security_scope
+    - evidence_standard
+    - safe_testing_boundary
 
 precedence:
   - detect_domain_specialist
@@ -71,6 +77,9 @@ hard_rules:
   - choose the agent closest to the artifact being produced
   - do not use review skills before an execution artifact exists
   - do not send tiny obvious tasks through every workflow node
+  - third-party skill, MCP, prompt-pack, and agent-bundle installs must route through skill-gatekeeper before execution, installation, enablement, or promotion
+  - security audits must define scope, evidence standard, and safe-testing boundary before execution
+  - when trust-boundary overlaps with security-audit, appsec, auth-review, session-review, or exploitability, prefer security-auditor unless the artifact is explicitly workflow design
 
 workflow_nodes:
   - id: intent_router
@@ -90,6 +99,8 @@ workflow_nodes:
       - multi-agent-systems-architect
       - context-scout
       - oss-solution-scout
+      - skill-gatekeeper
+      - security-auditor
       - design-taste-frontend
       - redesign-existing-projects
       - web-design-polish
@@ -103,6 +114,7 @@ workflow_nodes:
       - writing-plans
       - multi-agent-systems-architect
       - writing-skills
+      - security-auditor
   - id: decomposition_dispatch
     purpose: split work when single-agent execution is not enough
     allowed_agents:
@@ -121,6 +133,8 @@ workflow_nodes:
       - multi-agent-systems-architect
       - context-scout
       - oss-solution-scout
+      - skill-gatekeeper
+      - security-auditor
       - design-taste-frontend
       - redesign-existing-projects
       - web-design-polish
@@ -146,6 +160,61 @@ workflow_nodes:
       - writing-skills
 
 route_rules:
+  - id: extension_intake_review
+    match:
+      any_domain_signals:
+        - skill-intake
+        - third-party-skill
+        - skill-install
+        - mcp-intake
+        - mcp-server
+        - prompt-pack
+        - extension-permissions
+        - supply-chain-risk
+        - install-trust
+      artifact_type:
+        - risk-assessment
+        - install-decision
+        - skill-review
+        - mcp-review
+    select:
+      primary: skill-gatekeeper
+      support: []
+      workflow_node: domain_classification
+      gate_decision: pending
+      handoff_notes:
+        - This route is a mandatory gate before any install, enable, or promotion step.
+        - Produce an explicit decision: allow, manual-review, or block.
+        - Record source, version or commit, key risks, and rationale with the decision.
+
+  - id: security_audit_review
+    match:
+      any_domain_signals:
+        - security-audit
+        - vuln-assessment
+        - exploitability
+        - auth-review
+        - session-review
+        - secrets-exposure
+        - trust-boundary
+        - appsec
+      artifact_type:
+        - security-report
+        - vulnerability-report
+        - risk-assessment
+        - audit-findings
+    select:
+      primary: security-auditor
+      support: []
+      workflow_node: framing_planning
+      security_scope: required
+      evidence_standard: required
+      safe_testing_boundary: required
+      handoff_notes:
+        - Stage 1 must define audit scope, evidence standard, and safe-testing limits before findings work.
+        - Stage 2 may perform execution only after those constraints are stated.
+        - Prioritize confirmed or well-supported vulnerabilities over speculative issues.
+
   - id: minimalist_design_direction
     match:
       any_domain_signals:
@@ -697,9 +766,24 @@ defaults:
 
 conflict_resolution:
   order:
+    - prefer_security_auditor_when_security_signals_overlap
     - choose_agent_closest_to_artifact
     - choose_narrowest_valid_domain
     - demote_others_to_support_agents
+  security_overlap_priority:
+    when_any_domain_signals:
+      - security-audit
+      - vuln-assessment
+      - exploitability
+      - auth-review
+      - session-review
+      - appsec
+    and_any_domain_signals:
+      - trust-boundary
+    prefer_primary: security-auditor
+    unless_artifact_type:
+      - workflow
+      - architecture
   examples:
     - request: Write a prompt to extract action items from emails
       primary: prompt-engineer
@@ -721,3 +805,9 @@ conflict_resolution:
       primary: ui-ux-pro-max
       support:
         - writing-skills
+    - request: Review this third-party MCP server before I install it
+      primary: skill-gatekeeper
+      support: []
+    - request: Audit this repository for exploitable auth and session issues
+      primary: security-auditor
+      support: []
