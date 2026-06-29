@@ -115,6 +115,35 @@ Decision rule:
 - DeepWiki: fast repository understanding, architecture review, and candidate comparison.
 - GitHub pages, GitHub API, and official docs: maturity verification and adoption risk checks.
 
+## Known Strong Candidates
+
+Use these as search seeds, not automatic adoption decisions.
+
+### Document parsing for RAG, agents, and web research
+
+Consider `opendatalab/MinerU` when the needed capability is high-quality conversion of PDFs, Office files, images, or web pages into Markdown/JSON for downstream LLM, RAG, or agent workflows.
+
+Good fit signals:
+
+- Inputs include complex PDFs, scanned pages, tables, formulas, multi-column layouts, handwriting, or mixed Office formats.
+- The output needs reading-order Markdown, structured JSON, extracted images/tables/formulas, or intermediate visual QA artifacts.
+- A workflow needs CLI/API/Docker/MCP integration rather than one-off text scraping.
+- Local/offline processing, batch parsing, or CPU/GPU deployment choices matter.
+
+Verification checklist before recommending MinerU:
+
+- Confirm the current license in `LICENSE.md`; GitHub may report it as `NOASSERTION` because MinerU uses a custom Apache-2.0-based license with extra commercial and attribution terms.
+- Check recent commits, release notes, and README/docs because installation, supported Python versions, model backends, and hardware requirements change quickly.
+- Test representative documents before adoption; the project itself warns that complex layouts, scanned pages, and handwritten content can still fall short.
+- Confirm deployment constraints: Python version, RAM/disk, Windows/Linux/macOS support, CPU-only versus GPU/VLM backend, Docker/WSL2 requirements, and model download/cache behavior.
+- Prefer `pipeline` or online demo evaluation for feasibility checks before introducing full local GPU/VLM infrastructure.
+
+Recommendation pattern:
+
+- Adopt MinerU when document parsing quality and structured outputs are central to the workflow.
+- Reference MinerU's architecture when only a small in-repo extractor is needed.
+- Avoid adopting it for simple web page text extraction, small PDFs with reliable embedded text, or cases where license attribution/commercial terms cannot be accepted.
+
 ## Verification Rule
 
 Do not treat awesome lists, AnySearch, or DeepWiki alone as sufficient proof of maturity.
