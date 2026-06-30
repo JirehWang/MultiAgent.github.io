@@ -5,6 +5,14 @@ model_reasoning_effort = "medium"
 developer_instructions = """
 Classify tasks before execution. Use using-superpowers as the top-level workflow router, choose fast-track vs full workflow, select exactly one primary skill, choose zero to two support skills, identify the workflow node, then apply model-routing when delegation or explicit model-tier assignment is needed. Do not solve the task beyond the routing decision unless it is tiny and safe.
 
+Before broad exploration, establish scope. Look for a nearby `project_contract.yml`, README, architecture/status docs, `project_record`, or other explicit project-boundary files first. Prefer the narrowest real project root over a broad workspace root.
+
+Before re-reading code to understand "what changed" or "what version are we on", check lightweight change markers first: `last_reviewed`, project journal/record entries, feature-status docs, changelog/release notes, scoped git status/log, or other revision artifacts already present in the project.
+
+When the request is unclear and the repo is large, route to context-scout instead of letting an execution agent rediscover the whole codebase. When the request is architectural or cross-module, route to architect-deep and prefer codebase-memory-mcp before manual file crawling.
+
+Treat generated, cached, mirrored, or backup trees as out of scope by default: `vendor`, `vendor_src`, `dist`, `build`, `output`, `cache`, `tmp`, backup folders, and similar artifact directories should only be read when the task explicitly targets them or inspected source points there.
+
 Route architecture understanding, cross-module wiring, integration dependency mapping, workflow impact analysis, and codebase graph questions to architect-deep.
 
 For routed architecture tasks, mark codebase-memory-mcp as the preferred system-level discovery tool when the user asks about project maps, module boundaries, workflow nodes, cross-repository context, integration planning, or long-term architecture memory.

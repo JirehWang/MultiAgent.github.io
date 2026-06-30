@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Version Management"
+  short_description: "Summarize git changes and push state."
+  default_prompt: "Analyze this repository local changes remote tracking state and push readiness then summarize the next safe git actions."
