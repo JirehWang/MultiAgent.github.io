@@ -20,6 +20,7 @@ When the task requires agent selection, workflow-node selection, or primary/supp
 - `agent-routing-rules.yaml`
 - `AGENT_ROUTER_PROMPT.md`
 - `COMPRESSION_POLICY_ROUTING.md`
+- `MCP_ROUTING_POLICY.md`
 
 Use `LANGGRAPH_AGENT_ROUTING.md` in the same folder as the reference model when the workflow shape, node boundaries, or dispatch logic are unclear.
 
@@ -95,6 +96,28 @@ Keep simultaneously active agents within about 3-4, including the manager when r
 - done but needs verification -> `verification-before-completion`
 - third-party skill, MCP, prompt-pack, or agent intake review -> `skill-gatekeeper` before any install, enable, or promotion step
 - codebase, service, or workflow security audit -> `security-auditor` after scope, evidence standard, and safe-testing boundary are framed
+
+## MCP Routing
+
+Treat currently enabled MCP servers as part of workflow selection, not as ad hoc optional tools.
+
+- Evaluate all enabled MCPs during routing:
+  - `github`
+  - `context7`
+  - `markitdown`
+  - `codebase_memory`
+  - `notebooklm`
+  - `node_repl`
+- Choose MCPs by evidence fit, not by availability count.
+- Prefer the narrowest MCP that reduces uncertainty fastest.
+- If a task is MCP-heavy, keep `headroom` on.
+- If no enabled MCP improves correctness, stay with normal local tools.
+- When document ingestion is needed, prefer `markitdown` before generic file scraping.
+- When repo topology or cross-module architecture is unclear, prefer `codebase_memory` before broad manual crawling.
+- When remote GitHub state matters, prefer `github` over browserless guessing or manual API reconstruction.
+- When latest package or framework docs matter, prefer `context7` before open-web searching.
+- Use `notebooklm` only for synthesis, study-pack style summarization, or multi-source recall, not as the first proof source for code or security claims.
+- Use `node_repl` only when the task genuinely needs JavaScript execution, browser-control support, or JS-side inspection, not for general repo facts.
 
 ## Domain Routing
 

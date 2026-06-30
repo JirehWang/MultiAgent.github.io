@@ -9,20 +9,23 @@ Map the codebase without over-reading it. This skill is also the default home fo
 
 Use for unfamiliar repos, cross-file changes, unclear entry points, or when another agent would benefit from a crisp orientation pack. Skip tiny single-file edits.
 
-## Caveman Compression
-
-For context packs, use caveman style: terse bullets, exact paths, exact entry points, exact risks. Cut narrative. Do not compress source quotes, commands, or final user-facing explanation.
-
 Workflow:
 1. Start with local search: `rg`, filenames, routes, config, scripts, tests.
-2. If the repo is large or boundaries are still unclear, use `Gitingest` for a high-level map.
-3. Narrow to the few files or directories that matter.
-4. If exact cross-file logic is still unclear, use `Repomix` only on that narrowed subtree or file set.
-5. Read the real source and trace input -> module -> side effect.
-6. Report only the context needed to move work forward:
+2. If the repo is large, architectural boundaries are unclear, or the user asked for a codebase map, prefer `codebase_memory` before broad manual crawling.
+3. If onboarding depends on remote PRs, issues, workflow runs, or repo state outside the local checkout, use `github`.
+4. If onboarding starts from PDFs, docs, slides, or exported reports, use `markitdown` first to ingest the source material.
+5. If the repo is large or boundaries are still unclear after that, use `Gitingest` for a high-level map.
+6. Narrow to the few files or directories that matter.
+7. If exact cross-file logic is still unclear, use `Repomix` only on that narrowed subtree or file set.
+8. Read the real source and trace input -> module -> side effect.
+9. Report only the context needed to move work forward:
    relevant files, entry points, data flow, commands to run, local conventions, risks, next step.
 
 Rules:
+- Evaluate enabled MCPs first when they can remove repo-discovery uncertainty faster than more file crawling.
+- Prefer `codebase_memory` for map questions; prefer exact source reads for proof.
+- Prefer `github` over guesswork when the missing context is remote GitHub state.
+- Prefer `markitdown` over ad hoc scraping when the source is document-heavy.
 - `Gitingest` is for orientation, not proof.
 - `Repomix` is for focused deep context, not whole-repo dumping.
 - Never let generated summaries replace exact file reads.

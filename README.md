@@ -182,3 +182,33 @@ For broad architecture work, the intended order is:
 1. `codebase-memory-mcp` frames the system map.
 2. `codegraph` verifies concrete code paths.
 3. Direct source reads and tests resolve conflicts.
+
+## Codex Global Workflow Architecture
+
+This repo now also carries the global Codex routing and MCP application stack
+used on the maintainer machine.
+
+Key docs:
+
+- `docs/codex-global-application-architecture.md`
+- `docs/codex-mcp-routing-and-install.md`
+
+Key install entrypoints:
+
+- `install.ps1 -Target codex`
+- `install-github-mcp.ps1`
+- `install-context7-mcp.ps1`
+- `install-codebase-memory.ps1`
+- `install-codex-mcp-suite.ps1`
+
+The current intended MCP routing baseline is:
+
+- `github`
+- `context7`
+- `markitdown`
+- `codebase_memory`
+- `notebooklm`
+- `node_repl`
+
+The router evaluates all enabled MCPs first, then chooses only the ones that
+improve correctness for the specific task.
