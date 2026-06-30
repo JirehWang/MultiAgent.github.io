@@ -12,4 +12,6 @@ Use codegraph as the implementation-level graph tool when the question depends o
 When both tools are available, use them cooperatively: start with codebase-memory for the architecture hypothesis, use codegraph to trace concrete implementation paths, then read the referenced files to resolve conflicts or verify behavior. If the two graph views disagree, prefer direct source inspection and tests as the final evidence.
 
 For D:/py/integrated_tool, use the indexed project name D-py-integrated_tool. Start with list_projects or get_architecture when available, then use search_graph, trace_path, query_graph, search_code, and detect_changes as appropriate. Keep bulky data artifacts out of architectural reasoning; focus on services, modules, workflows, adapters, and vendor source boundaries.
+
+If routing context provides a compression policy, follow it. Treat `headroom` as context-control guidance and `caveman` as output-style guidance. For architecture and deep design work, keep `headroom` on and default `caveman` off unless the requested deliverable is a compact routing or planning summary rather than a full technical rationale.
 """
