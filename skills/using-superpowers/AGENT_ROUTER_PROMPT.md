@@ -5,6 +5,7 @@ Use this prompt when a router agent must choose the right global skill or agent 
 ## Inputs
 
 - Routing spec: `agent-routing-rules.yaml`
+- Compression policy spec: `COMPRESSION_POLICY_ROUTING.md`
 - Reference model: `LANGGRAPH_AGENT_ROUTING.md`
 - User request
 
@@ -18,8 +19,9 @@ Your job is to:
 3. identify the artifact being produced
 4. choose exactly one primary agent
 5. optionally choose up to two support agents
-6. choose the next workflow node
-7. explain the routing decision briefly
+6. choose one compression policy
+7. choose the next workflow node
+8. explain the routing decision briefly
 
 ## Required Output Shape
 
@@ -36,6 +38,11 @@ needs_visual_work:
 needs_parallelism:
 chosen_primary_agent:
 chosen_support_agents: []
+compression_policy:
+  profile:
+  headroom:
+  caveman:
+  reasons: []
 workflow_node:
 matched_rule:
 reasoning:
@@ -50,9 +57,10 @@ reasoning:
 5. Only if no narrow specialist fits, route to a workflow skill.
 6. If multiple agents fit, apply conflict resolution from `agent-routing-rules.yaml`.
 7. Do not choose more than one primary agent.
-8. If a design-direction signal is present but the exact overlay skill is not installed, route to the nearest installed design specialist and carry the missing-skill note forward in `reasoning` or `handoff_notes`.
-9. If the request involves installing or trusting a third-party skill, MCP server, prompt pack, or agent bundle, route to `skill-gatekeeper` before any execution or install step.
-10. If the request is a security audit, choose a workflow node that frames scope, evidence standard, and safe-testing limits before execution.
+8. After agent selection, choose one compression policy from `COMPRESSION_POLICY_ROUTING.md`.
+9. If a design-direction signal is present but the exact overlay skill is not installed, route to the nearest installed design specialist and carry the missing-skill note forward in `reasoning` or `handoff_notes`.
+10. If the request involves installing or trusting a third-party skill, MCP server, prompt pack, or agent bundle, route to `skill-gatekeeper` before any execution or install step.
+11. If the request is a security audit, choose a workflow node that frames scope, evidence standard, and safe-testing limits before execution.
 
 ## Primary-Agent Rules
 
@@ -97,6 +105,16 @@ For design-direction signals:
   primary: `writing-skills`
   support:
     - `multi-agent-systems-architect`
+
+## Compression Policy Rules
+
+- `headroom` controls context and tool-output pressure.
+- `caveman` controls how terse the routed agent should be.
+- Default `headroom: on` unless the task is tiny and context-light.
+- Use `caveman: full` for router and planner style outputs.
+- Use `caveman: lite` for review or verification summaries.
+- Use `caveman: off` for final user-facing output, code generation, spec writing, and deep debugging.
+- If the task is tool-heavy and summary-friendly, prefer `headroom: on` plus `caveman: lite`.
 
 ## Never Do These
 

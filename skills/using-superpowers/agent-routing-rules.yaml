@@ -5,6 +5,7 @@ purpose:
   - classify requests into a LangGraph-style workflow
   - choose one primary agent
   - optionally choose up to two support agents
+  - decide one compression policy for the routed agent
   - decide the next workflow node
 
 global_categories:
@@ -52,6 +53,7 @@ state_schema:
     - workflow_node
   optional:
     - chosen_support_agents
+    - compression_policy
     - needs_planning
     - needs_debugging
     - needs_review
@@ -67,14 +69,18 @@ state_schema:
 precedence:
   - detect_domain_specialist
   - detect_workflow_mode
+  - detect_compression_policy
   - detect_review_or_verification_gate
   - detect_finish_or_handoff_step
 
 hard_rules:
   - choose exactly one primary agent
   - choose zero to two support agents
+  - choose exactly one compression policy per routed agent
   - prefer the narrowest valid domain specialist over a generic workflow skill
   - choose the agent closest to the artifact being produced
+  - decide compression after agent selection, not before it
+  - treat headroom as context control and caveman as output-style control
   - do not use review skills before an execution artifact exists
   - do not send tiny obvious tasks through every workflow node
   - third-party skill, MCP, prompt-pack, and agent-bundle installs must route through skill-gatekeeper before execution, installation, enablement, or promotion
@@ -754,15 +760,111 @@ defaults:
   tiny_obvious_question:
     primary: using-superpowers
     support: []
+    compression_policy:
+      profile: user-facing
+      headroom: off
+      caveman: off
+      reasons:
+        - tiny-task
+        - context-light
     workflow_node: intent_router
   unclear_repo_task:
     primary: context-scout
     support: []
+    compression_policy:
+      profile: tool-heavy-worker
+      headroom: on
+      caveman: lite
+      reasons:
+        - repo-onboarding
+        - investigation
+        - summary-friendly
     workflow_node: domain_classification
   ambiguous_multi_step_task:
     primary: writing-plans
     support: []
+    compression_policy:
+      profile: planner
+      headroom: on
+      caveman: full
+      reasons:
+        - planning
+        - multi-step
+        - handoff-friendly
     workflow_node: framing_planning
+
+compression_policy_defaults:
+  profiles:
+    user-facing:
+      headroom: on
+      caveman: off
+      use_when:
+        - final-user-output
+        - explanation-heavy
+    planner:
+      headroom: on
+      caveman: full
+      use_when:
+        - planning
+        - dispatch
+        - handoff-setup
+    router:
+      headroom: on
+      caveman: full
+      use_when:
+        - routing
+        - classification
+        - next-step-selection
+    worker:
+      headroom: on
+      caveman: off
+      use_when:
+        - codegen
+        - spec-writing
+        - deep-debugging
+        - artifact-production
+    tool-heavy-worker:
+      headroom: on
+      caveman: lite
+      use_when:
+        - tool-heavy
+        - mcp-heavy
+        - doc-heavy
+        - log-triage
+    reviewer:
+      headroom: on
+      caveman: lite
+      use_when:
+        - review-summary
+        - concise-findings
+    verifier:
+      headroom: on
+      caveman: lite
+      use_when:
+        - verification-summary
+        - evidence-summary
+  signal_rules:
+    headroom_on_when_any:
+      - mcp-heavy
+      - tool-heavy
+      - doc-heavy
+      - long-session
+      - rag-heavy
+      - multi-step
+    caveman_full_when_any:
+      - routing
+      - planning
+      - dispatch
+    caveman_lite_when_any:
+      - triage-summary
+      - review-summary
+      - verification-summary
+    caveman_off_when_any:
+      - final-user-output
+      - codegen
+      - spec-writing
+      - pr-writing
+      - deep-debugging
 
 conflict_resolution:
   order:

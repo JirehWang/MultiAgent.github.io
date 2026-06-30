@@ -19,6 +19,7 @@ When the task requires agent selection, workflow-node selection, or primary/supp
 
 - `agent-routing-rules.yaml`
 - `AGENT_ROUTER_PROMPT.md`
+- `COMPRESSION_POLICY_ROUTING.md`
 
 Use `LANGGRAPH_AGENT_ROUTING.md` in the same folder as the reference model when the workflow shape, node boundaries, or dispatch logic are unclear.
 
@@ -45,8 +46,9 @@ When full routing is needed, follow this order:
 2. identify domain signals
 3. choose exactly one primary agent
 4. choose zero to two support agents
-5. choose the next workflow node
-6. only then decide whether extra workflow skills are needed
+5. choose one compression policy for the routed agent
+6. choose the next workflow node
+7. only then decide whether extra workflow skills are needed
 
 Specialist-first rule:
 - if a narrow domain specialist clearly fits, choose it before a generic workflow skill
@@ -116,5 +118,7 @@ Do not skip these specialists just because a generic workflow skill also seems a
 - Choose one primary agent only.
 - Support agents advise; they do not create equal ownership.
 - If routing is ambiguous, use the artifact-first rule from `agent-routing-rules.yaml`.
+- Decide `headroom` and `caveman` after agent selection, not before it.
+- Treat `headroom` as context control and `caveman` as output-style control.
 - Do not install, enable, or promote a third-party skill, MCP server, prompt pack, or agent bundle until `skill-gatekeeper` has produced an explicit allow, manual-review, or block decision.
 - Do not start a security audit in execution mode until the scope, evidence standard, and safe-testing boundary are stated.
