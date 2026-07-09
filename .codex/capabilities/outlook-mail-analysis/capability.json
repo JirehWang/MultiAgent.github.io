@@ -1,0 +1,14 @@
+{
+  id: outlook-mail-analysis,
+  title: Outlook Mail Analysis,
+  path: C:\\Users\\105221\\.codex\\capabilities\\outlook-mail-analysis,
+  purpose: Tree node for Outlook-export mail analysis workflows that should prefer report-first scripts and structured mail artifacts over raw mailbox rereading.,
+  skills: [
+    C:\\Users\\105221\\.codex\\skills\\outlook-mail-analysis-agent\\SKILL.md
+  ],
+  docs: [
+    C:\\Users\\105221\\.codex\\capabilities\\outlook-mail-analysis\\docs\\routing-notes.md
+  ],
+  assets: [],
+  children: []
+}

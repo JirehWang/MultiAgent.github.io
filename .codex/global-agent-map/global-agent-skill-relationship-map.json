@@ -1,0 +1,98 @@
+{
+  "id": "global-agent-skill-relationship-map",
+  "title": "Global Agent And Skill Relationship Map",
+  "purpose": "Cross-session reference map for the global agent and skill control plane.",
+  "updated": "2026-07-06",
+  "scope": "Global agents and global skills only",
+  "source_roots": [
+    "C:\\Users\\105221\\.codex\\agents",
+    "C:\\Users\\105221\\.codex\\skills"
+  ],
+  "key_routing_files": [
+    "C:\\Users\\105221\\.codex\\agents\\workflow-router.toml",
+    "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\SKILL.md",
+    "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\agent-routing-rules.yaml",
+    "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\AGENT_ROUTER_PROMPT.md",
+    "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\COMPRESSION_POLICY_ROUTING.md",
+    "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\MCP_ROUTING_POLICY.md",
+    "C:\\Users\\105221\\.codex\\skills\\model-routing\\SKILL.md"
+  ],
+  "locator_note": "This file and its sibling markdown map are the workspace-local source that future sessions should use when they need the global relationship map.",
+  "primary_files": [
+    "D:\\py\\docs\\global-agent-map\\README.md",
+    "D:\\py\\docs\\global-agent-map\\global-agent-skill-relationship-map.md",
+    "D:\\py\\docs\\global-agent-map\\global-agent-skill-relationship-map.json"
+  ],
+  "routing_layers": {
+    "entry": "workflow-router",
+    "workflow_classification": "using-superpowers",
+    "profile_mapping": "model-routing"
+  },
+  "agent_families": {
+    "workflow-router": [
+      "using-superpowers",
+      "model-routing"
+    ],
+    "general-light": [
+      "tiny fast-track work"
+    ],
+    "code-worker": [
+      "test-driven-development",
+      "executing-plans",
+      "using-git-worktrees"
+    ],
+    "architect-deep": [
+      "multi-agent-systems-architect",
+      "subagent-driven-development",
+      "dispatching-parallel-agents",
+      "oss-solution-scout"
+    ],
+    "debug-reviewer": [
+      "systematic-debugging",
+      "verification-before-completion",
+      "requesting-code-review",
+      "receiving-code-review"
+    ],
+    "frontend-visual": [
+      "design-taste-frontend",
+      "redesign-existing-projects",
+      "web-design-polish",
+      "visual-qa",
+      "image-to-code",
+      "ui-ux-pro-max"
+    ],
+    "creative-visual": [
+      "brandkit"
+    ],
+    "doc-ops": [
+      "documents",
+      "spreadsheets",
+      "presentations",
+      "pdf"
+    ],
+    "prompt-planner": [
+      "prompt-engineer",
+      "writing-skills",
+      "writing-plans",
+      "brainstorming"
+    ],
+    "compliance-deep": [
+      "compliance work"
+    ],
+    "extractor": [
+      "email-intelligence-engineer"
+    ],
+    "skill-gatekeeper": [
+      "skill intake",
+      "mcp intake",
+      "install trust"
+    ],
+    "security-auditor": [
+      "security audit",
+      "exploitability review"
+    ],
+    "release-helper": [
+      "finishing-a-development-branch"
+    ]
+  }
+}

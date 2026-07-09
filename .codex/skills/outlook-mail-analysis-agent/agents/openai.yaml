@@ -1,0 +1,4 @@
+interface:
+  display_name: "Outlook Mail Analysis Agent"
+  short_description: "Low-token Outlook email analysis workflows."
+  default_prompt: "Use $outlook-mail-analysis-agent to analyze exported Outlook emails with scripted workflows and concise reports."

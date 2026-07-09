@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Codex Capability Tree",
+  "type": "object",
+  "required": [
+    "version",
+    "root",
+    "capabilities"
+  ],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "root": {
+      "type": "string"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "path",
+          "purpose"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "path": { "type": "string" },
+          "purpose": { "type": "string" },
+          "domain_signals": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "artifact_types": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "skills": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "docs": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "assets": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "dispatch": {
+            "type": "object",
+            "required": [
+              "mode",
+              "primary_owner"
+            ],
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "direct-skill",
+                  "delegate-router"
+                ]
+              },
+              "primary_owner": { "type": "string" },
+              "support_agents": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "entry_skills": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "router_asset": { "type": "string" },
+              "router_doc": { "type": "string" },
+              "handoff_notes": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          },
+          "children": {
+            "type": "array",
+            "items": { "$ref": "#" }
+          }
+        }
+      }
+    }
+  }
+}

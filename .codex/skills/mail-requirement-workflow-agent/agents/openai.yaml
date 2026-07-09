@@ -1,0 +1,7 @@
+﻿interface:
+  display_name: "\u5bc4\u4fe1\u9700\u6c42\u5de5\u4f5c\u6d41 Agent"
+  short_description: "\u62c6\u89e3\u5bc4\u4fe1\u9700\u6c42\u4e26\u7522\u51fa mailsending \u6a21\u7248\u3002"
+  default_prompt: "Use $mail-requirement-workflow-agent to break down the mail requirement, generate the mailsending template, and confirm when automated sending can begin."
+
+policy:
+  allow_implicit_invocation: true

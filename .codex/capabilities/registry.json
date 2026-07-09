@@ -1,0 +1,220 @@
+{
+  "version": "1.0.0",
+  "root": "C:\\Users\\105221\\.codex\\capabilities",
+  "capabilities": [
+    {
+      "id": "git-github",
+      "title": "Git And GitHub",
+      "path": "C:\\Users\\105221\\.codex\\capabilities\\git-github",
+      "purpose": "Manage Git, GitHub, version-flow, push-time checks, and future repository-specialized skills.",
+      "domain_signals": [
+        "git",
+        "github",
+        "pr",
+        "pull-request",
+        "branch",
+        "commit",
+        "push",
+        "release",
+        "workflow-run"
+      ],
+      "artifact_types": [
+        "repo-state",
+        "release",
+        "pull-request",
+        "version-flow"
+      ],
+      "skills": [
+        "C:\\Users\\105221\\.codex\\skills\\git-version-management\\SKILL.md"
+      ],
+      "docs": [
+        "C:\\Users\\105221\\.codex\\capabilities\\git-github\\docs\\git-version-management-architecture.md"
+      ],
+      "assets": [],
+      "dispatch": {
+        "mode": "direct-skill",
+        "primary_owner": "git-version-management",
+        "support_agents": [],
+        "entry_skills": [
+          "C:\\Users\\105221\\.codex\\skills\\git-version-management\\SKILL.md"
+        ]
+      },
+      "children": []
+    },
+    {
+      "id": "bible-devotional",
+      "title": "Bible Devotional",
+      "path": "C:\\Users\\105221\\.codex\\capabilities\\bible-devotional",
+      "purpose": "Bible passage study, exegesis, biblical theology synthesis, spiritual formation application, discussion design, devotional packaging, and Bible-map slide workflows should route through the devotional orchestrator stack.",
+      "domain_signals": [
+        "bible",
+        "scripture",
+        "biblical",
+        "devotional",
+        "devotion",
+        "exegesis",
+        "hermeneutics",
+        "passage-study",
+        "authorial-intent",
+        "biblical-theology",
+        "redemptive-history",
+        "spiritual-formation",
+        "sermon-support",
+        "discussion-questions",
+        "bible-map",
+        "fhl"
+      ],
+      "artifact_types": [
+        "devotional",
+        "study-flow",
+        "teaching-notes",
+        "slides"
+      ],
+      "skills": [
+        "C:\\Users\\105221\\.codex\\skills\\devotional-exegesis\\SKILL.md",
+        "C:\\Users\\105221\\.codex\\skills\\biblical-theology-bridge\\SKILL.md",
+        "C:\\Users\\105221\\.codex\\skills\\spiritual-formation-guide\\SKILL.md",
+        "C:\\Users\\105221\\.codex\\skills\\devotional-question-architect\\SKILL.md",
+        "C:\\Users\\105221\\.codex\\skills\\spiritual-slide-composer\\SKILL.md"
+      ],
+      "docs": [
+        "C:\\Users\\105221\\.codex\\capabilities\\bible-devotional\\docs\\devotional-agent-blueprint.md",
+        "C:\\Users\\105221\\.codex\\capabilities\\bible-devotional\\docs\\routing-notes.md"
+      ],
+      "assets": [
+        "C:\\Users\\105221\\.codex\\agents\\devotional-orchestrator.toml"
+      ],
+      "dispatch": {
+        "mode": "delegate-router",
+        "primary_owner": "devotional-orchestrator",
+        "support_agents": [],
+        "entry_skills": [
+          "C:\\Users\\105221\\.codex\\skills\\devotional-exegesis\\SKILL.md",
+          "C:\\Users\\105221\\.codex\\skills\\biblical-theology-bridge\\SKILL.md",
+          "C:\\Users\\105221\\.codex\\skills\\spiritual-formation-guide\\SKILL.md",
+          "C:\\Users\\105221\\.codex\\skills\\devotional-question-architect\\SKILL.md",
+          "C:\\Users\\105221\\.codex\\skills\\spiritual-slide-composer\\SKILL.md"
+        ],
+        "router_asset": "C:\\Users\\105221\\.codex\\agents\\devotional-orchestrator.toml",
+        "router_doc": "C:\\Users\\105221\\.codex\\capabilities\\bible-devotional\\docs\\routing-notes.md",
+        "handoff_notes": [
+          "Use the capability-local orchestrator instead of re-encoding devotional dispatch in the top-level router."
+        ]
+      },
+      "children": []
+    },
+    {
+      "id": "outlook-mail-analysis",
+      "title": "Outlook Mail Analysis",
+      "path": "C:\\Users\\105221\\.codex\\capabilities\\outlook-mail-analysis",
+      "purpose": "Analyze exported Outlook mail datasets, compute reply timing and unreplied threads, and answer repeated folder-level email analysis questions through structured reports rather than full raw mailbox rereads.",
+      "domain_signals": [
+        "outlook",
+        "mailbox",
+        "mail-analysis",
+        "email-analysis",
+        "reply-timing",
+        "unreplied-thread",
+        "thread-summary",
+        "eml",
+        "msg",
+        "mail-report",
+        "folder-analysis"
+      ],
+      "artifact_types": [
+        "mail-report",
+        "thread-summary",
+        "reply-analysis"
+      ],
+      "skills": [
+        "C:\\Users\\105221\\.codex\\skills\\outlook-mail-analysis-agent\\SKILL.md"
+      ],
+      "docs": [
+        "C:\\Users\\105221\\.codex\\capabilities\\outlook-mail-analysis\\docs\\routing-notes.md"
+      ],
+      "assets": [],
+      "dispatch": {
+        "mode": "direct-skill",
+        "primary_owner": "outlook-mail-analysis-agent",
+        "support_agents": [],
+        "entry_skills": [
+          "C:\\Users\\105221\\.codex\\skills\\outlook-mail-analysis-agent\\SKILL.md"
+        ],
+        "router_doc": "C:\\Users\\105221\\.codex\\capabilities\\outlook-mail-analysis\\docs\\routing-notes.md"
+      },
+      "children": []
+    },
+    {
+      "id": "regulatory-comparison",
+      "title": "Regulatory Comparison",
+      "path": "C:\\Users\\105221\\.codex\\capabilities\\regulatory-comparison",
+      "purpose": "Regulatory lookup, customer/internal control extraction, and gap analysis.",
+      "domain_signals": [
+        "regulation",
+        "compliance",
+        "ppwr",
+        "rohs",
+        "reach",
+        "pfas",
+        "tsca",
+        "batteries",
+        "packaging",
+        "conflict-minerals",
+        "gap-analysis"
+      ],
+      "artifact_types": [
+        "comparison",
+        "gap-analysis",
+        "control-mapping"
+      ],
+      "skills": [
+        "C:\\Users\\105221\\.codex\\skills\\regulation-lookup-comparator\\SKILL.md"
+      ],
+      "docs": [],
+      "assets": [],
+      "dispatch": {
+        "mode": "direct-skill",
+        "primary_owner": "regulation-lookup-comparator",
+        "support_agents": [],
+        "entry_skills": [
+          "C:\\Users\\105221\\.codex\\skills\\regulation-lookup-comparator\\SKILL.md"
+        ]
+      },
+      "children": []
+    },
+    {
+      "id": "mail-requirements",
+      "title": "Mail Requirements",
+      "path": "C:\\Users\\105221\\.codex\\capabilities\\mail-requirements",
+      "purpose": "Requirement-to-mailsending workflow generation for supplier communication.",
+      "domain_signals": [
+        "mail-requirement",
+        "mailsending",
+        "msg",
+        "conflict-minerals-mail",
+        "cmrt",
+        "emrt",
+        "supplier-mail-template"
+      ],
+      "artifact_types": [
+        "mail-template",
+        "workflow",
+        "requirements-breakdown"
+      ],
+      "skills": [
+        "C:\\Users\\105221\\.codex\\skills\\mail-requirement-workflow-agent\\SKILL.md"
+      ],
+      "docs": [],
+      "assets": [],
+      "dispatch": {
+        "mode": "direct-skill",
+        "primary_owner": "mail-requirement-workflow-agent",
+        "support_agents": [],
+        "entry_skills": [
+          "C:\\Users\\105221\\.codex\\skills\\mail-requirement-workflow-agent\\SKILL.md"
+        ]
+      },
+      "children": []
+    }
+  ]
+}

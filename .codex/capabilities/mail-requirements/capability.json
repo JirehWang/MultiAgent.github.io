@@ -1,0 +1,12 @@
+{
+  "id": "mail-requirements",
+  "title": "Mail Requirements",
+  "path": "C:\\Users\\105221\\.codex\\capabilities\\mail-requirements",
+  "purpose": "Requirement-to-mailsending workflow generation for supplier communication.",
+  "skills": [
+    "C:\\Users\\105221\\.codex\\skills\\mail-requirement-workflow-agent\\SKILL.md"
+  ],
+  "docs": [],
+  "assets": [],
+  "children": []
+}

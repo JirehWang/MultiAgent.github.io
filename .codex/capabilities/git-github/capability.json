@@ -1,0 +1,14 @@
+{
+  id: git-github,
+  title: Git And GitHub,
+  path: C:\\Users\\105221\\.codex\\capabilities\\git-github,
+  purpose: Tree node for Git and GitHub specialized skills and supporting documents.,
+  skills: [
+    C:\\Users\\105221\\.codex\\skills\\git-version-management\\SKILL.md
+  ],
+  docs: [
+    C:\\Users\\105221\\.codex\\capabilities\\git-github\\docs\\git-version-management-architecture.md
+  ],
+  assets: [],
+  children: []
+}

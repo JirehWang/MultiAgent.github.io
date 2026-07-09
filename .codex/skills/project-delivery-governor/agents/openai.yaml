@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Delivery Governor"
+  short_description: "Run governed project delivery loops with task-wall, blocker, and state-gate control"
+  default_prompt: "Govern this project as an ongoing delivery workflow: maintain the task wall, park blockers, choose the next task, keep architecture SSOT current, and apply a state gate before promoting progress."

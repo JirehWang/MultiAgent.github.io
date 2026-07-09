@@ -1,0 +1,21 @@
+{
+  id: bible-devotional,
+  title: Bible Devotional,
+  path: C:\\Users\\105221\\.codex\\capabilities\\bible-devotional,
+  purpose: Tree node for Bible study and devotional workflows routed through the devotional orchestrator and its staged theology skills.,
+  skills: [
+    C:\\Users\\105221\\.codex\\skills\\devotional-exegesis\\SKILL.md,
+    C:\\Users\\105221\\.codex\\skills\\biblical-theology-bridge\\SKILL.md,
+    C:\\Users\\105221\\.codex\\skills\\spiritual-formation-guide\\SKILL.md,
+    C:\\Users\\105221\\.codex\\skills\\devotional-question-architect\\SKILL.md,
+    C:\\Users\\105221\\.codex\\skills\\spiritual-slide-composer\\SKILL.md
+  ],
+  docs: [
+    C:\\Users\\105221\\.codex\\capabilities\\bible-devotional\\docs\\devotional-agent-blueprint.md,
+    C:\\Users\\105221\\.codex\\capabilities\\bible-devotional\\docs\\routing-notes.md
+  ],
+  assets: [
+    C:\\Users\\105221\\.codex\\agents\\devotional-orchestrator.toml
+  ],
+  children: []
+}

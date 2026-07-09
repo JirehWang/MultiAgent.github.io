@@ -1,0 +1,12 @@
+{
+  "id": "regulatory-comparison",
+  "title": "Regulatory Comparison",
+  "path": "C:\\Users\\105221\\.codex\\capabilities\\regulatory-comparison",
+  "purpose": "Regulatory lookup, customer/internal control extraction, and gap analysis.",
+  "skills": [
+    "C:\\Users\\105221\\.codex\\skills\\regulation-lookup-comparator\\SKILL.md"
+  ],
+  "docs": [],
+  "assets": [],
+  "children": []
+}

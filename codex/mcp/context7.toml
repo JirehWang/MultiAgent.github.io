@@ -1,4 +1,0 @@
-[mcp_servers.context7]
-command = '__NPX_CMD__'
-args = ['-y', '@upstash/context7-mcp']
-startup_timeout_sec = 120
