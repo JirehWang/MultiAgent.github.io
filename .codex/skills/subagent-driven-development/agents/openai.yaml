@@ -1,0 +1,7 @@
+interface:
+  display_name: "Subagent-Driven Development"
+  short_description: "Execute complex isolated tracks with bounded review"
+  default_prompt: "Use $subagent-driven-development to execute this decomposed plan with bounded delegation."
+
+policy:
+  allow_implicit_invocation: false

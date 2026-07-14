@@ -29,6 +29,7 @@ Required verification:
 Rules:
 
 - Stay inside scope.
+- Do not invoke brainstorming, writing-plans, executing-plans, or subagent-driven-development. Execute this brief directly.
 - Ask before changing unrelated files.
 - Prefer the smallest correct implementation.
 - Preserve existing conventions.

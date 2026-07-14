@@ -24,6 +24,13 @@ Use for medium or large changes, cross-file work, unclear sequencing, or request
 7. Define verification for each major step.
 8. Keep the plan short enough to execute.
 
+## Task Granularity
+
+- Make each task an independently testable deliverable, normally 20-60 minutes of focused work.
+- Fold setup, documentation, and mechanical edits into the deliverable that needs them.
+- Split only where sequencing, risk, or independent acceptance justifies a boundary.
+- Include exact interfaces or code snippets only when ambiguity would otherwise be costly.
+
 ## Rules
 
 - Do not plan tiny obvious edits.
@@ -32,6 +39,7 @@ Use for medium or large changes, cross-file work, unclear sequencing, or request
 - Do not create plan steps for abstractions, wrappers, or dependency additions unless they are necessary.
 - Prefer fewer moving parts, fewer files, and fewer workflow stages when they still satisfy correctness.
 - Prefer concrete file areas, commands, and checkpoints.
+- Do not include full implementation code by default; avoid duplicating the same requirements across the plan, brief, and handoff.
 - If implementation can start safely, make the next action obvious.
 
 ## Output Shape

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Executing Plans"
+  short_description: "Execute an approved plan with verification"
+  default_prompt: "Use $executing-plans to execute this approved plan in order."
+
+policy:
+  allow_implicit_invocation: false

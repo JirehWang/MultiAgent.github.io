@@ -1,0 +1,7 @@
+interface:
+  display_name: "Superpowers Router"
+  short_description: "Choose the smallest safe workflow tier"
+  default_prompt: "Use $using-superpowers to route this task to the smallest safe workflow."
+
+policy:
+  allow_implicit_invocation: true

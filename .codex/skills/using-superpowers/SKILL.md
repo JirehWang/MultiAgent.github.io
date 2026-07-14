@@ -1,183 +1,91 @@
 ---
 name: using-superpowers
-description: Use when starting a substantive task, choosing which workflow skills apply, or deciding whether a request needs lightweight handling or a fuller execution workflow.
+description: Use when starting a substantive task or choosing between a lightweight, standard, or governed workflow. Route to the smallest safe workflow before loading specialist skills.
 ---
 
 # Superpowers Router
 
-Classify the task before doing meaningful work. Choose the smallest workflow that still protects correctness.
+Choose the lowest-cost tier that protects correctness. Escalate only from observed risk; do not infer complexity from task count or from an optional architecture.
 
-This skill remains the top-level router. It does not replace specialist skills or workflow skills; it decides when to use them.
+Apply the anti-overengineering ladder in `ANTI_OVERENGINEERING_POLICY.md` before adding dependencies, abstractions, agents, or workflow stages.
 
-It also enforces a global anti-overengineering bias:
-- prefer the smallest safe solution
-- prefer reuse over invention
-- prefer native platform features over extra dependencies when sufficient
-- do not reduce safety, validation, accessibility, or verification just to shrink the diff
+## Fast-Track
 
-## Caveman Compression
+Use for questions, context gathering, mechanical cleanup, and small obvious edits with a narrow verification surface.
 
-For routing notes, use caveman style: short labels, exact decision, exact next step. Keep reasons only when they affect routing. Do not use caveman for final user-facing explanations.
+- Stay single-agent.
+- Load at most one narrow specialist unless the user explicitly requests another.
+- Skip brainstorming and planning when the requested direction is already clear.
+- Run focused verification for edits.
 
-## Required Reads For Routing
+## Standard
 
-When the task requires agent selection, workflow-node selection, or primary/support-agent decisions, read these files in the same folder before routing:
+Use for normal features and bug fixes when intent is clear but implementation or verification needs care.
+
+- Stay single-agent by default.
+- Use the narrow domain specialist plus the minimum process skill, such as TDD or systematic debugging.
+- Write a compact plan only when sequencing or cross-file coordination is material.
+- Prefer one integrated review or verification pass over per-step reviewers.
+
+## Governed
+
+Use only when two or more material complexity signals apply:
+
+- multiple subsystems or responsibility boundaries
+- meaningful dependencies between stages
+- unresolved design choice or high uncertainty
+- broad verification across code, tests, UI, security, or data flow
+- context volume too large for one focused execution path
+- high consequence of failure
+
+Decompose first. Use subagents only when context isolation improves quality and file overlap is low. For large work, dispatch by stage and keep about 3-4 agents active including the manager.
+
+## Routing
+
+1. Identify the artifact and domain.
+2. Choose Fast-Track, Standard, or Governed.
+3. Check the capability registry when a narrow specialist may exist.
+4. Choose exactly one primary owner and zero to two support skills.
+5. Load only the next skill needed; do not preload a future workflow chain.
+6. Set verification proportional to risk.
+
+Common routes:
+
+- unclear creative direction -> `brainstorming`
+- implementation plan genuinely needed -> `writing-plans`
+- approved plan -> `executing-plans`
+- practical behavior change -> `test-driven-development`
+- unexplained failure -> `systematic-debugging`
+- completion claim -> `verification-before-completion`
+- complex isolatable tracks -> `subagent-driven-development`
+- third-party extension intake -> `skill-gatekeeper`
+- security or trust-boundary audit -> `security-auditor`
+- governed project task walls or state gates -> `project-delivery-governor`
+
+Use the required routing references only for Governed work or real agent-selection ambiguity:
 
 - `agent-routing-rules.yaml`
 - `AGENT_ROUTER_PROMPT.md`
 - `COMPRESSION_POLICY_ROUTING.md`
 - `MCP_ROUTING_POLICY.md`
 - `SPECIALIZED_CAPABILITY_DISCOVERY.md`
-- `ANTI_OVERENGINEERING_POLICY.md`
 
-Use `LANGGRAPH_AGENT_ROUTING.md` in the same folder as the reference model when the workflow shape, node boundaries, or dispatch logic are unclear.
+Use `LANGGRAPH_AGENT_ROUTING.md` only when workflow topology is unclear.
 
-Treat the installed capability registry as an optional preferred index for specialized capabilities. It helps the router find curated specialist domains first, but it does not replace the normal global-skill routing pool.
+## Delegation Budget
 
-## Fast-Track
-
-Use fast-track for low-risk local work:
-- questions
-- context gathering
-- small obvious edits
-- mechanical cleanup
-
-If fast-track is enough, do not force the task through the full routing graph.
-
-Fast-track specialist routing is defined in `agent-routing-rules.yaml`.
-
-## Full Workflow
-
-Use a fuller workflow when design, integration, or verification risk is real.
-
-## Routing Order
-
-When full routing is needed, follow this order:
-1. identify the artifact being produced
-2. identify domain signals
-3. check the installed capability registry for a specialized capability match
-4. choose exactly one primary agent
-5. choose zero to two support agents
-6. choose one compression policy for the routed agent
-7. choose the next workflow node
-8. only then decide whether extra workflow skills are needed
-
-Specialist-first rule:
-- if a narrow domain specialist clearly fits, choose it before a generic workflow skill
-- if a capability-registry hit clearly fits, prefer that specialist path before broad global-skill fallback
-- workflow skills shape the work; they do not replace the primary domain owner unless the artifact itself is a plan, review, or verification output
-
-Anti-overengineering rule:
-- apply the decision ladder from `ANTI_OVERENGINEERING_POLICY.md` before introducing new abstraction, dependency, helper layer, or workflow stage
-- prefer fast-track and local edits when they are sufficient
-- do not create new structure to solve hypothetical future needs not present in the request
-
-Delegation rule for specialized capability packs:
-- if the registry says `dispatch.mode: direct-skill`, route directly to the declared primary owner
-- if the registry says `dispatch.mode: delegate-router`, route to the declared primary owner and carry the capability-local router asset or router doc forward as the next routing reference
-- do not mirror capability-local private routing logic back into this top-level skill
-
-## Complexity Signals
-
-Estimate complexity from these signals:
-- multiple subsystems or filesets
-- dependency depth between steps
-- unclear approach or high uncertainty
-- merge/conflict risk between tracks
-- large context volume
-- broad verification surface
-
-If most signals are low, stay single-agent.
-If complexity is moderate or high, decompose first.
-
-Treat complexity as moderate/high when 2 or more of these are true:
-- 2+ subsystems or responsibility boundaries are involved
-- there are meaningful step dependencies
-- investigation or design choice is required before coding
-- verification spans more than one surface such as code, tests, UI, or data flow
-- the agent would likely overload itself by keeping all context at once
-
-Treat context isolation as useful when 1 or more of these are true:
-- a subtask can be completed from a narrow file or subsystem slice
-- different tracks have low file overlap
-- a track benefits from deep focus in one domain such as frontend, backend, or tests
-- results can be returned in a fixed format and recomposed cleanly
-
-For large tasks, dispatch by stage, not all at once.
-Keep simultaneously active agents within about 3-4, including the manager when relevant.
-
-Complexity guard:
-- do not mistake ceremony for complexity
-- if the task looks complex only because of a proposed abstraction or new subsystem, first test whether a smaller local change removes that complexity
-
-## Skill Routing
-
-Capability-registry rule:
-- treat the installed capability registry as the preferred routing index for specialized capabilities
-- capability hits are preferred, not exclusive; if the fit is weak or absent, fall back to the normal global skill pool
-- do not treat the capability tree as project code or codebase indexing scope; it is a capability asset tree
-- specialized capability directories can bias routing without being injected into codebase maps
-- capability-local routers and orchestrators should be discovered from the registry and their own docs, not hardcoded here
-- governed project execution with task walls, blocker parking, next-task loops, architecture SSOT, or state gates -> `project-delivery-governor`
-
-- creative design -> `brainstorming`
-- multi-step plan needed -> `writing-plans`
-- existing plan to execute -> `executing-plans`
-- 2+ independent investigations -> `dispatching-parallel-agents`
-- moderate/high complexity with isolatable implementation tracks -> `subagent-driven-development`
-- practical behavior change -> `test-driven-development`
-- broken or unexplained behavior -> `systematic-debugging`
-- done but needs verification -> `verification-before-completion`
-- third-party skill, MCP, prompt-pack, or agent intake review -> `skill-gatekeeper` before any install, enable, or promotion step
-- codebase, service, or workflow security audit -> `security-auditor` after scope, evidence standard, and safe-testing boundary are framed
-- overengineering risk, dependency temptation, wrapper-for-native, or abstraction creep -> apply `ANTI_OVERENGINEERING_POLICY.md` before adding new structure
-
-## MCP Routing
-
-Treat currently enabled MCP servers as part of workflow selection, not as ad hoc optional tools.
-
-- Evaluate all enabled MCPs during routing:
-  - `github`
-  - `context7`
-  - `markitdown`
-  - `codebase_memory`
-  - `notebooklm`
-  - `node_repl`
-- Choose MCPs by evidence fit, not by availability count.
-- Prefer the narrowest MCP that reduces uncertainty fastest.
-- If a task is MCP-heavy, keep `headroom` on.
-- If no enabled MCP improves correctness, stay with normal local tools.
-- When document ingestion is needed, prefer `markitdown` before generic file scraping.
-- When repo topology or cross-module architecture is unclear, prefer `codebase_memory` before broad manual crawling.
-- When remote GitHub state matters, prefer `github` over browserless guessing or manual API reconstruction.
-- When latest package or framework docs matter, prefer `context7` before open-web searching.
-- Use `notebooklm` only for synthesis, study-pack style summarization, or multi-source recall, not as the first proof source for code or security claims.
-- Use `node_repl` only when the task genuinely needs JavaScript execution, browser-control support, or JS-side inspection, not for general repo facts.
-
-## Domain Routing
-
-When domain signals are clear, route to the narrow specialist first:
-
-- raw email, thread extraction, MIME, quoted replies, mailbox exports -> `email-intelligence-engineer`
-- prompt design, prompt testing, prompt evaluation, schema hardening -> `prompt-engineer`
-- multi-agent topology, handoffs, retries, role boundaries, failure recovery -> `multi-agent-systems-architect`
-- unfamiliar repo, unclear entry points, codebase onboarding -> `context-scout`
-- third-party skill, MCP server, prompt pack, extension permissions, install trust -> `skill-gatekeeper`
-- exploitability review, appsec, vuln triage, auth/session weakness, trust-boundary abuse -> `security-auditor`
-
-Do not skip these specialists just because a generic workflow skill also seems applicable.
+- Do not trigger subagents from task count alone.
+- Do not delegate work that is cheaper to complete in the current context.
+- Delegated implementers execute their brief; they do not restart brainstorming, planning, or delegation.
+- Use one combined reviewer for standard-risk delegated work.
+- Reserve multiple review perspectives for high-risk boundaries.
+- Allow one automatic re-review per finding set; then the manager adjudicates or asks the user.
 
 ## Rules
 
-- Do not trigger subagents from task count alone.
-- Use task count only as a weak hint.
-- Prefer decomposition before delegation.
-- Avoid heavy workflows for tiny obvious changes.
-- Prefer the smallest safe change over a cleaner-looking but larger redesign unless the larger redesign is necessary.
-- Choose one primary agent only.
-- Support agents advise; they do not create equal ownership.
-- If routing is ambiguous, use the artifact-first rule from `agent-routing-rules.yaml`.
-- Decide `headroom` and `caveman` after agent selection, not before it.
-- Treat `headroom` as context control and `caveman` as output-style control.
-- Do not install, enable, or promote a third-party skill, MCP server, prompt pack, or agent bundle until `skill-gatekeeper` has produced an explicit allow, manual-review, or block decision.
-- Do not start a security audit in execution mode until the scope, evidence standard, and safe-testing boundary are stated.
+- User instructions override skill defaults.
+- Prefer reuse, native features, and local edits over new structure.
+- Do not reduce safety, validation, accessibility, or essential verification to save tokens.
+- Questions and tiny edits do not become Governed work merely because skills exist.
+- Announce a skill only when it causes a material action or pause.
+- Keep routing notes short; keep final user explanations complete where tradeoffs matter.

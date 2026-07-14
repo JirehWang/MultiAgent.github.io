@@ -68,6 +68,14 @@ Decomposition guard:
 5. Keep prompts self-contained and narrow.
 6. Review returned work and run final verification yourself.
 
+## Review Budget
+
+- **Low risk:** use one implementer and manager verification; do not create a reviewer solely for ceremony.
+- **Standard risk:** use one combined reviewer for scope, correctness, and meaningful test gaps after the track completes.
+- **High risk:** add a separate specialist review only for a concrete boundary such as security, concurrency, migration, or data loss.
+- Send all findings from one review wave to one fixer. Allow one automatic re-review; after that, the manager adjudicates, narrows the task, or asks the user.
+- Run one final integrated review only when cross-track interaction creates risks not covered by track verification.
+
 ## Rules
 
 - Do not dispatch purely because there are many tasks.
@@ -76,3 +84,4 @@ Decomposition guard:
 - Prefer one agent over many when the same safety and quality can be achieved without parallel coordination overhead.
 - Do not trust summaries alone when behavior matters.
 - The manager agent owns recomposition and final judgment.
+- Stop delegation when the next agent would mostly reconstruct context already held by the manager.
