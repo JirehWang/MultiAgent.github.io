@@ -38,6 +38,7 @@ global_categories:
     - email-intelligence-engineer
     - prompt-engineer
     - project-delivery-governor
+    - project-loop-builder
     - multi-agent-systems-architect
     - context-scout
     - oss-solution-scout
@@ -106,6 +107,7 @@ hard_rules:
   - prefer the narrowest valid domain specialist over a generic workflow skill
   - choose the agent closest to the artifact being produced
   - route multi-stage project governance requests to project-delivery-governor before generic planning or execution skills when the request explicitly spans task control, blocker control, and status promotion
+  - route requests to create or initialize a project-folder AI loop to project-loop-builder before implementation or maintenance skills
   - decide compression after agent selection, not before it
   - treat headroom as context control and caveman as output-style control
   - do not use review skills before an execution artifact exists
