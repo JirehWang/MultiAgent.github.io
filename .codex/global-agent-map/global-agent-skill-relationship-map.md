@@ -136,6 +136,7 @@ flowchart TD
 
 ### Architecture and orchestration
 
+- `project-loop-builder` -> `workflow-router` / `architect-deep`
 - `multi-agent-systems-architect` -> `architect-deep`
 - `subagent-driven-development` -> `architect-deep`
 - `dispatching-parallel-agents` -> `architect-deep`
