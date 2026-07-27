@@ -32,6 +32,23 @@ foreach ($file in $jsonFiles) {
     }
 }
 
+$registryPath = Join-Path $repoRoot '.codex\capabilities\registry.json'
+$policyPath = Join-Path $repoRoot '.codex\capabilities\sync-policy.json'
+$registry = Get-Content -LiteralPath $registryPath -Raw -Encoding UTF8 | ConvertFrom-Json
+$policy = Get-Content -LiteralPath $policyPath -Raw -Encoding UTF8 | ConvertFrom-Json
+
+foreach ($capability in $registry.capabilities) {
+    if ($capability.category -ne 'daily' -or $capability.sync_policy -ne 'default-cloud-sync') {
+        $failures.Add("Non-daily capability present in cloud registry: $($capability.id)")
+    }
+}
+
+foreach ($property in $policy.capabilities.PSObject.Properties) {
+    if ([string]$property.Value -ne 'daily') {
+        $failures.Add("Non-daily capability present in cloud sync policy: $($property.Name)")
+    }
+}
+
 $forbiddenPatterns = @(
     '(^|/)(auth\.json|history\.jsonl)$',
     '\.sqlite(-shm|-wal)?$',
@@ -71,4 +88,5 @@ Write-Output "VERIFY_OK"
 Write-Output "agents=$agentCount"
 Write-Output "skills=$skillCount"
 Write-Output "capability_json=$($jsonFiles.Count)"
+Write-Output "cloud_capabilities=$($registry.capabilities.Count)"
 Write-Output "forbidden_tracked_artifacts=0"

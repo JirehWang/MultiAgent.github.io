@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "description": "Classification and cloud-sync policy. This directory currently has no Git remote; this file defines policy only and performs no upload.",
+  "description": "Classification and cloud-sync policy. This cloud snapshot contains daily capabilities only.",
   "categories": {
     "company": {
       "label": "company",
@@ -14,10 +14,6 @@
     }
   },
   "capabilities": {
-    "rohs-pdf-analysis": "company",
-    "regulatory-comparison": "company",
-    "outlook-mail-analysis": "company",
-    "mail-requirements": "company",
     "bible-devotional": "daily",
     "git-github": "daily"
   },

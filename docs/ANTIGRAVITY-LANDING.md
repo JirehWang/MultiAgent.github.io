@@ -125,8 +125,8 @@ powershell -ExecutionPolicy Bypass -File .\scripts\verify.ps1
 
 1. 一般程式修改是否命中 coding workflow。
 2. Bible devotional 是否命中 devotional workflow。
-3. 法規比較是否命中 regulation workflow。
-4. 暫時移走一個公司 capability 後，其他 skills 是否仍正常，缺失請求是否回到 global skill pool。
+3. Git／GitHub 任務是否命中版本管理 workflow。
+4. 暫時移走一個日常 capability 後，其他 skills 是否仍正常，缺失請求是否回到 global skill pool。
 
 ## 8. 更新與回滾
 
