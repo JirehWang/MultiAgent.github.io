@@ -1,0 +1,7 @@
+interface:
+  display_name: "OfficeCLI Reading"
+  short_description: "Inspect Word, Excel, and PowerPoint files"
+  default_prompt: "Use $officecli-reading to inspect this Office document and return structured evidence."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,6 +1,6 @@
 # Global Agent And Skill Relationship Map
 
-Updated: 2026-07-06
+Updated: 2026-07-27
 Scope: global agent and skill topology derived from `C:\Users\105221\.codex\agents` and `C:\Users\105221\.codex\skills`
 Purpose: global relationship reference for future sessions
 
@@ -48,6 +48,8 @@ flowchart TD
     SG["skill-gatekeeper agent"]
     SA["security-auditor agent"]
     RH["release-helper agent"]
+    DV["devotional-orchestrator agent"]
+    SV["supervisor-agent"]
 
     U --> WR
     WR --> US
@@ -67,6 +69,8 @@ flowchart TD
     MR --> SG
     MR --> SA
     MR --> RH
+    MR --> DV
+    MR --> SV
 ```
 
 ## Control Plane
@@ -119,6 +123,8 @@ flowchart TD
 | `skill-gatekeeper` | extension trust and intake review |
 | `security-auditor` | security audit and exploitability review |
 | `release-helper` | branch finishing and release wrap-up |
+| `devotional-orchestrator` | staged Bible exegesis, theology, formation, and presentation routing |
+| `supervisor-agent` | QA governance, plan-vs-actual review, trajectory checks, and completion gating |
 
 ## Skill To Agent Mapping
 
@@ -174,6 +180,10 @@ flowchart TD
 - third-party intake and install trust -> `skill-gatekeeper`
 - security audit and exploitability -> `security-auditor`
 - `finishing-a-development-branch` -> `release-helper`
+- devotional capability skills -> `devotional-orchestrator`
+- `supervisor-agent` skill and QA-first governance -> `supervisor-agent`
+- `project-delivery-governor` -> `workflow-router` / `architect-deep`
+- `git-version-management` -> `release-helper` for finishing, otherwise `general-light` or `code-worker`
 
 ## Practical Read Order For Future Sessions
 

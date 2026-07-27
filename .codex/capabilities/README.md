@@ -2,6 +2,17 @@
 
 This directory is the global capability registry for specialized skills, related docs, and future assets.
 
+## Classification and sync policy
+
+Capabilities are classified in `sync-policy.json`:
+
+- `company`: company-use material; cloud sync is blocked unless the user explicitly approves that sync.
+- `daily`: daily-use material; cloud sync is allowed by default.
+
+Cloud-sync operations must run `scripts\Test-CapabilitySync.ps1` before pushing capability content. Company capabilities, company repository/data context, and unknown context require explicit approval for that specific sync. A capability categorized as `daily` does not override company context.
+
+This directory currently has no Git repository or GitHub remote, so no cloud sync is performed automatically here.
+
 Goals:
 - group specialized skills by domain
 - keep a stable tree structure for future expansion

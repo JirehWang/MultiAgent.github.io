@@ -34,6 +34,39 @@ Before claiming any status or satisfaction:
 
 Skipping a step is not verification.
 
+## Verification Scope Selection
+
+Choose the strongest practical verification that covers the changed behavior. Record any
+intentional gap before making a completion claim.
+
+| Change surface | Minimum evidence |
+|---|---|
+| Isolated logic or data transformation | Focused unit or regression test |
+| Service, API, persistence, or external integration | Integration test that exercises the boundary |
+| User-visible flow, navigation, form submission, authorization, or data surviving a refresh | Automated end-to-end test of the affected user journey |
+| UI layout or responsive behavior | Browser evidence and visual QA in addition to behavior checks |
+
+Do not require E2E for internal-only changes that cannot alter a user journey. State that
+boundary explicitly; do not infer it from a passing unit test.
+
+### E2E Evidence
+
+For a changed user journey, use the project's repeatable browser test runner. Default to
+Playwright Test/CLI: keep the test in the repository, run it non-interactively, and make the
+same command available through the project's verification script or contract. Exercise the
+user outcome across the actual frontend, service, and test data boundary. Use isolated test
+state and test accounts; do not make production data or a personal browser profile part of
+the completion gate.
+
+Playwright MCP is exploratory support, not the baseline completion gate. Use it to inspect a
+live page, diagnose a failing flow, or develop selectors. Convert any behavior required for
+completion into a repeatable Playwright Test/CLI assertion. An MCP walkthrough alone is not
+enough evidence for an E2E completion claim.
+
+E2E evidence must include the command, exit code, scenario result, and any failure artifact
+location such as a trace, screenshot, or video. If E2E cannot run, report the exact blocker
+and the remaining risk; do not substitute a static check for the missing user-journey proof.
+
 ## Common Failure Modes
 
 | Claim | Required Evidence | Not Enough |
@@ -43,6 +76,7 @@ Skipping a step is not verification.
 | Build succeeds | Build command exits 0 | Linter pass or good-looking logs |
 | Bug fixed | Original symptom test passes | Code changed, therefore assumed fixed |
 | Regression test works | Red-green cycle verified | Test only passed once |
+| User journey changed | Repeatable E2E scenario passes | Static UI check or one-off MCP walkthrough |
 | Agent completed work | VCS diff and verification confirm change | Agent success report |
 | Requirement satisfied | Requirement checklist verified item by item | Tests passed |
 

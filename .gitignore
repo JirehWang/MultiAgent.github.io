@@ -1,0 +1,27 @@
+# Credentials and machine state
+.env
+.env.*
+!.env.example
+**/auth.json
+**/history.jsonl
+**/sessions/
+**/logs/
+**/log/
+**/attachments/
+**/cache/
+**/tmp/
+**/*.sqlite
+**/*.sqlite-shm
+**/*.sqlite-wal
+
+# Generated and company-data artifacts
+**/__pycache__/
+**/*.pyc
+**/*.xlsx
+**/*.xls
+.codex/capabilities/**/scratch/
+.codex/capabilities/**/outputs/
+.codex/capabilities/**/intermediate_json/
+
+# Local backups
+**/*.bak-*

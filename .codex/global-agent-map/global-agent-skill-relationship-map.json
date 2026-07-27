@@ -2,7 +2,7 @@
   "id": "global-agent-skill-relationship-map",
   "title": "Global Agent And Skill Relationship Map",
   "purpose": "Cross-session reference map for the global agent and skill control plane.",
-  "updated": "2026-07-06",
+  "updated": "2026-07-27",
   "scope": "Global agents and global skills only",
   "source_roots": [
     "C:\\Users\\105221\\.codex\\agents",
@@ -19,9 +19,9 @@
   ],
   "locator_note": "This file and its sibling markdown map are the workspace-local source that future sessions should use when they need the global relationship map.",
   "primary_files": [
-    "D:\\py\\docs\\global-agent-map\\README.md",
-    "D:\\py\\docs\\global-agent-map\\global-agent-skill-relationship-map.md",
-    "D:\\py\\docs\\global-agent-map\\global-agent-skill-relationship-map.json"
+    "C:\\Users\\105221\\.codex\\global-agent-map\\README.md",
+    "C:\\Users\\105221\\.codex\\global-agent-map\\global-agent-skill-relationship-map.md",
+    "C:\\Users\\105221\\.codex\\global-agent-map\\global-agent-skill-relationship-map.json"
   ],
   "routing_layers": {
     "entry": "workflow-router",
@@ -93,6 +93,19 @@
     ],
     "release-helper": [
       "finishing-a-development-branch"
+    ],
+    "devotional-orchestrator": [
+      "devotional-exegesis",
+      "biblical-theology-bridge",
+      "spiritual-formation-guide",
+      "devotional-question-architect",
+      "spiritual-slide-composer"
+    ],
+    "supervisor-agent": [
+      "supervisor-agent",
+      "plan-vs-actual review",
+      "trajectory QA",
+      "completion gating"
     ]
   }
 }

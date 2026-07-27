@@ -1,0 +1,30 @@
+project: MultiAgent.github.io
+root: repository root
+
+entrypoints:
+  main: docs/ANTIGRAVITY-LANDING.md
+  antigravity_install: docs/ANTIGRAVITY-LANDING.md
+
+data_dirs:
+  input: .codex
+  output: Antigravity or Codex global configuration directories
+
+verify_commands:
+  - powershell -ExecutionPolicy Bypass -File .\scripts\verify.ps1
+  - git status --short
+
+package_commands:
+  - not_applicable
+
+standard_scripts:
+  verify: scripts/verify.ps1
+  package: not_applicable
+
+project_record: docs/codex/project_journal.md
+
+risk_notes:
+  - Never commit credentials, session history, SQLite state, logs, attachments, or generated company artifacts.
+  - Company capabilities are included only when the maintainer explicitly approves that specific sync.
+  - Codex agent TOML files are reference profiles in Antigravity; Antigravity primarily consumes SKILL.md packages.
+
+last_reviewed: 2026-07-27

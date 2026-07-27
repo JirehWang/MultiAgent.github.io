@@ -38,7 +38,6 @@ global_categories:
     - email-intelligence-engineer
     - prompt-engineer
     - project-delivery-governor
-    - project-loop-builder
     - multi-agent-systems-architect
     - context-scout
     - oss-solution-scout
@@ -86,6 +85,9 @@ state_schema:
     - security_scope
     - evidence_standard
     - safe_testing_boundary
+    - capability_category
+    - cloud_sync_requested
+    - cloud_sync_approved
 
 precedence:
   - detect_capability_registry_match
@@ -96,6 +98,7 @@ precedence:
   - detect_finish_or_handoff_step
 
 hard_rules:
+  - primary values in route rules are workflow owners (usually skills); model-routing maps the selected owner to a custom agent profile when delegation is needed
   - choose exactly one primary agent
   - choose zero to two support agents
   - choose exactly one compression policy per routed agent
@@ -103,11 +106,16 @@ hard_rules:
   - prefer reuse, stdlib, native platform features, and installed dependencies before new abstractions
   - do not remove safety, validation, accessibility, or essential verification just to shrink the change
   - capability registry hits are preferred over broad global-skill search when the specialist fit is clear
+  - one shared domain signal alone is not a clear capability match; require an artifact match or at least two independent matching domain signals
+  - when a capability is absent, do not select another capability from one overlapping signal; fall back to the normal global skill pool
+  - read capability registry and sync policy as UTF-8
+  - before capability-related GitHub or cloud sync, run the declared sync gate
+  - company capability, company repository, company data, and unknown-context sync require explicit user approval for that specific sync
+  - a daily capability does not override company repository or company data context
   - capability registry misses must fall back to the normal global skill pool
   - prefer the narrowest valid domain specialist over a generic workflow skill
   - choose the agent closest to the artifact being produced
   - route multi-stage project governance requests to project-delivery-governor before generic planning or execution skills when the request explicitly spans task control, blocker control, and status promotion
-  - route requests to create or initialize a project-folder AI loop to project-loop-builder before implementation or maintenance skills
   - decide compression after agent selection, not before it
   - treat headroom as context control and caveman as output-style control
   - do not use review skills before an execution artifact exists

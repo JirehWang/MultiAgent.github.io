@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "description": "Classification and cloud-sync policy. This directory currently has no Git remote; this file defines policy only and performs no upload.",
+  "categories": {
+    "company": {
+      "label": "company",
+      "sync": "manual-approval-required",
+      "default_action": "block-cloud-sync"
+    },
+    "daily": {
+      "label": "daily",
+      "sync": "default-cloud-sync",
+      "default_action": "allow-cloud-sync"
+    }
+  },
+  "capabilities": {
+    "rohs-pdf-analysis": "company",
+    "regulatory-comparison": "company",
+    "outlook-mail-analysis": "company",
+    "mail-requirements": "company",
+    "bible-devotional": "daily",
+    "git-github": "daily"
+  },
+  "context_overrides": {
+    "company_repository": "company",
+    "company_data": "company",
+    "unknown_context": "manual-approval-required"
+  },
+  "approval_rule": "Company capabilities or company-context work require explicit user approval for each cloud sync; daily capabilities may follow the sync tool default only when the work context is not company or unknown.",
+  "gate_script": "scripts\\Test-CapabilitySync.ps1"
+}

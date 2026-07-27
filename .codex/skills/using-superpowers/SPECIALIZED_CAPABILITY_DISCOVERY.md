@@ -27,8 +27,11 @@ When specialized capability routing is needed, read:
 Preferred registry source:
 - the installed capability registry referenced by the local environment
 
+Windows compatibility:
+- read JSON explicitly as UTF-8; do not rely on the Windows PowerShell default code page
+
 Fallback behavior:
-- if no capability registry is present, unreadable, or validly structured, continue with the normal global skill pool
+- if no capability registry is present, unreadable, or invalidly structured, continue with the normal global skill pool
 - absence of a capability registry is not an error
 
 ## Registry Contract
@@ -41,6 +44,12 @@ Each capability should declare:
 - `purpose`
 - matching hints such as `domain_signals` and optional artifact hints
 - a `dispatch` block describing how the router should enter the capability
+
+Before any GitHub or other cloud sync involving a capability:
+1. read `sync-policy.json` beside the registry
+2. treat company repository/data context as `company`, even when the capability itself is categorized `daily`
+3. run `scripts\Test-CapabilitySync.ps1`
+4. do not pass `-Approved` unless the user explicitly approved that specific sync
 
 ## Dispatch Modes
 
@@ -82,6 +91,8 @@ Capability hits are:
 - preferred when the fit is clear
 - not exclusive
 - allowed to lose to a narrower non-capability specialist if the artifact fit is better
+- not considered clear from one shared domain signal alone; require an artifact match or at least two independent matching domain signals
+- isolated: if a capability is absent, its request falls back to the normal global skill pool instead of selecting another capability from one overlapping signal
 
 The top-level router should use the registry as an overlay layer:
 

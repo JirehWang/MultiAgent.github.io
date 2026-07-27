@@ -66,3 +66,29 @@ If the current Antigravity model differs from the recommended model:
 - Continue without interruption for tiny or low-risk work.
 - Ask the user to switch the model selector before high-risk, high-cost, or long-running work.
 - For subagent work, choose the parent conversation model before invoking subagents.
+
+## Codex Delegation Policy
+
+### Mandatory Antigravity preflight
+
+Every Antigravity CLI invocation must pass these gates in order:
+
+```cmd
+agy auth login
+agy models
+agy --mode accept-edits -p "<task prompt>"
+```
+
+The first command establishes the authenticated session. The second confirms that the selected model is available. The third must use `-p` (or the equivalent `--print <prompt>` form); do not pass the task prompt as a positional argument. If login or model discovery fails, do not dispatch the task. If the CLI returns help text instead of running the prompt, correct the argument form before retrying.
+
+Use Antigravity CLI as a low-cost execution delegate when the task is self-contained, low-risk, and has an observable output. Prefer delegation for:
+
+- repository exploration, file/function searches, and concise technical summaries
+- routine documentation, extraction, table cleanup, formatting, and translation
+- small isolated edits, repetitive multi-file changes, and test scaffolding
+- running tests, collecting failures, and performing an initial traceback analysis
+- implementing a clear, already-approved brief without architectural decisions
+
+Keep the task in Codex when it involves requirements interpretation, architecture, security, compliance, legal/financial/medical judgment, destructive operations, ambiguous product decisions, final review, or completion claims. Antigravity output is never evidence of completion by itself; Codex must inspect the diff/output and run proportional verification.
+
+When delegating, provide the absolute workspace path, an explicit read-only or edit boundary, the exact deliverable, and a required test/report step. Complete the mandatory preflight first. Use `agy -p` for bounded one-shot work, `--mode plan` for analysis, and `--mode accept-edits` only when the edit scope is explicit. Do not use `--dangerously-skip-permissions` by default.

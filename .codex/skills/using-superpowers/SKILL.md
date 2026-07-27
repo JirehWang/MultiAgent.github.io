@@ -49,6 +49,10 @@ Decompose first. Use subagents only when context isolation improves quality and 
 5. Load only the next skill needed; do not preload a future workflow chain.
 6. Set verification proportional to risk.
 
+Before assigning substantive execution to Codex or a subagent, check whether the work matches the Antigravity Delegation Policy. Route self-contained, repetitive, low-risk exploration, extraction, testing, or clearly specified edits to Antigravity CLI when this reduces context or token cost. Keep planning, architecture, high-stakes judgment, destructive actions, ambiguous requirements, final review, and completion verification in Codex. Delegation does not remove the Codex verification gate.
+
+Whenever Antigravity is selected, its mandatory preflight is: run `agy auth login`, run `agy models` and confirm the selected model is available, then dispatch with `agy ... -p "<task prompt>"`. The prompt must be passed with `-p`/`--print`, never as a positional argument. A failed login, unavailable model, or help-text response is a dispatch failure and must be corrected before work proceeds.
+
 Common routes:
 
 - unclear creative direction -> `brainstorming`

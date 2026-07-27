@@ -1,9 +1,58 @@
-{
+﻿{
   "version": "1.0.0",
   "root": "C:\\Users\\105221\\.codex\\capabilities",
   "capabilities": [
     {
+      "id": "rohs-pdf-analysis",
+      "category": "company",
+      "sync_policy": "manual-approval-required",
+      "title": "RoHS PDF Analysis",
+      "path": "C:\\Users\\105221\\.codex\\capabilities\\rohs-pdf-analysis",
+      "purpose": "判定 RoHS 與材料測試報告，從 PDF 證據抽取結果、核對 10 項限制物質，並產出可稽核的 Excel 結果。",
+      "domain_signals": [
+        "rohs",
+        "rohs-report",
+        "test-report",
+        "laboratory-report",
+        "material-test",
+        "substance-test",
+        "compliance-test",
+        "report-judgment",
+        "report-classification",
+        "pdf-test-report",
+        "iec-62321",
+        "2011-65-eu",
+        "2015-863"
+      ],
+      "artifact_types": [
+        "rohs-assessment",
+        "test-report-judgment",
+        "compliance-assessment",
+        "audit-workbook"
+      ],
+      "skills": [
+        "C:\\Users\\105221\\.codex\\capabilities\\rohs-pdf-analysis\\SKILL.md"
+      ],
+      "docs": [],
+      "assets": [],
+      "dispatch": {
+        "mode": "delegate-router",
+        "primary_owner": "rohs-pdf-analysis",
+        "support_agents": [],
+        "entry_skills": [
+          "C:\\Users\\105221\\.codex\\capabilities\\rohs-pdf-analysis\\SKILL.md"
+        ],
+        "handoff_notes": [
+          "預設將整個自包含任務委派給 Antigravity：OCR、覆核、RoHS 判定、Excel 填表均由 Antigravity 完成；Codex 只確認完成與輸出可讀。",
+          "一般法規條文比較仍走 regulatory-comparison；只有涉及測試報告內容判定時才走本 capability。"
+        ]
+      },
+      "children": []
+    },
+    {
       "id": "git-github",
+      "category": "daily",
+      "sync_policy": "default-cloud-sync",
       "title": "Git And GitHub",
       "path": "C:\\Users\\105221\\.codex\\capabilities\\git-github",
       "purpose": "Manage Git, GitHub, version-flow, push-time checks, and future repository-specialized skills.",
@@ -43,6 +92,8 @@
     },
     {
       "id": "bible-devotional",
+      "category": "daily",
+      "sync_policy": "default-cloud-sync",
       "title": "Bible Devotional",
       "path": "C:\\Users\\105221\\.codex\\capabilities\\bible-devotional",
       "purpose": "Bible passage study, exegesis, biblical theology synthesis, spiritual formation application, discussion design, devotional packaging, and Bible-map slide workflows should route through the devotional orchestrator stack.",
@@ -105,6 +156,8 @@
     },
     {
       "id": "outlook-mail-analysis",
+      "category": "company",
+      "sync_policy": "manual-approval-required",
       "title": "Outlook Mail Analysis",
       "path": "C:\\Users\\105221\\.codex\\capabilities\\outlook-mail-analysis",
       "purpose": "Analyze exported Outlook mail datasets, compute reply timing and unreplied threads, and answer repeated folder-level email analysis questions through structured reports rather than full raw mailbox rereads.",
@@ -146,6 +199,8 @@
     },
     {
       "id": "regulatory-comparison",
+      "category": "company",
+      "sync_policy": "manual-approval-required",
       "title": "Regulatory Comparison",
       "path": "C:\\Users\\105221\\.codex\\capabilities\\regulatory-comparison",
       "purpose": "Regulatory lookup, customer/internal control extraction, and gap analysis.",
@@ -184,6 +239,8 @@
     },
     {
       "id": "mail-requirements",
+      "category": "company",
+      "sync_policy": "manual-approval-required",
       "title": "Mail Requirements",
       "path": "C:\\Users\\105221\\.codex\\capabilities\\mail-requirements",
       "purpose": "Requirement-to-mailsending workflow generation for supplier communication.",

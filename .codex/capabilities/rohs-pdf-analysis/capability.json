@@ -1,0 +1,45 @@
+{
+  "id": "rohs-pdf-analysis",
+  "title": "RoHS PDF Analysis",
+  "path": "C:\\Users\\105221\\.codex\\capabilities\\rohs-pdf-analysis",
+  "purpose": "判定 RoHS 與材料測試報告，從 PDF 證據抽取結果、核對 10 項限制物質，並產出可稽核的 Excel 結果。",
+  "domain_signals": [
+    "rohs",
+    "rohs-report",
+    "test-report",
+    "laboratory-report",
+    "material-test",
+    "substance-test",
+    "compliance-test",
+    "report-judgment",
+    "report-classification",
+    "pdf-test-report",
+    "iec-62321",
+    "2011-65-eu",
+    "2015-863"
+  ],
+  "artifact_types": [
+    "rohs-assessment",
+    "test-report-judgment",
+    "compliance-assessment",
+    "audit-workbook"
+  ],
+  "skills": [
+    "C:\\Users\\105221\\.codex\\capabilities\\rohs-pdf-analysis\\SKILL.md"
+  ],
+  "docs": [],
+  "assets": [],
+  "dispatch": {
+    "mode": "delegate-router",
+    "primary_owner": "rohs-pdf-analysis",
+    "support_agents": [],
+    "entry_skills": [
+      "C:\\Users\\105221\\.codex\\capabilities\\rohs-pdf-analysis\\SKILL.md"
+    ],
+    "handoff_notes": [
+      "預設將整個自包含任務委派給 Antigravity：OCR、覆核、RoHS 判定、Excel 填表均由 Antigravity 完成；Codex 只確認完成與輸出可讀。",
+      "一般法規條文比較仍走 regulatory-comparison；只有涉及測試報告內容判定時才走本 capability。"
+    ]
+  },
+  "children": []
+}
