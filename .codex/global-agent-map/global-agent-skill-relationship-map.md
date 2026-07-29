@@ -1,6 +1,6 @@
 # Global Agent And Skill Relationship Map
 
-Updated: 2026-07-27
+Updated: 2026-07-29
 Scope: global agent and skill topology derived from `C:\Users\105221\.codex\agents` and `C:\Users\105221\.codex\skills`
 Purpose: global relationship reference for future sessions
 
@@ -102,6 +102,7 @@ flowchart TD
 
 - `skill-gatekeeper` is mandatory before third-party skill or MCP install/enable decisions.
 - `security-auditor` owns security work once scope and safe-testing boundaries are framed.
+- `security-scan-contract` supplies the scope, evidence, coverage, remediation, and re-scan contract for security work.
 - `verification-before-completion` is the completion proof gate.
 - `requesting-code-review` and `receiving-code-review` sit in the review lane, not in the execution lane.
 
@@ -179,6 +180,7 @@ flowchart TD
 - compliance work -> `compliance-deep`
 - third-party intake and install trust -> `skill-gatekeeper`
 - security audit and exploitability -> `security-auditor`
+- `security-scan-contract` -> `security-auditor`
 - `finishing-a-development-branch` -> `release-helper`
 - devotional capability skills -> `devotional-orchestrator`
 - `supervisor-agent` skill and QA-first governance -> `supervisor-agent`

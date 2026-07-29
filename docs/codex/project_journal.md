@@ -17,3 +17,13 @@
 - Kept only `bible-devotional` and `git-github` in the cloud capability registry.
 - Retained the company/unknown-context sync blocking policy to prevent future accidental uploads.
 - Verification: passed. Seven company targets are absent; cloud registry contains exactly two daily capabilities; removed-company requests fall back to the global skill pool; 16 agents and 77 remaining skills are intact.
+
+
+## 2026-07-29 — Codex Security global sync
+
+- Compared the maintainer global state with `main` before syncing.
+- Added `security-scan-contract` as a repo-managed support skill for security scope, evidence, coverage, remediation, and re-scan verification.
+- Added the Codex Security CLI/SDK remote-landing guide without committing credentials, session state, scan output, or package-managed runtime state.
+- Updated the security audit route and global relationship map.
+- Verification performed before sync: local skill validator, routing YAML parse, and global map JSON parse passed.
+- Remote landing verification remains `scripts/verify.ps1`, followed by a new-machine dry-run and diff-first scan.

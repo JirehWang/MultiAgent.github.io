@@ -4,6 +4,7 @@ root: repository root
 entrypoints:
   main: docs/ANTIGRAVITY-LANDING.md
   antigravity_install: docs/ANTIGRAVITY-LANDING.md
+  codex_security_landing: docs/codex/codex-security-landing.md
 
 data_dirs:
   input: .codex
@@ -26,5 +27,6 @@ risk_notes:
   - Never commit credentials, session history, SQLite state, logs, attachments, or generated company artifacts.
   - Company capabilities are included only when the maintainer explicitly approves that specific sync.
   - Codex agent TOML files are reference profiles in Antigravity; Antigravity primarily consumes SKILL.md packages.
+  - Codex Security scan output may contain source excerpts and must remain outside the repository with an appropriate retention policy.
 
-last_reviewed: 2026-07-27
+last_reviewed: 2026-07-29

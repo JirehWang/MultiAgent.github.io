@@ -43,6 +43,7 @@ global_categories:
     - oss-solution-scout
     - skill-gatekeeper
     - security-auditor
+    - security-scan-contract
   planning_execution:
     - brainstorming
     - writing-plans
@@ -251,7 +252,8 @@ route_rules:
         - audit-findings
     select:
       primary: security-auditor
-      support: []
+      support:
+        - security-scan-contract
       workflow_node: framing_planning
       security_scope: required
       evidence_standard: required
