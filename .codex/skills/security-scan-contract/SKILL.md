@@ -27,7 +27,7 @@ For every finding, record:
 - reachable attack path, impact, and remediation
 - validation status: confirmed, unconfirmed, suppressed, or fixed
 
-Also record coverage as `complete`, `partial`, or `unknown`, including exclusions, deferred work, and open questions. Never claim a repository is ?lean??when coverage is incomplete or unresolved questions remain.
+Also record coverage as `complete`, `partial`, or `unknown`, including exclusions, deferred work, and open questions. Never claim a repository is “clean” when coverage is incomplete or unresolved questions remain.
 
 Prefer confirmed or well-supported vulnerabilities. Keep hypotheses separate from findings.
 
@@ -35,12 +35,12 @@ Prefer confirmed or well-supported vulnerabilities. Keep hypotheses separate fro
 
 Use this handoff:
 
-`security-auditor ??code-worker ??tests ??security-auditor re-scan ??verification-before-completion`
+`security-auditor → code-worker → tests → security-auditor re-scan → verification-before-completion`
 
 Do not claim a vulnerability is fixed until the original finding is revalidated and relevant tests pass. Preserve the finding identity so later scans can classify it as new, persistent, reopened, resolved, or unknown.
 
 ## 4. Control cost and CI behavior
 
-Use diff-first scans by default. Limit paths and provide only relevant architecture or threat-model context. Set the scanner? `--max-cost` when available. Local scans may be report-only; CI should fail on scanner errors and findings at or above the explicitly chosen severity threshold, and should preserve JSON/SARIF results.
+Use diff-first scans by default. Limit paths and provide only relevant architecture or threat-model context. Set the scanner’s `--max-cost` when available. Local scans may be report-only; CI should fail on scanner errors and findings at or above the explicitly chosen severity threshold, and should preserve JSON/SARIF results.
 
 If the scanner is unavailable, continue with `security-auditor`, state the coverage limitation, and do not imply equivalent scanner evidence.
