@@ -2,7 +2,7 @@
   "id": "global-agent-skill-relationship-map",
   "title": "Global Agent And Skill Relationship Map",
   "purpose": "Cross-session reference map for the global agent and skill control plane.",
-  "updated": "2026-07-27",
+  "updated": "2026-07-29",
   "scope": "Global agents and global skills only",
   "source_roots": [
     "C:\\Users\\105221\\.codex\\agents",
@@ -89,7 +89,8 @@
     ],
     "security-auditor": [
       "security audit",
-      "exploitability review"
+      "exploitability review",
+      "security-scan-contract"
     ],
     "release-helper": [
       "finishing-a-development-branch"

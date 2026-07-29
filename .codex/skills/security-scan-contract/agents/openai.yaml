@@ -1,0 +1,4 @@
+interface:
+  display_name: "Security Scan Contract"
+  short_description: "Standardize security scans and re-verification."
+  default_prompt: "Apply the security scan contract to this repository or change set."
