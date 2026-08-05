@@ -1,6 +1,6 @@
 # Global Agent And Skill Relationship Map
 
-Updated: 2026-07-29
+Updated: 2026-08-05
 Scope: global agent and skill topology derived from `C:\Users\105221\.codex\agents` and `C:\Users\105221\.codex\skills`
 Purpose: global relationship reference for future sessions
 
@@ -18,6 +18,7 @@ This map explains the current global control plane:
 - Global skills: `C:\Users\105221\.codex\skills`
 - Key routing files:
   - `using-superpowers/SKILL.md`
+  - `personal-tool-evaluator/SKILL.md`
   - `using-superpowers/agent-routing-rules.yaml`
   - `using-superpowers/AGENT_ROUTER_PROMPT.md`
   - `using-superpowers/COMPRESSION_POLICY_ROUTING.md`
@@ -33,6 +34,7 @@ flowchart TD
     WR["workflow-router agent"]
     US["using-superpowers skill"]
     AR["agent-routing-rules.yaml"]
+    PTE["personal-tool-evaluator skill"]
     MR["model-routing skill"]
 
     GA["general-light agent"]
@@ -54,9 +56,12 @@ flowchart TD
     U --> WR
     WR --> US
     US --> AR
+    AR --> PTE
     AR --> MR
 
     MR --> GA
+    PTE -. semantic role .-> GA
+    PTE -. third-party trust support .-> SG
     MR --> CW
     MR --> AD
     MR --> DR
@@ -100,6 +105,10 @@ flowchart TD
 
 ### 3. Governance gates
 
+- Requests to evaluate, add, install, enable, promote, or connect a tool, CLI, SDK/library, skill, plugin, agent bundle, MCP server, app connector, or extension in the personal global environment route first to `personal-tool-evaluator`; no explicit `$` invocation is required.
+- `personal-tool-evaluator` is the sole primary for personal-global fit. A third-party proposal adds `skill-gatekeeper` as mandatory trust support; a pure trust or security report stays `skill-gatekeeper` primary.
+- `YES` may continue only to a separately requested global action. `TRY LOCALLY FIRST` is project/local/sandbox only. `NO` stops global adoption until an explicit user override or materially new evidence.
+- Ordinary usage help, documentation, debugging, and project-local dependency installation stay outside this route unless global promotion is requested.
 - `skill-gatekeeper` is mandatory before third-party skill or MCP install/enable decisions.
 - `security-auditor` owns security work once scope and safe-testing boundaries are framed.
 - `security-scan-contract` supplies the scope, evidence, coverage, remediation, and re-scan contract for security work.
@@ -111,7 +120,7 @@ flowchart TD
 | Agent | Main role |
 | --- | --- |
 | `workflow-router` | top-level routing and workflow classification |
-| `general-light` | tiny fast-track tasks and low-risk local work |
+| `general-light` | tiny fast-track tasks, low-risk local work, and personal-global tool-fit decisions |
 | `code-worker` | implementation, TDD, plan execution, worktrees |
 | `architect-deep` | architecture, decomposition, multi-agent design, OSS scouting |
 | `debug-reviewer` | debugging, verification, review, regression analysis |
@@ -178,6 +187,8 @@ flowchart TD
 
 - `email-intelligence-engineer` -> `extractor`
 - compliance work -> `compliance-deep`
+- `personal-tool-evaluator` -> `general-light` for personal-global fit and adoption decisions
+- third-party personal-global trust -> `skill-gatekeeper` as mandatory support; pure third-party trust/security intake -> `skill-gatekeeper` primary
 - third-party intake and install trust -> `skill-gatekeeper`
 - security audit and exploitability -> `security-auditor`
 - `security-scan-contract` -> `security-auditor`

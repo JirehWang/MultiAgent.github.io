@@ -2,7 +2,7 @@
   "id": "global-agent-skill-relationship-map",
   "title": "Global Agent And Skill Relationship Map",
   "purpose": "Cross-session reference map for the global agent and skill control plane.",
-  "updated": "2026-07-29",
+  "updated": "2026-08-05",
   "scope": "Global agents and global skills only",
   "source_roots": [
     "C:\\Users\\105221\\.codex\\agents",
@@ -11,6 +11,7 @@
   "key_routing_files": [
     "C:\\Users\\105221\\.codex\\agents\\workflow-router.toml",
     "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\SKILL.md",
+    "C:\\Users\\105221\\.codex\\skills\\personal-tool-evaluator\\SKILL.md",
     "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\agent-routing-rules.yaml",
     "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\AGENT_ROUTER_PROMPT.md",
     "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\COMPRESSION_POLICY_ROUTING.md",
@@ -26,7 +27,23 @@
   "routing_layers": {
     "entry": "workflow-router",
     "workflow_classification": "using-superpowers",
-    "profile_mapping": "model-routing"
+    "profile_mapping": "model-routing",
+    "personal_global_adoption": "personal-tool-evaluator primary; skill-gatekeeper mandatory support for third-party proposals"
+  },
+  "personal_global_adoption": {
+    "primary": "personal-tool-evaluator",
+    "third_party_support": "skill-gatekeeper",
+    "decision_semantics": {
+      "YES": "May continue only to a separately requested global action.",
+      "TRY LOCALLY FIRST": "Restrict to project, local, or sandbox scope.",
+      "NO": "Stop global adoption until explicit user override or materially new evidence."
+    },
+    "exclusions": [
+      "ordinary usage help",
+      "documentation",
+      "debugging",
+      "project-local dependency installation without global promotion"
+    ]
   },
   "agent_families": {
     "workflow-router": [
@@ -34,7 +51,8 @@
       "model-routing"
     ],
     "general-light": [
-      "tiny fast-track work"
+      "tiny fast-track work",
+      "personal-global tool-fit evaluation"
     ],
     "code-worker": [
       "test-driven-development",
@@ -85,7 +103,8 @@
     "skill-gatekeeper": [
       "skill intake",
       "mcp intake",
-      "install trust"
+      "install trust",
+      "third-party personal-global trust support"
     ],
     "security-auditor": [
       "security audit",
