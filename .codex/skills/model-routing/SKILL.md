@@ -32,12 +32,14 @@ When routing, choose the profile first, then read and follow that profile's `MOD
 | `regulation-lookup-comparator`, compliance, customer-control comparison | `compliance-deep` |
 | `email-intelligence-engineer`, MIME/thread extraction | `extractor` |
 | `supervisor-agent`, AWU governance, plan-vs-actual review, trajectory QA, completion gating | `supervisor-agent` |
-| Third-party skill, MCP, prompt-pack, extension intake, install trust | `skill-gatekeeper` |
+| Personal-global tool, CLI, SDK/library, skill, plugin, agent bundle, MCP server, app connector, or extension fit/adoption decision (`personal-tool-evaluator`) | `general-light` |
+| Pure third-party skill, MCP, prompt-pack, extension trust/security intake | `skill-gatekeeper` |
 | Security audit, vulnerability review, exploitability, auth/session review, appsec | `security-auditor` |
 | `finishing-a-development-branch`, release wrap-up, PR handoff | `release-helper` |
 
 ## Security Routing Notes
 
+- `personal-tool-evaluator` is the sole primary for a personal-global adoption decision and maps to `general-light`. For a third-party proposal, add `skill-gatekeeper` as mandatory trust support; use `skill-gatekeeper` as primary only for a pure trust or security report.
 - `skill-gatekeeper` is a mandatory pre-install and pre-enable gate for third-party skills, MCP servers, prompt packs, and agent bundles.
 - `security-auditor` should receive security work only after scope, evidence standard, and safe-testing boundary have been framed by the chosen workflow node.
 

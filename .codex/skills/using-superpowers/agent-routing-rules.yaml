@@ -1,5 +1,5 @@
 version: 1
-date: 2026-06-18
+date: 2026-08-05
 
 purpose:
   - classify requests into a LangGraph-style workflow
@@ -41,6 +41,7 @@ global_categories:
     - multi-agent-systems-architect
     - context-scout
     - oss-solution-scout
+    - personal-tool-evaluator
     - skill-gatekeeper
     - security-auditor
     - security-scan-contract
@@ -124,6 +125,10 @@ hard_rules:
   - do not mistake a proposed abstraction or new subsystem for real task complexity
   - do not treat the capability tree as project codebase scope
   - do not hardcode personal capability domains into the top-level router when the registry can describe them
+  - automatically route a request to evaluate, add, install, enable, promote, or connect a tool, CLI, SDK/library, skill, plugin, agent bundle, MCP server, app connector, or extension in the personal-global environment to personal-tool-evaluator before adoption work
+  - personal-tool-evaluator is the sole primary for personal-global fit; third-party proposals require skill-gatekeeper as mandatory trust support, while pure trust or security reports remain skill-gatekeeper primary
+  - only a YES may continue to a separately requested global action; TRY LOCALLY FIRST is project/local/sandbox only; NO stops global adoption until explicit user override or materially new evidence
+  - exclude ordinary usage help, documentation, debugging, and project-local dependency installation unless personal-global promotion is requested
   - third-party skill, MCP, prompt-pack, and agent-bundle installs must route through skill-gatekeeper before execution, installation, enablement, or promotion
   - security audits must define scope, evidence standard, and safe-testing boundary before execution
   - when trust-boundary overlaps with security-audit, appsec, auth-review, session-review, or exploitability, prefer security-auditor unless the artifact is explicitly workflow design
@@ -146,6 +151,7 @@ workflow_nodes:
       - multi-agent-systems-architect
       - context-scout
       - oss-solution-scout
+      - personal-tool-evaluator
       - skill-gatekeeper
       - security-auditor
       - design-taste-frontend
@@ -207,6 +213,54 @@ workflow_nodes:
       - writing-skills
 
 route_rules:
+  - id: third_party_personal_global_intake
+    match:
+      all_domain_signals:
+        - personal-global-adoption
+        - third-party-intake
+      artifact_type:
+        - personal-global-adoption
+        - global-install-decision
+        - global-enable-decision
+        - global-promotion-decision
+        - global-connection-decision
+        - install-decision
+    select:
+      primary: personal-tool-evaluator
+      support:
+        - skill-gatekeeper
+      workflow_node: domain_classification
+      gate_decision: pending
+      handoff_notes:
+        - Keep personal-tool-evaluator as the only primary for personal-global fit and value.
+        - Require skill-gatekeeper trust output before any third-party global install, enable, promotion, or connection.
+        - YES may continue only to a separately requested global action; TRY LOCALLY FIRST is local/project/sandbox only; NO stops global adoption until explicit user override or materially new evidence.
+
+  - id: general_personal_global_intake
+    match:
+      any_domain_signals:
+        - personal-global-adoption
+        - global-install
+        - global-enable
+        - global-promotion
+        - global-connection
+      artifact_type:
+        - personal-global-adoption
+        - global-install-decision
+        - global-enable-decision
+        - global-promotion-decision
+        - global-connection-decision
+        - install-decision
+    select:
+      primary: personal-tool-evaluator
+      support: []
+      workflow_node: domain_classification
+      gate_decision: pending
+      handoff_notes:
+        - Evaluate personal-global fit before any adoption work; do not require an explicit skill invocation.
+        - YES may continue only to a separately requested global action; TRY LOCALLY FIRST is local/project/sandbox only; NO stops global adoption until explicit user override or materially new evidence.
+        - Exclude ordinary usage help, documentation, debugging, and project-local dependency installation unless personal-global promotion is requested.
+
   - id: extension_intake_review
     match:
       any_domain_signals:
@@ -230,7 +284,8 @@ route_rules:
       workflow_node: domain_classification
       gate_decision: pending
       handoff_notes:
-        - This route is a mandatory gate before any install, enable, or promotion step.
+        - This route is primary for pure trust or security review and non-global extension intake; the preceding personal-global routes own personal-global fit.
+        - This route is a mandatory trust gate before any third-party install, enable, or promotion step.
         - Produce an explicit decision: allow, manual-review, or block.
         - Record source, version or commit, key risks, and rationale with the decision.
 

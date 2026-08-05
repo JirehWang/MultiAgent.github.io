@@ -62,6 +62,7 @@ Common routes:
 - unexplained failure -> `systematic-debugging`
 - completion claim -> `verification-before-completion`
 - complex isolatable tracks -> `subagent-driven-development`
+- personal-global tool adoption -> `personal-tool-evaluator` (add `skill-gatekeeper` as mandatory support for third-party proposals)
 - third-party extension intake -> `skill-gatekeeper`
 - security or trust-boundary audit -> `security-auditor`
 - governed project task walls or state gates -> `project-delivery-governor`
@@ -90,6 +91,10 @@ Use `LANGGRAPH_AGENT_ROUTING.md` only when workflow topology is unclear.
 - User instructions override skill defaults.
 - Prefer reuse, native features, and local edits over new structure.
 - Do not reduce safety, validation, accessibility, or essential verification to save tokens.
+- Automatically route a request to evaluate, add, install, enable, promote, or connect a tool, CLI, SDK/library, skill, plugin, agent bundle, MCP server, app connector, or extension in the user's personal global environment to `personal-tool-evaluator` before adoption work; no explicit skill invocation is required.
+- Keep `personal-tool-evaluator` as the sole primary for personal-global fit. For a third-party proposal, add `skill-gatekeeper` as mandatory trust support; keep `skill-gatekeeper` primary for a pure trust or security report with no personal-global fit decision.
+- Only `YES` may proceed to a separately requested global action. `TRY LOCALLY FIRST` limits work to project/local/sandbox scope, and `NO` stops global adoption unless the user explicitly overrides it or provides materially new evidence.
+- Do not use the personal-global route for ordinary usage help, documentation, debugging, or project-local dependency installation unless the user asks to promote it globally.
 - Questions and tiny edits do not become Governed work merely because skills exist.
 - Announce a skill only when it causes a material action or pause.
 - Keep routing notes short; keep final user explanations complete where tradeoffs matter.

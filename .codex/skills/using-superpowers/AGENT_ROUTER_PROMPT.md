@@ -67,6 +67,10 @@ reasoning:
 12. If a design-direction signal is present but the exact overlay skill is not installed, route to the nearest installed design specialist and carry the missing-skill note forward in `reasoning` or `handoff_notes`.
 13. If the request involves installing or trusting a third-party skill, MCP server, prompt pack, or agent bundle, route to `skill-gatekeeper` before any execution or install step.
 14. If the request is a security audit, choose a workflow node that frames scope, evidence standard, and safe-testing limits before execution.
+15. Detect a request to evaluate, add, install, enable, promote, or connect a tool, CLI, SDK/library, skill, plugin, agent bundle, MCP server, app connector, or extension in the user's personal global environment. Treat explicit global scope, cross-project scope, or promotion from local scope as `personal-global-adoption`; set that artifact type and route automatically to `personal-tool-evaluator` as the sole primary. Do not require an explicit `$personal-tool-evaluator` invocation.
+16. If that personal-global proposal is third-party, add `skill-gatekeeper` as mandatory trust support. If the requested artifact is only a third-party trust or security report with no personal-global fit decision, keep `skill-gatekeeper` primary.
+17. Carry the evaluator decision forward: `YES` may continue only to a separately requested global action; `TRY LOCALLY FIRST` limits work to project/local/sandbox scope; `NO` stops global adoption until an explicit user override or materially new evidence.
+18. Exclude ordinary usage help, documentation, debugging, and project-local dependency installation unless the request explicitly asks for personal-global promotion.
 
 ## Primary-Agent Rules
 
@@ -87,7 +91,8 @@ Choose the primary agent closest to the artifact:
 - artifact is an implementation plan -> `writing-plans`
 - artifact is bug diagnosis/fix path -> `systematic-debugging`
 - artifact is a new feature implementation path -> `test-driven-development`
-- artifact is an install decision or extension trust review -> `skill-gatekeeper`
+- artifact is a personal-global adoption decision -> `personal-tool-evaluator` (add `skill-gatekeeper` support when third-party)
+- artifact is a pure extension trust or security review -> `skill-gatekeeper`
 - artifact is a security report, vulnerability report, or audit findings -> `security-auditor`
 
 For design-direction signals:
@@ -136,5 +141,5 @@ For design-direction signals:
 - do not build for hypothetical future needs that are not part of the request
 - do not treat the capability tree as project code or normal codebase indexing scope
 - do not hardcode personal capability domains into the top-level router when the registry can describe them
-- do not route third-party extension installs directly to execution before `skill-gatekeeper`
+- do not route personal-global adoption directly to installation or enablement before `personal-tool-evaluator`; third-party proposals also require `skill-gatekeeper` trust support
 - do not route security audits directly to execution before scope and evidence framing
