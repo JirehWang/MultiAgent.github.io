@@ -2,7 +2,7 @@
   "id": "global-agent-skill-relationship-map",
   "title": "Global Agent And Skill Relationship Map",
   "purpose": "Cross-session reference map for the global agent and skill control plane.",
-  "updated": "2026-07-29",
+  "updated": "2026-09-30",
   "scope": "Global agents and global skills only",
   "source_roots": [
     "C:\\Users\\105221\\.codex\\agents",
@@ -46,6 +46,9 @@
       "subagent-driven-development",
       "dispatching-parallel-agents",
       "oss-solution-scout"
+    ],
+    "api-contract-guardian": [
+      "api-contract-governance"
     ],
     "debug-reviewer": [
       "systematic-debugging",

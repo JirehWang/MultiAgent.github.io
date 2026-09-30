@@ -38,6 +38,7 @@ flowchart TD
     GA["general-light agent"]
     CW["code-worker agent"]
     AD["architect-deep agent"]
+    ACG["api-contract-guardian agent"]
     DR["debug-reviewer agent"]
     FV["frontend-visual agent"]
     CV["creative-visual agent"]
@@ -59,6 +60,7 @@ flowchart TD
     MR --> GA
     MR --> CW
     MR --> AD
+    MR --> ACG
     MR --> DR
     MR --> FV
     MR --> CV
@@ -114,6 +116,7 @@ flowchart TD
 | `general-light` | tiny fast-track tasks and low-risk local work |
 | `code-worker` | implementation, TDD, plan execution, worktrees |
 | `architect-deep` | architecture, decomposition, multi-agent design, OSS scouting |
+| `api-contract-guardian` | API contract drift and architecture conformance across application, service, and platform boundaries |
 | `debug-reviewer` | debugging, verification, review, regression analysis |
 | `frontend-visual` | frontend implementation and visual QA |
 | `creative-visual` | image generation planning and visual concept work |
@@ -148,6 +151,7 @@ flowchart TD
 - `subagent-driven-development` -> `architect-deep`
 - `dispatching-parallel-agents` -> `architect-deep`
 - `oss-solution-scout` -> `architect-deep`
+- `api-contract-governance` -> `api-contract-guardian`
 
 ### Debug, review, verification
 

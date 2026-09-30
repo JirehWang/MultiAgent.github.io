@@ -24,6 +24,7 @@ When routing, choose the profile first, then read and follow that profile's `MOD
 | Tiny fast-track, simple Q&A, low-risk local edits | `general-light` |
 | `test-driven-development`, `executing-plans`, `using-git-worktrees` | `code-worker` |
 | `multi-agent-systems-architect`, `subagent-driven-development`, `dispatching-parallel-agents`, `oss-solution-scout` | `architect-deep` |
+| `api-contract-governance` | `api-contract-guardian` |
 | `systematic-debugging`, `verification-before-completion`, `requesting-code-review`, `receiving-code-review` | `debug-reviewer` |
 | `design-taste-frontend`, `redesign-existing-projects`, `web-design-polish`, `visual-qa`, `image-to-code`, `ui-ux-pro-max` | `frontend-visual` |
 | `brandkit`, image generation planning, frontend image prompts | `creative-visual` |
