@@ -1,6 +1,6 @@
 ---
 name: web-design-polish
-description: Use when the user asks for website UI polishing, visual design review, redesign, DESIGN.md generation, Open Design, Taste Skill, UI UX Pro Max, reference-site analysis, screenshot-to-UI, responsive polish, or frontend visual improvements.
+description: Default orchestrator for website UI work, including UI polishing, visual review, redesign, DESIGN.md generation, reference-site analysis, screenshot-to-UI, responsive polish, and frontend visual improvements. Route explicit Hallmark requests through its opt-in anti-slop stage.
 ---
 
 # Web Design Polish
@@ -12,8 +12,26 @@ A low-context orchestrator for website design polish. It coordinates UI UX Pro M
 Do not keep Open Design, Taste Skill, and UI UX Pro Max fully resident in context. Make them collaborate through compact handoffs:
 
 ```text
-UI UX Pro Max -> Design Strategy Brief -> Open Design -> DESIGN.md -> Taste Skill -> UI implementation/polish
+UI UX Pro Max -> Design Strategy Brief -> optional Hallmark -> Open Design -> DESIGN.md -> Taste Skill -> UI implementation/polish -> Visual QA
 ```
+
+## Optional Hallmark Stage
+
+Invoke `hallmark` only when the user explicitly names Hallmark or requests one of its verbs:
+
+- `hallmark` for a greenfield page needing structural variety.
+- `hallmark audit` for an anti-slop punch list without edits.
+- `hallmark redesign` for a visual/interaction redesign within existing implementation boundaries.
+- `hallmark study` for design-DNA extraction from a screenshot or public URL.
+
+Hallmark does not replace the strategy, implementation, or verification stages. For ordinary UI requests, skip it.
+
+Precedence and persistence:
+
+- Existing `DESIGN.md` and project tokens win over Hallmark themes and rotation.
+- Do not create a second token system in an established product.
+- `.hallmark/preflight.json` and `.hallmark/log.json` are opt-in project memory; create them only after explicit user approval.
+- Hallmark self-critique is advisory. Browser and responsive completion evidence belongs to `visual-qa`.
 
 ## Stage 1: UI UX Pro Max Strategy Brief
 

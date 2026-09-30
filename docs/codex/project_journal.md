@@ -27,3 +27,11 @@
 - Updated the security audit route and global relationship map.
 - Verification performed before sync: local skill validator, routing YAML parse, and global map JSON parse passed.
 - Remote landing verification remains `scripts/verify.ps1`, followed by a new-machine dry-run and diff-first scan.
+
+## 2026-08-05 — Hallmark opt-in UI routing
+
+- Added the Hallmark anti-AI-slop design skill from audited upstream commit `0a0f706bc0289fef76a07fb854a6a5b031c57901`.
+- Kept `web-design-polish` as the default UI orchestrator; Hallmark runs only when explicitly invoked through `hallmark`, `hallmark audit`, `hallmark redesign`, or `hallmark study`.
+- Established precedence: an existing `DESIGN.md` and project tokens override Hallmark theme rotation, and Hallmark project memory remains opt-in.
+- Kept browser and responsive completion evidence under `visual-qa`; Hallmark self-critique is advisory.
+- Verification: repository `scripts/verify.ps1` and Codex skill validation for both `hallmark` and `web-design-polish` passed.
