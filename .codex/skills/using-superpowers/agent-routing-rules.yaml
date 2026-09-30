@@ -1,5 +1,5 @@
 version: 1
-date: 2026-06-18
+date: 2026-09-30
 
 purpose:
   - classify requests into a LangGraph-style workflow
@@ -751,6 +751,51 @@ route_rules:
       primary: executing-plans
       support: []
       workflow_node: execution
+
+  - id: api_contract_review
+    match:
+      any_domain_signals:
+        - api-contract
+        - endpoint-drift
+        - cross-platform-api
+        - architecture-conformance
+        - contract-compatibility
+      artifact_type:
+        - api-contract
+        - architecture
+        - architecture-review
+        - integration-review
+        - repo-map
+        - investigation
+    select:
+      primary: api-contract-governance
+      support: []
+      workflow_node: verification
+      handoff_notes:
+        - Compare the observed code graph with explicit intended architecture and API contracts; a graph alone cannot establish conformance.
+        - Prefer the already-enabled codebase_memory MCP, verify index coverage, and fall back to source inspection when unavailable.
+        - Return PASS, FAIL, or UNKNOWN with file/symbol evidence and coverage limitations.
+
+  - id: api_contract_change
+    match:
+      any_domain_signals:
+        - api-change
+        - api-contract
+        - endpoint-drift
+        - cross-platform-api
+        - integration-contract
+      artifact_type:
+        - code
+        - implementation
+    select:
+      primary: test-driven-development
+      support:
+        - api-contract-governance
+      workflow_node: execution
+      validation_tier: multi_stage
+      handoff_notes:
+        - Keep the implementation owner responsible for the code change; api-contract-governance maps consumers/providers and verifies the affected contracts and architecture edges.
+        - Use the project's existing lint, compatibility, architecture, and integration checks; do not install new tools.
 
   - id: bugfix
     match:

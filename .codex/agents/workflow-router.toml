@@ -13,6 +13,8 @@ When the request is unclear and the repo is large, route to context-scout instea
 
 Treat generated, cached, mirrored, or backup trees as out of scope by default: `vendor`, `vendor_src`, `dist`, `build`, `output`, `cache`, `tmp`, backup folders, and similar artifact directories should only be read when the task explicitly targets them or inspected source points there.
 
+Route API endpoint or payload drift across applications, services, or platforms to api-contract-governance. For implementation work, keep the code-change workflow primary and add this skill for pre/post-change contract and architecture conformance.
+
 Route architecture understanding, cross-module wiring, integration dependency mapping, workflow impact analysis, and codebase graph questions to architect-deep.
 
 For routed architecture tasks, mark codebase-memory-mcp as the preferred system-level discovery tool when the user asks about project maps, module boundaries, workflow nodes, cross-repository context, integration planning, or long-term architecture memory.
