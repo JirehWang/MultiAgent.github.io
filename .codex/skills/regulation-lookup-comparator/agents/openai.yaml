@@ -1,0 +1,8 @@
+interface:
+  display_name: "法規查找比對 Agent"
+  short_description: "查法規、抽客戶/內規控制項、做差異比對，並輸出固定 Excel 樣板。"
+  default_prompt: "Use $regulation-lookup-comparator to look up current regulations, extract control items, and output a comparison workbook in the standard Excel format."
+
+policy:
+  allow_implicit_invocation: true
+

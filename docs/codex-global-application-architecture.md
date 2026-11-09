@@ -1,23 +1,25 @@
 # Codex Global Application Architecture
 
-This repo packages a full global Codex workflow stack so another machine can install the same routing behavior, specialist agents, and MCP-backed tool preferences.
+This repository is the portable source package for the Codex workflow. A cloud checkout can use its repo-local instructions and skills directly; the workflow does not depend on host-global files.
+
+Start with [AGENTS.md](../AGENTS.md) for the repository entry point and [project_contract.yml](../project_contract.yml) for workflow links and path policy. The task-level handoff starts at [using-superpowers](../.codex/skills/using-superpowers/SKILL.md), follows [workflow-router](../.codex/agents/workflow-router.toml), and uses [model-routing](../.codex/skills/model-routing/SKILL.md) to find the correct profile and skill.
 
 ## Layer Model
 
 The stack is intentionally split into four layers:
 
-1. `skills/`
+1. `.codex/skills/`
    - workflow methods
    - domain-specialist instructions
    - top-level routing behavior such as `using-superpowers`
-2. `codex/agents/`
+2. `.codex/agents/`
    - executable agent profiles used by Codex subagents
    - model tier and developer instruction boundary
-3. `agent-profiles/`
+3. `.codex/skills/model-routing/references/agent-profiles/`
    - shared profile references for `model-routing`
    - keeps routing semantics aligned between skills and agent definitions
-4. `codex/mcp/`
-   - MCP server config snippets used to attach external tools into Codex
+4. `.codex/capabilities/`
+   - repository-owned capability metadata and routing relationships
 
 ## Control Flow
 
@@ -90,43 +92,36 @@ Then it chooses only the MCPs that materially improve correctness.
 
 ## Repo-Managed vs Host-Managed Components
 
-This repo manages:
+This repository manages:
 
 - skills
 - agents
 - model-routing profile references
-- repo-authored MCP snippets
-- install scripts for repo-managed MCPs
+- repo-local capability metadata and workflow references
 
-This repo does not fully own every runtime binary on every machine.
+## Optional Integrations
 
-Examples:
+This repository does not bundle MCP servers or require them to use the repo-local workflow. Use an integration when it is available and improves the task; otherwise continue with the repository content.
 
-- `github`
-  - repo-managed install path and config snippet
-- `context7`
-  - repo-managed config snippet, host uses local Node and `npx`
-- `codebase_memory`
-  - repo-managed config snippet and install script
-- `markitdown`
-  - expected as a host-installed MCP binary
-- `notebooklm`
-  - expected as a host-managed local server
-- `node_repl`
-  - bundled by Codex runtime
+Optional host-provided integrations can include:
 
-## Install Order On A New Machine
+- GitHub for remote repository state, pull requests, issues, releases, and workflow runs
+- Context7 for current framework and package documentation
+- Codebase Memory for project maps and architecture memory
+- MarkItDown and NotebookLM for document-oriented work
+- Node REPL for JavaScript or browser-connected support
 
-1. Install routing package:
-   - `install.ps1 -Target codex`
-2. Install GitHub MCP:
-   - `install-github-mcp.ps1`
-3. Install Context7 MCP:
-   - `install-context7-mcp.ps1`
-4. Install Codebase Memory MCP if needed:
-   - `install-codebase-memory.ps1`
-5. Restart Codex and open a new conversation
+Local runtime binaries, credentials, and MCP server configuration remain host-managed. No repository-owned workflow step depends on a particular installation path.
+## Use From A Cloud Checkout
+
+1. Start with the repository [AGENTS.md](../AGENTS.md) and [project contract](../project_contract.yml).
+2. Load `.codex/skills/using-superpowers/` and classify the task with its local routing rules.
+3. Follow `.codex/agents/workflow-router.toml` and `.codex/skills/model-routing/` to select the semantic owner and skill.
+4. Read any skill overlay relative to the file that declares its path.
+5. Complete the selected work with the applicable review and verification guidance.
+
+Optional MCPs are host integrations. Their absence must leave the repo-local workflow usable through repository search and direct source inspection.
 
 ## Source Of Truth
 
-When the repo differs from local global Codex state, the intended source of truth is the local installed global package on the maintainer machine, then that state is synced back into this repository for redistribution.
+The repository's `.codex/` tree is the source of truth for distributable instructions, skills, routing rules, agent definitions, and capability metadata. A host's global Codex or Gemini directory may contain private or machine-specific resources; do not use it as a runtime dependency. Keep the handoff links relative so the same workflow works from a local checkout or cloud workspace.

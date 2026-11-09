@@ -8,8 +8,8 @@ Purpose:
 - keep a human-readable map and a machine-readable manifest side by side
 
 Source inputs:
-- `C:\Users\105221\.codex\agents`
-- `C:\Users\105221\.codex\skills`
+- `.codex/agents`
+- `.codex/skills`
 
 Primary files:
 - `global-agent-skill-relationship-map.md`

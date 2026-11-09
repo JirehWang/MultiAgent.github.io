@@ -1,4 +1,4 @@
-﻿---
+---
 name: minimalist-ui
 description: Clean editorial-style interfaces. Warm monochrome palette, typographic contrast, flat bento grids, muted pastels. No gradients, no heavy shadows.
 ---
@@ -8,6 +8,8 @@ description: Clean editorial-style interfaces. Warm monochrome palette, typograp
 ## 1. Protocol Overview
 Name: Premium Utilitarian Minimalism & Editorial UI
 Description: An advanced frontend engineering directive for generating highly refined, ultra-minimalist, "document-style" web interfaces analogous to top-tier workspace platforms. This protocol strictly enforces a high-contrast warm monochrome palette, bespoke typographic hierarchies, meticulous structural macro-whitespace, bento-grid layouts, and an ultra-flat component architecture with deliberate muted pastel accents. It actively rejects standard generic SaaS design trends.
+
+Use this protocol as an optional visual direction. Preserve the user's goals, task flow, existing product patterns, accessibility needs, and platform conventions; the style rules below do not justify obscuring content or changing interaction behavior. A supplied Palette Contract, brand guidance, or existing tokens override this style's warm-monochrome palette defaults; use those defaults only for unspecified roles. For task and control decisions, consult [`../ui-ux-pro-max/references/human-factors.md`](../ui-ux-pro-max/references/human-factors.md).
 
 ## 2. Absolute Negative Constraints (Banned Elements)
 The AI must strictly avoid the following generic web development defaults:
@@ -67,11 +69,11 @@ Color is a scarce resource, utilized only for semantic meaning or subtle accents
 - Hero & Section Backgrounds: Sections should not feel empty and flat. Use subtle full-width background imagery at very low opacity, soft radial light spots (`radial-gradient` with warm tones at `opacity: 0.03`), or minimal geometric line patterns to add depth without breaking the clean aesthetic.
 
 ## 7. Subtle Motion & Micro-Animations
-Motion should feel invisible — present but never distracting. The goal is quiet sophistication, not spectacle.
-- Scroll Entry: Elements fade in gently as they enter the viewport. Use `translateY(12px)` + `opacity: 0` resolving over `600ms` with `cubic-bezier(0.16, 1, 0.3, 1)`. Use `IntersectionObserver`, never `window.addEventListener('scroll')`.
-- Hover States: Cards lift with an ultra-subtle shadow shift (`box-shadow` transitioning from `0 0 0` to `0 2px 8px rgba(0,0,0,0.04)` over `200ms`). Buttons respond with `scale(0.98)` on `:active`.
-- Staggered Reveals: Lists and grid items enter with a cascade delay (`animation-delay: calc(var(--index) * 80ms)`). Never mount everything at once.
-- Background Ambient Motion: Optional. A single, very slow-moving radial gradient blob (`animation-duration: 20s+`, `opacity: 0.02-0.04`) drifting behind hero sections. Must be applied to a `position: fixed; pointer-events: none` layer. Never on scrolling containers.
+Motion is optional and should clarify feedback or a state transition. The goal is quiet sophistication, not spectacle. Respect reduced-motion preferences and ensure essential content is available without animation.
+- Scroll Entry: Optional. Use a brief reveal only when it clarifies hierarchy, and disable or simplify it for reduced-motion preferences. Do not hide essential content while it animates.
+- Hover States: Use subtle hover feedback where the input method supports it. Keep keyboard focus visible, and ensure essential feedback is also available without hover.
+- Staggered Reveals: Use a cascade only when sequence helps comprehension; do not delay essential content or controls.
+- Background Ambient Motion: Optional. Keep ambient movement subtle, noninteractive, and away from essential content; honor reduced-motion preferences.
 - Performance: Animate exclusively via `transform` and `opacity`. No layout-triggering properties (`top`, `left`, `width`, `height`). Use `will-change: transform` sparingly and only on actively animating elements.
 
 ## 8. Execution Protocol

@@ -1,9 +1,10 @@
-# general-light Model Assignment
+# general-light Runtime Policy
 
-| Runtime | Model |
-| --- | --- |
-| Codex | `gpt-5.4-mini`, reasoning `low` |
-| Antigravity | `Gemini 3 Flash`; use `GPT-OSS-120b` for low-sensitivity cost-first work |
+This profile does not pin a model or reasoning effort. Resolve both from
+`skills/using-superpowers/agent-routing-rules.yaml#model_effort_policy` and the
+inherited `dispatch_contract`.
 
-Use for simple, reversible work. If the task starts showing hidden risk, escalate before continuing.
-
+- Direct work inherits the current model and effort.
+- Delegated work uses the runtime and effort selected by the route.
+- A semantic profile defines role and constraints only; it must not override the routed runtime.
+- Explicit user model or effort requests remain subject to safety and domain contracts.

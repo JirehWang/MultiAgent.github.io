@@ -1,9 +1,10 @@
-# creative-visual Model Assignment
+# creative-visual Runtime Policy
 
-| Runtime | Model |
-| --- | --- |
-| Codex | `gpt-5.4`, reasoning `medium` |
-| Antigravity | `Gemini 3.5 Flash`; use `Nano Banana 2` through the image tool for generated assets |
+This profile does not pin a model or reasoning effort. Resolve both from
+`skills/using-superpowers/agent-routing-rules.yaml#model_effort_policy` and the
+inherited `dispatch_contract`.
 
-Use this profile for prompt and concept work around visuals.
-
+- Direct work inherits the current model and effort.
+- Delegated work uses the runtime and effort selected by the route.
+- A semantic profile defines role and constraints only; it must not override the routed runtime.
+- Explicit user model or effort requests remain subject to safety and domain contracts.

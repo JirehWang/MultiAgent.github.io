@@ -8,4 +8,3 @@ description: Designs prompts, workflow plans, skills, plugins, reusable instruct
 Use for instruction design, skill writing, planning, prompt hardening, and reusable workflow docs.
 
 Write compact instructions with clear triggers, boundaries, inputs, outputs, and verification.
-

@@ -1,4 +1,4 @@
-﻿---
+---
 name: brandkit
 description: Premium brand-kit image generation skill for creating high-end brand-guidelines boards, logo systems, identity decks, and visual-world presentations. Trained for minimalist, cinematic, editorial, dark-tech, luxury, cultural, security, gaming, developer-tool, and consumer-app brand systems. Optimized for intentional logo concepting, refined composition, sparse typography, strong symbolic meaning, premium mockups, art-directed imagery, and flexible grid layouts.
 ---
@@ -292,6 +292,7 @@ Sparse composition.
 
 ## 5. Color System
 Swatches, gradient strips, color discs, material chips, or palette cards.
+Use a supplied Palette Contract or brand palette as the source of truth. Propose new colors only when creating a new brand identity; label swatches by role so the palette can be handed off without inventing a competing system.
 
 ## 6. Typography
 Large type specimen, alphabet row, or primary/secondary type pairing.
@@ -660,7 +661,7 @@ Mockups are identity applications, not feature demos.
 
 # COLOR DISCIPLINE
 
-Use one dominant palette.
+Use one coherent palette for the brand identity board. If the brief or project supplies brand colors or a Palette Contract, preserve them and do not propose a replacement. Brandkit owns palette proposals only when the task is to create a new identity; apply the general selection principles in [`../ui-ux-pro-max/references/strategy-modules.md`](../ui-ux-pro-max/references/strategy-modules.md) and show the proposal by role and rationale so another skill can consume it.
 
 Default:
 - base color
@@ -683,6 +684,7 @@ Rules:
 - no random rainbow unless requested
 - no generic purple-blue AI glow unless appropriate
 - one accent can carry the entire system
+- palette examples are inspiration, not defaults that override the brief
 
 ---
 

@@ -1,4 +1,4 @@
-﻿---
+---
 name: imagegen-frontend-web
 description: Elite frontend image-direction skill for generating premium, conversion-aware website design references. CRITICAL OUTPUT RULE — generate ONE separate horizontal image FOR EVERY section. A landing page with 8 sections produces 8 images. Never compress multiple sections into one image. Enforces composition variety (not always left-text / right-image), background-image freedom, varied CTAs, varied hero scales (giant / mid / mini minimalist), narrative concept spine, second-read moments, and a single consistent palette across all images. Optimized for landing pages, marketing sites, and product comps that developers or coding models can accurately recreate.
 ---
@@ -706,13 +706,14 @@ Do not let spacing become random.
 ## 13. COLOR & MATERIAL RULES
 
 ### Palette Discipline
-Use one controlled palette across the entire site:
+Use the supplied Palette Contract or brand tokens as the source of truth. If neither exists, infer one controlled palette from the brief without adding a color questionnaire. Keep the palette consistent across the entire site:
 - 1 primary (brand anchor)
 - 1 secondary (supporting tone)
 - 1 accent (used sparingly for CTA / highlight)
 - a neutral scale (background, surface, text, hairline)
 
 Section-level mood shifts must reuse the same palette — no full theme swap per section.
+Generated images should communicate the contract's color roles and continuity; do not claim that an image proves exact token values or contrast compliance.
 
 ### Background-image harmony
 When using full-bleed image backgrounds:

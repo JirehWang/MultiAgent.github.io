@@ -1,4 +1,4 @@
-﻿---
+---
 name: redesign-existing-projects
 description: Upgrades existing websites and apps to premium quality. Audits current design, identifies generic AI patterns, and applies high-end design standards without breaking functionality. Works with any CSS framework or vanilla CSS.
 ---
@@ -7,13 +7,25 @@ description: Upgrades existing websites and apps to premium quality. Audits curr
 
 ## How This Works
 
+Preserve the existing brand palette and project tokens. If a Palette Contract is supplied, use it as the color source of truth. For a requested broad palette change, use `ui-ux-pro-max` to create the contract; this skill audits and implements the approved direction, it does not independently select a replacement palette.
+
 When applied to an existing project, follow this sequence:
 
 1. **Scan** - Read the codebase. Identify the framework, styling method (Tailwind, vanilla CSS, styled-components, etc.), and current design patterns.
-2. **Diagnose** - Run through the audit below. List every generic pattern, weak point, and missing state you find.
-3. **Fix** - Apply targeted upgrades working with the existing stack. Do not rewrite from scratch. Improve what's there.
+2. **Understand tasks** - Identify the main user goals and important workflows in scope. Use existing analytics, research, or support evidence when available; never invent usage frequency or assume an exact 80/20 split.
+3. **Diagnose** - Run through the audit below. List the highest-impact usability and visual issues, generic patterns, and missing states.
+4. **Fix** - Apply targeted upgrades working with the existing stack. Do not rewrite from scratch. Improve what's there.
 
 ## Design Audit
+
+### User Tasks and Evidence
+
+Use the relevant [human-factors guidance](../ui-ux-pro-max/references/human-factors.md) when diagnosing choices, grouping, content scanning, or touch controls.
+
+- Map the primary task and the steps a user takes through the affected screens.
+- Note which parts are supported by observed usage, research, or reported problems and which are hypotheses.
+- Preserve critical tasks, useful navigation patterns, analytics events, and existing design-system conventions unless the requested scope changes them.
+- When evidence is unavailable, use the brief to form a hypothesis and keep the redesign focused enough to evaluate with users later.
 
 ### Typography
 
@@ -29,6 +41,8 @@ Check for these problems and fix them:
 - **Orphaned words.** Single words sitting alone on the last line. Fix with `text-wrap: balance` or `text-wrap: pretty`.
 
 ### Color and Surfaces
+
+Treat the checks below as audit defaults, not authority to override a Palette Contract, explicit brand guidance, or project tokens. Do not change a color solely because it matches a listed pattern; verify a conflict with the brand, brief, hierarchy, or accessibility first. Fix a real contrast or state-communication issue with the smallest role-specific change and document the token update.
 
 - **Pure `#000000` background.** Replace with off-black, dark charcoal, or tinted dark (`#0a0a0a`, `#121212`, or a dark navy).
 - **Oversaturated accent colors.** Keep saturation below 80%. Desaturate accents so they blend with neutrals instead of screaming.
@@ -158,15 +172,13 @@ When upgrading a project, pull from these high-impact techniques to replace gene
 
 ## Fix Priority
 
-Apply changes in this order for maximum visual impact with minimum risk:
+Apply changes in this order, using task evidence and the requested scope:
 
-1. **Font swap** - biggest instant improvement, lowest risk
-2. **Color palette cleanup** - remove clashing or oversaturated colors
-3. **Hover and active states** - makes the interface feel alive
-4. **Layout and spacing** - proper grid, max-width, consistent padding
-5. **Replace generic components** - swap cliche patterns for modern alternatives
-6. **Add loading, empty, and error states** - makes it feel finished
-7. **Polish typography scale and spacing** - the premium final touch
+1. **Protect task completion and accessibility** - address broken flows, missing feedback, inaccessible controls, and regressions in focus, keyboard access, or contrast.
+2. **Reduce friction in high-priority tasks** - use supplied research or product evidence; label assumptions when evidence is absent.
+3. **Clarify hierarchy and relationships** - improve grouping, navigation, choices, and content structure where users need them.
+4. **Complete interaction states** - loading, empty, success, and error states relevant to the affected workflow.
+5. **Polish visual language** - typography, color, spacing, component styling, and motion after task needs are clear.
 
 ## Rules
 

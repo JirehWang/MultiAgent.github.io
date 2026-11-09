@@ -8,7 +8,7 @@ description: Use when starting medium or large code changes, onboarding to an un
 Map the codebase without over-reading it. This skill is also the default home for lightweight codebase onboarding.
 
 Apply the anti-overengineering ladder from
-`C:\Users\105221\.codex\skills\using-superpowers\ANTI_OVERENGINEERING_POLICY.md`
+[`ANTI_OVERENGINEERING_POLICY.md`](../using-superpowers/ANTI_OVERENGINEERING_POLICY.md)
 to the discovery process itself. Read only enough context to move the work forward safely.
 
 Use for unfamiliar repos, cross-file changes, unclear entry points, or when another agent would benefit from a crisp orientation pack. Skip tiny single-file edits.

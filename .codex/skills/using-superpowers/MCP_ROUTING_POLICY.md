@@ -93,6 +93,12 @@ Use `node_repl` for JavaScript execution, browser-oriented automation support, J
   - add `github` when cross-repo or remote governance context matters
   - add `context7` when design decisions depend on current platform docs
 
+- `api-contract-guardian`
+  - prefer `codebase_memory` for the affected system, service, and module dependency graph
+  - use `codegraph` for symbol-level call paths only when it is already available
+  - use `github` only when cross-repository contract or pull-request context is needed
+  - do not install or enable an MCP as part of an ordinary API change
+
 - `security-auditor`
   - prefer `github` for security alerts, PR context, workflow context, and remote evidence
   - prefer `context7` for current framework or dependency security-related documentation

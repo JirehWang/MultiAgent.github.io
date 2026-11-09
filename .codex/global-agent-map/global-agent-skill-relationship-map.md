@@ -1,7 +1,7 @@
 # Global Agent And Skill Relationship Map
 
 Updated: 2026-07-29
-Scope: global agent and skill topology derived from `C:\Users\105221\.codex\agents` and `C:\Users\105221\.codex\skills`
+Scope: global agent and skill topology derived from `.codex/agents` and `.codex/skills`
 Purpose: global relationship reference for future sessions
 
 ## Role
@@ -14,8 +14,8 @@ This map explains the current global control plane:
 
 ## Source Of Truth
 
-- Global agents: `C:\Users\105221\.codex\agents`
-- Global skills: `C:\Users\105221\.codex\skills`
+- Global agents: `.codex/agents`
+- Global skills: `.codex/skills`
 - Key routing files:
   - `using-superpowers/SKILL.md`
   - `using-superpowers/agent-routing-rules.yaml`
@@ -196,16 +196,16 @@ flowchart TD
 When a future session needs to rebuild understanding quickly, use this order:
 
 1. Read `global-agent-skill-relationship-map.md`
-2. Read `C:\Users\105221\.codex\agents\workflow-router.toml`
-3. Read `C:\Users\105221\.codex\skills\using-superpowers\SKILL.md`
-4. Read `C:\Users\105221\.codex\skills\using-superpowers\agent-routing-rules.yaml`
-5. Read `C:\Users\105221\.codex\skills\model-routing\SKILL.md`
+2. Read `.codex/agents/workflow-router.toml`
+3. Read `.codex/skills/using-superpowers/SKILL.md`
+4. Read `.codex/skills/using-superpowers/agent-routing-rules.yaml`
+5. Read `.codex/skills/model-routing/SKILL.md`
 
 ## Refresh Trigger
 
 Refresh this map when any of these change:
-- a new file is added under `C:\Users\105221\.codex\agents`
-- a new top-level skill is added under `C:\Users\105221\.codex\skills`
+- a new file is added under `.codex/agents`
+- a new top-level skill is added under `.codex/skills`
 - `using-superpowers` routing files change
 - `model-routing/SKILL.md` changes
 - a custom agent changes role or model tier

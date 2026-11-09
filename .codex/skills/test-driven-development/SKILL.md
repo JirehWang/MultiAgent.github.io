@@ -8,7 +8,7 @@ description: Use before implementing practical behavior changes or bug fixes. Wr
 Use when changing behavior, fixing bugs, or adding logic that can regress.
 
 Apply the anti-overengineering ladder from
-`C:\Users\105221\.codex\skills\using-superpowers\ANTI_OVERENGINEERING_POLICY.md`
+[`ANTI_OVERENGINEERING_POLICY.md`](../using-superpowers/ANTI_OVERENGINEERING_POLICY.md)
 before choosing the implementation shape. Keep the fix as small and local as safely possible.
 
 Core loop: red, green, refactor.

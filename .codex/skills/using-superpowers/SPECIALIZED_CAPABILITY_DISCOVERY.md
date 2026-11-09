@@ -102,6 +102,12 @@ The top-level router should use the registry as an overlay layer:
 4. if a clear capability match exists, follow its `dispatch` contract
 5. otherwise fall back to the normal global skill pool
 
+Cross-cutting workflow skills that must be attached to an otherwise-selected primary are
+declared separately in `skill_overlay_catalog` in `agent-routing-rules.yaml`. When a route emits
+`required_skill_overlays`, load those catalog entrypoints and preserve the selected primary;
+these workflow overlays do not use or change the capability registry's `direct-skill` or
+`delegate-router` dispatch modes.
+
 ## Portability Rule
 
 Portable global routing logic belongs in `using-superpowers`.

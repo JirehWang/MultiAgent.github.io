@@ -1,4 +1,4 @@
-﻿---
+---
 name: design-taste-frontend
 description: Anti-slop frontend skill for landing pages, portfolios, and redesigns. The agent reads the brief, infers the right design direction, and ships interfaces that do not look templated. Real design systems when applicable, audit-first on redesigns, strict pre-flight check.
 ---
@@ -21,6 +21,7 @@ Before touching code or tweaking dials, **infer what the user actually wants**. 
 4. **Audience** - B2B procurement panel vs. design-conscious consumer vs. recruiter scanning a portfolio. The audience picks the aesthetic, not your taste.
 5. **Brand assets that already exist** - logo, color, type, photography. For redesigns, these are starting material, not optional input (see Section 11).
 6. **Quiet constraints** - accessibility-first audiences, public-sector, regulated industries, trust-first commerce, kids' products. These constraints OVERRIDE aesthetic preference.
+7. **User task** - identify what visitors need to understand or do. For product flows, forms, dashboards, or app interfaces, use `ui-ux-pro-max` and its task-relevant [human-factors reference](../ui-ux-pro-max/references/human-factors.md); this marketing-page skill is only a visual layer where its scope fits.
 
 ### 0.B Output a one-line "Design Read" before generating
 Before any code, state in one line: **"Reading this as: \<page kind> for \<audience>, with a \<vibe> language, leaning toward \<design system or aesthetic family>."**
@@ -183,11 +184,12 @@ LLMs default to cliches. Override these defaults proactively. Each rule has a co
 * **ITALIC DESCENDER CLEARANCE (mandatory):** When italic is used in display type and the word contains a descender letter (`y g j p q`), `leading-[1]` or `leading-none` will clip the descender. Use `leading-[1.1]` minimum and add `pb-1` or `mb-1` reserve on the wrapping element. Audit every italic word in display headlines before shipping.
 
 ### 4.2 Color Calibration
-* Max 1 accent color. Saturation < 80% by default.
+Palette ownership belongs to `ui-ux-pro-max`: follow its [palette principles](../ui-ux-pro-max/references/strategy-modules.md) Palette Contract and existing project tokens. If a greenfield or broad redesign has no contract, invoke `ui-ux-pro-max` before making palette decisions. The rules below are implementation guardrails; they do not authorize a competing palette or override supplied values.
+* Default to one brand accent and saturation below 80%. Preserve a supplied Palette Contract even when it defines a different palette size or saturation.
 * **THE LILA RULE:** The "AI Purple / Blue glow" aesthetic is discouraged as a default. No automatic purple button glows, no random neon gradients. Use neutral bases (Zinc / Slate / Stone) with high-contrast singular accents (Emerald, Electric Blue, Deep Rose, Burnt Orange, etc.).
 * **Override:** if the brand or brief explicitly asks for purple / violet / lila, embrace it. But execute with intent: consistent palette, harmonised neutrals, restrained gradients. Not generic AI gradient slop.
-* **One palette per project.** Do not fluctuate between warm and cool grays within the same project.
-* **COLOR CONSISTENCY LOCK (mandatory):** Once an accent color is chosen for a page, it is used on the WHOLE page. A warm-grey site does not suddenly get a blue CTA in section 7. A rose-accented site does not get a teal status badge in the footer. Pick one accent, lock it, audit every component before shipping.
+* **Follow the Palette Contract.** If the brief, `DESIGN.md`, or project tokens define colors, preserve their values, roles, and naming; do not choose a replacement palette. If none exists, get the contract from `ui-ux-pro-max` before implementation.
+* **Keep roles consistent.** Reuse the brand accent for actions and highlights. Keep semantic status colors (success, warning, error, information) distinct by role where the interface needs them; they are not competing brand accents. Do not fluctuate between unrelated neutral temperatures.
 
 * **PREMIUM-CONSUMER PALETTE BAN (mandatory, second-most-recurring AI-tell):**
   * For premium-consumer briefs (cookware, wellness, artisan, luxury, heritage craft, DTC home goods, etc.) the LLM default is **warm beige/cream + brass/clay/oxblood/ochre + espresso/ink dark text**. Concretely banned hex families as default backgrounds and accents:
@@ -301,17 +303,17 @@ Landing pages live on the **first impression**, not the full read. Cut ruthlessl
 
 * **Default content shape per section:** short headline (<= 8 words) + short sub-paragraph (<= 25 words) + one visual asset OR one CTA. Anything more must be justified by the section's job.
 * **No data-dump sections.** A 20-row publication table, a 30-row award list, a giant pricing matrix on a marketing page = wrong layout. Use:
-  - Top 3-5 highlights + "View full list" link
+  - Surface the most decision-relevant highlights and give users a clear route to the complete list; let the task and available evidence determine how many to feature
   - Marquee / carousel for breadth
   - Different page entirely if the data is the product
-* **Long lists need a different UI component, not a longer list.** Default `<ul>` with bullets / `divide-y` rows is the lazy choice. If you have > 5 items, reach for one of these instead:
+* **Choose a list pattern by task, not by item count.** A plain list is often clearest. When users need comparison, scanning, filtering, or progressive disclosure, consider:
   - 2-column split with grouped items
   - Card grid with image + label per item
   - Tabs / accordion if items are categorisable
   - Horizontal scroll-snap pills
   - Carousel for breadth-heavy lists (testimonials, logos, capabilities)
   - Marquee for "lots-of-things-that-don't-need-individual-attention"
-  A spec sheet with 10 rows + a hairline under every row is the WORST default. Either group rows into 2-3 chunks with sparse dividers, or move to a card-per-spec layout.
+  A long spec sheet can use grouped rows with sparse dividers, a table, or cards when that better supports comparison. Do not force a carousel, card grid, or disclosure solely because a list crosses a numeric threshold.
 * **Spec sheets specifically (the Marrow-cookware pattern).** A long product specification table with `border-b` on every row is the AI default for cookware / hardware / apparel / artisan-goods briefs. Banned. Concrete alternatives:
   - **2-col card grid:** each spec gets its own card with the spec name, the value (large display number), and a one-line "why it matters" body. Cards arranged 2-col on desktop, 1-col mobile.
   - **Scroll-snap horizontal pills:** each spec is a pill, user can flick through.
@@ -356,7 +358,7 @@ These are tools, not defaults. Use them when the design read calls for them. **N
 * **Liquid Glass / Glassmorphism:** Appropriate for premium consumer, Apple-adjacent, luxury brand, or media-overlay vibes. Inappropriate for dashboards, public-sector, or "boring B2B." When used, go beyond `backdrop-blur`: add a 1px inner border (`border-white/10`) and a subtle inner shadow (`shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]`) for physical edge refraction. Provide a solid-fill fallback under `prefers-reduced-transparency`.
 * **Magnetic Micro-physics:** Use when `MOTION_INTENSITY > 5` AND the brief reads premium / playful / agency. Implement EXCLUSIVELY with Motion's `useMotionValue` / `useTransform` outside the React render cycle. Never `useState`. See Section 3.B.
 * **Perpetual Micro-Interactions** (Pulse, Typewriter, Float, Shimmer, Carousel): Use when `MOTION_INTENSITY > 5` AND the section actively benefits from motion (status indicators, live feeds, AI-feel). **Not every card needs an infinite loop.** If a section is informational, leave it still. Apply Spring Physics (`type: "spring", stiffness: 100, damping: 20`) - no linear easing.
-* **"Motion claimed, motion shown."** If `MOTION_INTENSITY > 4`, the page must actually move: entry transitions on hero, scroll-reveal on key sections, hover physics on CTAs, at minimum. A static page that claims `MOTION_INTENSITY: 7` is broken. Conversely, if you cannot ship working motion in the available scope, drop the dial to 3 and ship a clean static page. Never half-build motion that breaks (cut-off ScrollTriggers, jumpy enters, missing cleanups).
+* **Motion dial is a preference, not a quota.** A higher `MOTION_INTENSITY` allows more expressive motion when it serves the brief; it does not require movement on every page or interaction. Static output is valid. If motion is used, implement it fully, keep it purposeful, and honor reduced-motion preferences.
 * **MOTION MUST BE MOTIVATED (mandatory).** Before adding any animation, ask: "what does this animation communicate?" Valid answers: hierarchy (drawing attention to the right thing), storytelling (revealing content in sequence that matches a narrative), feedback (acknowledging a user action), state transition (showing something changed). Invalid answer: "it looked cool". GSAP everywhere because GSAP is available is amateur. Each ScrollTrigger, each marquee, each pinned section needs a reason. If you cannot articulate the reason in one sentence, drop the animation.
 * **MARQUEE MAX-ONE-PER-PAGE (mandatory).** Horizontal scrolling text marquees ("logos endlessly scrolling", "manifesto scrolling sideways", "kinetic word strip") are appropriate at most ONCE per page. Two or more marquees on the same page reads as lazy filler. Pick the one section where the marquee actually serves the content; the others get a different layout.
 * **GSAP Sticky-Stack Pattern (when scroll-stack is used).** A "card stack on scroll" must be a REAL sticky-stack, not a sequential reveal list. See Section 5.A below for the canonical code skeleton. Common failure: trigger fires halfway through scroll instead of pinning at viewport top. Fix: `start: "top top"` not `start: "top center"` or `"top 80%"`.
@@ -555,7 +557,7 @@ NEVER spam arbitrary `z-50` or `z-10`. Use z-index strictly for systemic layer c
 * **1-3 (Predictable):** Symmetrical CSS Grid (12-col, equal fr-units), equal paddings, centered alignment.
 * **4-7 (Offset):** `margin-top: -2rem` overlaps, varied image aspect ratios (4:3 next to 16:9), left-aligned headers over center-aligned data.
 * **8-10 (Asymmetric):** Masonry layouts, CSS Grid with fractional units (`grid-template-columns: 2fr 1fr 1fr`), massive empty zones (`padding-left: 20vw`).
-* **MOBILE OVERRIDE:** For levels 4-10, asymmetric layouts above `md:` MUST collapse to strict single-column (`w-full`, `px-4`, `py-8`) on viewports `< 768px`.
+* **Responsive override:** For asymmetric layouts, reflow tracks and spacing at the project's content-appropriate breakpoints. Use a single column where it improves reading or control access; do not apply one mandatory breakpoint or column count to every layout.
 
 ### MOTION_INTENSITY (Level 1-10)
 * **1-3 (Static):** No automatic animations. CSS `:hover` and `:active` states only. `prefers-reduced-motion` is the default mode anyway.
@@ -582,7 +584,7 @@ The brief and brand decide. This skill enforces only:
 * **Contrast** - WCAG AA minimum for body text, AAA target for hero copy.
 * **Hierarchy parity** - visual hierarchy that works in light must work in dark. If a CTA pops in light, it pops in dark.
 * **Brand fidelity** - primary brand color stays recognisable. Don't desaturate the brand into a dark mode.
-* **No pure `#000000` and no pure `#ffffff`** - use off-black (zinc-950, near-black warm gray) and off-white. Pure values kill depth.
+* **Avoid pure `#000000` and `#ffffff` by default** - use off-black (zinc-950, near-black warm gray) and off-white when the contract leaves those roles open. Preserve explicit brand and project token values.
 
 ### 8.C Default Mode
 Respect `prefers-color-scheme` unless the brand insists. Add a manual toggle if either mode would lose key brand expression.
@@ -598,8 +600,8 @@ Avoid these signatures unless the brief explicitly asks for them.
 
 ### 9.A Visual & CSS
 * **NO neon / outer glows** by default. Use inner borders or subtle tinted shadows.
-* **NO pure black (`#000000`).** Off-black, zinc-950, or charcoal.
-* **NO oversaturated accents.** Desaturate to blend with neutrals.
+* **Avoid pure black (`#000000`) by default.** Preserve it when the Palette Contract or brand specifies it.
+* **Avoid oversaturated accents by default.** Follow the Palette Contract when it specifies saturation.
 * **NO excessive gradient text** for large headers.
 * **NO custom mouse cursors.** Outdated, accessibility-hostile, perf-hostile.
 
@@ -921,9 +923,10 @@ Run this matrix before outputting code. This is the last filter.
 - [ ] **Page Theme Lock**: ONE theme (light, dark, or auto) for the whole page. No section flips to inverted mode mid-page (Section 4.11)?
 - [ ] **Color Consistency Lock**: one accent color used identically across all sections (Section 4.2)?
 - [ ] **Shape Consistency Lock**: one corner-radius system applied consistently (Section 4.4)?
-- [ ] **Button Contrast Check**: every CTA text is readable against its background (no white-on-white, WCAG AA 4.5:1)?
+- [ ] **Button Contrast Check**: every CTA label is readable against its background and meets the applicable WCAG contrast ratio (4.5:1 for normal text, 3:1 for large text)?
 - [ ] **CTA Button Wrap**: no CTA label wraps to 2+ lines at desktop?
 - [ ] **Form Contrast Check**: form inputs, placeholders, focus rings, labels all pass WCAG AA against the section background?
+- [ ] **Task and target check**: the main action is clear; keyboard focus is visible; touch controls have a usable hit area and spacing for their platform?
 - [ ] **Serif discipline**: if a serif is used, it is NOT Fraunces or Instrument_Serif (or it is, with explicit brand justification)? Different serif from your previous project?
 - [ ] **Premium-consumer palette check**: if the brief is premium-consumer (cookware / wellness / artisan / luxury), the palette is NOT the AI-default beige+brass+oxblood+espresso family? Different family from your previous premium-consumer project?
 - [ ] **Italic descender clearance**: every italic word with `y g j p q` has `leading-[1.1]` min + `pb-1` reserve?
@@ -943,7 +946,7 @@ Run this matrix before outputting code. This is the last filter.
 - [ ] **Navigation on ONE line** at desktop, height <= 80px?
 - [ ] **Section-Layout-Repetition** check: no two sections share the same layout family (at least 4 different families across 8 sections)?
 - [ ] **Bento has rhythm AND exact cell count** (N items -> N cells, no empty cells in middle or at end)?
-- [ ] **Long lists use the right UI component** (not default `<ul>` with `divide-y` for > 5 items - see Section 4.9 alternatives)?
+- [ ] **Content pattern fits the task**: lists, tables, cards, filters, and disclosures are chosen by user goal and comparison needs, not a fixed item-count rule?
 - [ ] **Real images used** (gen-tool first, then Picsum-seed, then explicit placeholder slots) - NO div-based fake screenshots, NO hand-rolled decorative SVGs, NO pure-text minimalism?
 - [ ] **No pills/labels overlaid on images** (no `Plate - Brand`, no `Field notes - journal`)?
 - [ ] **No photo-credit captions as decoration** (`Field study no. 12 - Ines Caetano`)?

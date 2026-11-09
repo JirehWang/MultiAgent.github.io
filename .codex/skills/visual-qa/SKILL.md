@@ -7,6 +7,8 @@ description: Use when verifying frontend UI, visual polish, responsive layout, b
 
 Verify what the user will actually see. This skill focuses on browser-based inspection after frontend changes or when visual correctness is uncertain.
 
+For task clarity, grouping, choice complexity, content scanning, and touch targets, consult the relevant principles in [`../ui-ux-pro-max/references/human-factors.md`](../ui-ux-pro-max/references/human-factors.md). Apply them to the tested task and platform rather than as universal layout rules.
+
 ## When To Use
 
 Use for:
@@ -35,8 +37,13 @@ Skip for:
    - Broken/missing images, icons, fonts, charts, or media.
    - Blank canvas/WebGL/Three.js scenes.
    - Hover/focus/disabled/loading states when relevant.
-6. Capture evidence with screenshots or clear observations.
-7. Fix issues and re-check the affected viewport/state.
+   - When color is in scope, compare rendered colors with the Palette Contract or authoritative project tokens and check relevant text/control contrast, focus and status states, and whether meaning is conveyed by more than color alone. Verify a contrast ratio from source values when available; otherwise report the visual evidence without claiming a measured ratio. QA reports palette issues but does not choose a replacement palette.
+6. For interaction-bearing changes, inspect the relevant task from its starting point through completion. Check whether grouping, hierarchy, labels, and available choices make the next action clear.
+7. For touch interfaces, inspect the effective hit area and spacing between targets using the platform's guidance; don't judge target size from the visible icon alone. Check keyboard focus and other input methods when in scope.
+8. Check content scanning with the task in mind. Use headings, meaningful labels, and grouping to expose relevant information; do not treat an F-shaped gaze path as a universal requirement.
+9. If usage data or research is supplied, confirm the highest-priority task remains supported. Don't infer a fixed 80/20 distribution without evidence.
+10. Capture evidence with screenshots or clear observations.
+11. Fix issues and re-check the affected viewport/state.
 
 ## Output Format
 
@@ -44,7 +51,7 @@ Report only useful evidence:
 
 ```text
 Checked:
-- route/page, viewport, state
+- route/page, viewport, task, and state
 
 Findings:
 - issue or "no visual issues found"

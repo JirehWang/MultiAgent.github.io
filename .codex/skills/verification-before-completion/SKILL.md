@@ -16,21 +16,25 @@ For verification evidence summaries, use caveman style: command, exit code, key 
 ## Hard Gate
 
 ```
-No fresh verification evidence, no claim of completion.
+No current, complete, applicable verification evidence, no claim of completion.
 ```
 
-If you did not run verification in this message, do not claim tests passed.
+Evidence may be reused when the artifact/version or digest, environment/dependencies,
+verification scope, and completeness/applicability are unchanged and the prior result
+was successful. A new message or handoff alone does not invalidate applicable evidence.
+Otherwise, run the relevant verification before making a claim.
 
 ## Gate Function
 
 Before claiming any status or satisfaction:
 
-1. Decide what command proves the claim.
-2. Run the full command again.
-3. Read the full output, exit code, and failure count.
-4. Check whether the output supports the claim.
-5. If not, report the actual status with evidence.
-6. If yes, state the result with evidence.
+1. Identify the current artifact or answer, version/digest, environment/dependencies,
+   verification scope, and required completeness.
+2. Inspect prior evidence for a complete successful result with all those inputs unchanged.
+3. Reuse it when applicable; otherwise decide and run the relevant verification command.
+4. Read the output, exit code, and failure count when a command runs.
+5. Check whether the evidence supports the claim; report gaps and remaining risk when it does not.
+6. State the result with the evidence identity and scope.
 
 Skipping a step is not verification.
 

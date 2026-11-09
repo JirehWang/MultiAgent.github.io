@@ -1,9 +1,12 @@
-﻿---
+---
 name: industrial-brutalist-ui
 description: Raw mechanical interfaces fusing Swiss typographic print with military terminal aesthetics. Rigid grids, extreme type scale contrast, utilitarian color, analog degradation effects. For data-heavy dashboards, portfolios, or editorial sites that need to feel like declassified blueprints.
 ---
 
 # SKILL: Industrial Brutalism & Tactical Telemetry UI
+
+## Scope and Precedence
+Use this as an optional visual treatment, not a replacement for task design. User goals, information hierarchy, an incoming Palette Contract, existing design-system tokens, accessibility, responsive behavior, and platform conventions take precedence. The palette below is a style default for projects without supplied color rules; preserve supplied values and roles. For product interactions, use the relevant guidance in [`../ui-ux-pro-max/references/human-factors.md`](../ui-ux-pro-max/references/human-factors.md). Keep essential information readable without texture or color alone.
 
 ## 1. Skill Meta
 **Name:** Industrial Brutalism & Tactical Telemetry Interface Engineering
@@ -30,16 +33,16 @@ Typography is the primary structural and decorative infrastructure. Imagery is s
     *   **Scale:** Deployed at massive scales using fluid typography (e.g., `clamp(4rem, 10vw, 15rem)`).
     *   **Tracking (Letter-spacing):** Extremely tight, often negative (`-0.03em` to `-0.06em`), forcing glyphs to form solid architectural blocks.
     *   **Leading (Line-height):** Highly compressed (`0.85` to `0.95`).
-    *   **Casing:** Exclusively uppercase for structural impact.
+    *   **Casing:** Uppercase can add structural impact; use it selectively and keep longer or essential headings comfortable to read.
 
 ### 3.2 Micro-Typography (Data & Telemetry)
 *   **Classification:** Monospace / Technical Sans.
 *   **Optimal Web Fonts:** JetBrains Mono, IBM Plex Mono, Space Mono, VT323, Courier Prime.
 *   **Implementation Parameters:**
-    *   **Scale:** Fixed and small (`10px` to `14px` / `0.7rem` to `0.875rem`).
+    *   **Scale:** Compact type may suit secondary metadata. Keep essential labels and data readable at the target viewport and zoom level; do not impose a fixed small size.
     *   **Tracking:** Generous (`0.05em` to `0.1em`) to simulate mechanical typewriter spacing or terminal matrices.
     *   **Leading:** Standard to tight (`1.2` to `1.4`).
-    *   **Casing:** Exclusively uppercase. Used for all metadata, navigation, unit IDs, and coordinates.
+    *   **Casing:** Uppercase is an optional stylistic treatment for short metadata. Preserve familiar casing and readable labels for navigation, controls, and longer content.
 
 ### 3.3 Textural Contrast (Artistic Disruption)
 *   **Classification:** High-Contrast Serif.
@@ -90,4 +93,5 @@ To prevent the design from appearing purely digital, simulated analog degradatio
 1.  **Grid Determinism:** Utilize `display: grid; gap: 1px;` with contrasting parent/child background colors to generate mathematically perfect, razor-thin dividing lines without complex border declarations.
 2.  **Semantic Rigidity:** Construct the DOM using precise semantic tags (`<data>`, `<samp>`, `<kbd>`, `<output>`, `<dl>`) to accurately reflect the technical nature of the telemetry.
 3.  **Typography Clamping:** Implement CSS `clamp()` functions exclusively for macro-typography to ensure massive text scales aggressively while maintaining structural integrity across viewports.
+4.  **Accessibility floor:** Maintain readable contrast, visible keyboard focus, non-color status cues, and platform-appropriate hit areas. Keep scanlines, grain, and blinking effects away from essential text and controls; honor reduced-motion preferences.
 

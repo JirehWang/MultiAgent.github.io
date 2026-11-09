@@ -1,4 +1,4 @@
-﻿---
+---
 name: image-to-code
 description: Elite website image-to-code skill for Codex. For visually important web tasks, it must first generate the design image(s) itself, deeply analyze them, then implement the website to match them as closely as possible. In Codex, it must prefer large, readable, section-specific images instead of tiny compressed boards, generate fresh standalone images for sections or detail views instead of cropping old ones, avoid lazy under-generation, avoid cards-inside-cards-inside-cards UI, and keep the hero clean, spacious, readable, and visible on a small laptop.
 ---
@@ -813,7 +813,7 @@ If button or card detail is too small, generate a closer image.
 
 ## 25. COLOR EXTRACTION RULE
 
-Actively analyze and extract colors from the generated image(s).
+If a Palette Contract, brand guidance, or project tokens are supplied, preserve their values and roles. Otherwise, analyze and extract the palette from the generated reference image(s); this skill translates visual evidence into code and does not invent a replacement color system.
 
 Inspect:
 - background color
@@ -826,7 +826,7 @@ Inspect:
 - image tint / grade
 - gradient restraint or intensity
 
-The implemented website should preserve the original color logic as closely as reasonably possible.
+The implemented website should preserve the original color logic as closely as reasonably possible. Treat extracted values as estimates and check rendered contrast using source values before claiming compliance.
 
 Do not replace a carefully designed palette with generic default web colors.
 

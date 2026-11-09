@@ -1,18 +1,40 @@
 project: MultiAgent.github.io
-root: repository root
+root: .
 
 entrypoints:
-  main: docs/ANTIGRAVITY-LANDING.md
+  instructions: AGENTS.md
+  main: README.md
+  architecture: docs/codex-global-application-architecture.md
+  antigravity_landing: docs/ANTIGRAVITY-LANDING.md
   antigravity_install: docs/ANTIGRAVITY-LANDING.md
   codex_security_landing: docs/codex/codex-security-landing.md
 
+workflow:
+  classify: .codex/skills/using-superpowers/SKILL.md
+  route: .codex/agents/workflow-router.toml
+  routing_rules: .codex/skills/using-superpowers/agent-routing-rules.yaml
+  map_capabilities: .codex/skills/model-routing/SKILL.md
+  specialist_catalog: .codex/skills/model-routing/references/agent-profiles/
+  specialist_guides: .codex/skills/
+  architecture_overlay: .codex/skills/architecture-review/SKILL.md
+  completion: .codex/skills/verification-before-completion/SKILL.md
+
+path_policy:
+  repository_root: current_repository_root
+  package_root: .codex/
+  references: relative_to_the_referencing_file
+  host_global_paths: optional_host_configuration_not_required_for_repo_work
+  optional_tools: use_connected_tool_or_host_command; continue_with_repo_search_when_absent
+  generated_or_private_data: keep_outside_the_repository
+
 data_dirs:
-  input: .codex
-  output: Antigravity or Codex global configuration directories
+  input: user-provided project files
+  output: requested project or output directory
+  fixtures: tests and repository-local skill resources
 
 verify_commands:
-  - powershell -ExecutionPolicy Bypass -File .\scripts\verify.ps1
-  - git status --short
+  - pwsh -NoProfile -File ./scripts/verify.ps1
+  - git diff --check
 
 package_commands:
   - not_applicable
@@ -28,5 +50,6 @@ risk_notes:
   - Company capabilities are included only when the maintainer explicitly approves that specific sync.
   - Codex agent TOML files are reference profiles in Antigravity; Antigravity primarily consumes SKILL.md packages.
   - Codex Security scan output may contain source excerpts and must remain outside the repository with an appropriate retention policy.
+  - Keep repository instructions and .codex skill references relative so the workflow works from a cloud checkout.
 
-last_reviewed: 2026-07-29
+last_reviewed: 2026-11-09

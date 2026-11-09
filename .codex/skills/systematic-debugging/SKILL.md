@@ -10,7 +10,7 @@ Use this skill when behavior is broken or unclear.
 Core rule: reproduce, isolate, explain, then fix.
 
 Apply the anti-overengineering ladder from
-`C:\Users\105221\.codex\skills\using-superpowers\ANTI_OVERENGINEERING_POLICY.md`
+[`ANTI_OVERENGINEERING_POLICY.md`](../using-superpowers/ANTI_OVERENGINEERING_POLICY.md)
 after the root cause is known. Fix the cause with the smallest safe change.
 
 ## Workflow

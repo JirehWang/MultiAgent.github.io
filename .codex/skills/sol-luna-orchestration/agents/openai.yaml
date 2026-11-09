@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astra-Luna Acceptance Workflow Orchestration"
+  short_description: "Astra plans; Luna executes; independent acceptance returns a decision"
+  default_prompt: "Use $sol-luna-orchestration for delegated or independently reviewed work: Astra controls and defines standards, eligible Luna executes the bounded packet, and the independent acceptance process applies the standards and returns the decision."

@@ -89,12 +89,12 @@ BDD 只在使用者流程、外部可觀察行為、服務契約或跨系統互�
 
 | 元件 | 位置 | 用途 | 狀態 |
 |---|---|---|---|
-| Workflow routing rules | `C:\Users\105221\.codex\skills\using-superpowers\agent-routing-rules.yaml` | 任務分級、stage contract、供應鏈政策、路由與狀態欄位 | 已導入 |
-| Superpowers workflow instructions | `C:\Users\105221\.codex\skills\using-superpowers\SKILL.md` | 定義先分類、再正規化驗證等級的總流程 | 已導入 |
-| Validation standards adapter | `C:\Users\105221\.codex\skills\validation-standards\SKILL.md` | SDD／DDD／BDD 驗證契約與證據格式 | 已導入 |
-| Global workflow smoke test | `C:\Users\105221\.codex\skills\validation-standards\scripts\validate_global_workflow.py` | 驗證 YAML、TOML、JSON、路由、stage contract 與供應鏈規則 | 已導入 |
-| Workflow router profile | `C:\Users\105221\.codex\agents\workflow-router.toml` | 將 validation-standards 納入全域路由 | 已導入 |
-| Global agent/skill map | `C:\Users\105221\.codex\global-agent-map\global-agent-skill-relationship-map.md`、`.json` | 維持 agent、skill、workflow 關聯 | 已導入 |
+| Workflow routing rules | `.codex/skills\using-superpowers\agent-routing-rules.yaml` | 任務分級、stage contract、供應鏈政策、路由與狀態欄位 | 已導入 |
+| Superpowers workflow instructions | `.codex/skills\using-superpowers\SKILL.md` | 定義先分類、再正規化驗證等級的總流程 | 已導入 |
+| Validation standards adapter | `.codex/skills\validation-standards\SKILL.md` | SDD／DDD／BDD 驗證契約與證據格式 | 已導入 |
+| Global workflow smoke test | `.codex/skills\validation-standards\scripts\validate_global_workflow.py` | 驗證 YAML、TOML、JSON、路由、stage contract 與供應鏈規則 | 已導入 |
+| Workflow router profile | `.codex/agents\workflow-router.toml` | 將 validation-standards 納入全域路由 | 已導入 |
+| Global agent/skill map | `.codex/global-agent-map\global-agent-skill-relationship-map.md`、`.json` | 維持 agent、skill、workflow 關聯 | 已導入 |
 
 這次的核心實作是「規則與 adapter」，不是把所有 OSS 工具都裝進全域環境。因此目前不會因為某個專案沒有 Java、.NET 或 Cucumber 而被迫安裝不必要的 runtime。
 
@@ -120,54 +120,29 @@ BDD 只在使用者流程、外部可觀察行為、服務契約或跨系統互�
 
 供應鏈基線：只採用已審查的核心 OSS 參考，不採用未審查的 community extension、preset、workflow、schema 或第三方 skill。若未來安裝，應固定版本或 commit、保留 license／notice、檢查 transitive dependencies／SBOM，並先經 skill-gatekeeper 審查。
 
-## 6. 移轉到另一台電腦
+## 6. 在雲端 checkout 使用工作流
 
-### 必須複製的檔案
+Clone repository 後，從 repository root 開啟專案。AGENTS.md、project_contract.yml 與 .codex/ 會構成 repo-local 工作流；一般使用不需要複製到任何使用者的全域 Codex 目錄。
 
-將以下檔案依相同相對結構複製到目標電腦的 `%USERPROFILE%\.codex`：
+工作流主要檔案：
 
-```text
-skills\using-superpowers\agent-routing-rules.yaml
-skills\using-superpowers\SKILL.md
-skills\validation-standards\SKILL.md
-skills\validation-standards\scripts\validate_global_workflow.py
-agents\workflow-router.toml
-global-agent-map\global-agent-skill-relationship-map.md
-global-agent-map\global-agent-skill-relationship-map.json
-```
+- .codex/skills/using-superpowers/SKILL.md
+- .codex/skills/using-superpowers/agent-routing-rules.yaml
+- .codex/skills/validation-standards/SKILL.md
+- .codex/skills/validation-standards/scripts/validate_global_workflow.py
+- .codex/agents/workflow-router.toml
+- .codex/global-agent-map/global-agent-skill-relationship-map.md
+- .codex/global-agent-map/global-agent-skill-relationship-map.json
 
-來源電腦的完整路徑是：
+### 環境需求
 
-```text
-C:\Users\105221\.codex\
-```
-
-不要把 `C:\Users\105221` 原樣寫死到另一台電腦；目標機應替換成該使用者自己的 `%USERPROFILE%`。全域 map 若含有絕對路徑，也必須一併改成目標機路徑。
-
-### 目標電腦環境
-
-建議使用：
-
-- Python 3.11 或以上。
-- 可匯入 `yaml` 的 PyYAML。
-- 已可正常執行 Codex 的 `.codex` 目錄結構。
+Codex 可用即可讀取 repo-local 指引。Python 與 PyYAML 僅在執行 validation-standards 的檢查腳本時需要；選用的 MCP 或 Antigravity 工具不構成工作流入口的必要條件。
 
 ### 移轉後驗證
 
-在目標電腦執行：
+從 repository root 執行：
 
-```powershell
-py -3.11 "$env:USERPROFILE\.codex\skills\validation-standards\scripts\validate_global_workflow.py"
-```
-
-預期結果：
-
-```text
-SUMMARY | total=191 passed=191 failed=0
-```
-
-若結果不是全數通過，先處理路徑、YAML／TOML／JSON 解析或版本差異，不應先忽略失敗項目。
-
+pwsh -NoProfile -File ./scripts/verify.ps1
 ## 7. 非企業環境可以增加的能力
 
 非企業或個人專案可以增加工具，但建議以「專案級、按需安裝」為原則，不要把全部工具變成全域必需品。

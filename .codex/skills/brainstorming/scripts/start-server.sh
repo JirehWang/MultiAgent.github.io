@@ -7,7 +7,7 @@
 #
 # Options:
 #   --project-dir <path>  Store session files under <path>/.superpowers/brainstorm/
-#                         instead of /tmp. Files persist after server stops.
+#                         instead of the operating system temporary directory. Files persist after server stops.
 #   --host <bind-host>    Host/interface to bind (default: 127.0.0.1).
 #                         Use 0.0.0.0 in remote/containerized environments.
 #   --url-host <host>     Hostname shown in returned URL JSON.
@@ -80,7 +80,14 @@ SESSION_ID="$$-$(date +%s)"
 if [[ -n "$PROJECT_DIR" ]]; then
   SESSION_DIR="${PROJECT_DIR}/.superpowers/brainstorm/${SESSION_ID}"
 else
-  SESSION_DIR="/tmp/brainstorm-${SESSION_ID}"
+  TEMP_ROOT="${TMPDIR:-/tmp}"
+  TEMP_ROOT="${TEMP_ROOT%/}"
+  if [[ -z "$TEMP_ROOT" ]]; then TEMP_ROOT="/"; fi
+  if [[ "$TEMP_ROOT" == "/" ]]; then
+    echo '{"error": "temporary directory cannot be the filesystem root"}'
+    exit 1
+  fi
+  SESSION_DIR="${TEMP_ROOT%/}/brainstorm-${SESSION_ID}"
 fi
 
 STATE_DIR="${SESSION_DIR}/state"

@@ -1,6 +1,6 @@
-﻿---
+---
 name: stitch-design-taste
-description: Semantic Design System Skill for Google Stitch. Generates agent-friendly DESIGN.md files that enforce premium, anti-generic UI standards — strict typography, calibrated color, asymmetric layouts, perpetual micro-motion, and hardware-accelerated performance.
+description: Semantic Design System Skill for Google Stitch. Generates agent-friendly DESIGN.md files with a distinctive visual direction, calibrated color and typography, responsive layout guidance, and purposeful motion.
 ---
 
 # Stitch Design Taste — Semantic Design System Skill
@@ -10,6 +10,8 @@ This skill generates `DESIGN.md` files optimized for Google Stitch screen genera
 
 The generated `DESIGN.md` serves as the **single source of truth** for prompting Stitch to generate new screens that align with a curated, high-agency design language. Stitch interprets design through **"Visual Descriptions"** supported by specific color values, typography specs, and component behaviors.
 
+Treat this skill as a visual and export-format overlay. `ui-ux-pro-max` owns product/site palette decisions and provides the Palette Contract; copy its role map and exact source values into `DESIGN.md`. If a contract is missing, obtain one before writing color rules. Preserve established design-system tokens, platform conventions, and accessibility needs. For interaction decisions, use the relevant guidance in [`../ui-ux-pro-max/references/human-factors.md`](../ui-ux-pro-max/references/human-factors.md); style preferences do not override it.
+
 ## Prerequisites
 - Access to Google Stitch via [labs.google/stitch](https://labs.google/stitch)
 - Optionally: Stitch MCP Server for programmatic integration with Cursor, Antigravity, or Gemini CLI
@@ -17,11 +19,11 @@ The generated `DESIGN.md` serves as the **single source of truth** for prompting
 ## The Goal
 Generate a `DESIGN.md` file that encodes:
 1. **Visual atmosphere** — the mood, density, and design philosophy
-2. **Color calibration** — neutrals, accents, and banned patterns with hex codes
+2. **Palette mapping** — the upstream Palette Contract's role names, values, constraints, and modes
 3. **Typographic architecture** — font stacks, scale hierarchy, and anti-patterns
 4. **Component behaviors** — buttons, cards, inputs with interaction states
 5. **Layout principles** — grid systems, spacing philosophy, responsive strategy
-6. **Motion philosophy** — animation engine specs, spring physics, perpetual micro-interactions
+6. **Motion philosophy** — purposeful, optional motion with accessible reduced-motion behavior
 7. **Anti-patterns** — explicit list of banned AI design clichés
 
 ## Analysis & Synthesis Instructions
@@ -34,15 +36,8 @@ Evaluate the target project's intent. Use evocative adjectives from the taste sp
 
 Default baseline: Variance 8, Motion 6, Density 4. Adapt dynamically based on user's vibe description.
 
-### 2. Map the Color Palette
-For each color provide: **Descriptive Name** + **Hex Code** + **Functional Role**.
-
-**Mandatory constraints:**
-- Maximum 1 accent color. Saturation below 80%
-- The "AI Purple/Blue Neon" aesthetic is strictly BANNED — no purple button glows, no neon gradients
-- Use absolute neutral bases (Zinc/Slate) with high-contrast singular accents
-- Stick to one palette for the entire output — no warm/cool gray fluctuation
-- Never use pure black (`#000000`) — use Off-Black, Zinc-950, or Charcoal
+### 2. Map the Palette Contract
+Copy each supplied color's **descriptive name, exact value in its source format, and functional role**. Preserve the contract's palette size, brand colors, token names, and mode rules; do not substitute Stitch's defaults or this skill's style preferences. Add no palette roles that the contract does not define unless the UI requires them, and return any real contrast conflict to the palette owner for a minimal role-specific correction.
 
 ### 3. Establish Typography Rules
 - **Display/Headlines:** Track-tight, controlled scale. Not screaming. Hierarchy through weight and color, not just massive size
@@ -79,18 +74,20 @@ For each component type, describe shape, color, shadow depth, and interaction be
 
 ### 7. Define Responsive Rules
 Every design must work across all viewports:
-- **Mobile-First Collapse (< 768px):** All multi-column layouts collapse to single column. No exceptions
+- **Responsive Layout:** Reflow columns when content, controls, or reading order need it; do not force every multi-column layout into one column at a single breakpoint.
 - **No Horizontal Scroll:** Horizontal overflow on mobile is a critical failure
 - **Typography Scaling:** Headlines scale via `clamp()`. Body text minimum `1rem`/`14px`
-- **Touch Targets:** All interactive elements minimum `44px` tap target
+- **Touch Targets:** Follow the target platform's accessibility guidance and distinguish points, dp, and CSS pixels. Size the effective hit region and keep neighboring targets easy to distinguish.
+- **Focus and Contrast:** Include visible keyboard focus and sufficient text, control, and state contrast.
 - **Image Behavior:** Inline typography images (photos between words) stack below headline on mobile
 - **Navigation:** Desktop horizontal nav collapses to clean mobile menu
 - **Spacing:** Vertical section gaps reduce proportionally (`clamp(3rem, 8vw, 6rem)`)
 
 ### 8. Encode Motion Philosophy
-- **Spring Physics default:** `stiffness: 100, damping: 20` — premium, weighty feel. No linear easing
-- **Perpetual Micro-Interactions:** Every active component should have an infinite loop state (Pulse, Typewriter, Float, Shimmer)
-- **Staggered Orchestration:** Never mount lists instantly — use cascade delays for waterfall reveals
+- **Motion is purposeful and optional:** Use it to communicate feedback, hierarchy, or a state transition; static states are valid.
+- **Respect reduced motion:** Provide a reduced-motion version and avoid perpetual movement by default.
+- **Timing follows the interaction:** Spring curves may suit spatial transitions; do not require one physics preset or easing style everywhere.
+- **Staggered Orchestration:** Use cascade delays only when they clarify a short sequence; do not delay essential content or controls.
 - **Performance:** Animate exclusively via `transform` and `opacity`. Never animate `top`, `left`, `width`, `height`. Grain/noise filters on fixed pseudo-elements only
 
 ### 9. List Anti-Patterns (AI Tells)
@@ -98,9 +95,9 @@ Encode these as explicit "NEVER DO" rules in the DESIGN.md:
 - No emojis anywhere
 - No `Inter` font
 - No generic serif fonts (`Times New Roman`, `Georgia`, `Garamond`) — distinctive modern serifs only if needed
-- No pure black (`#000000`)
+- Avoid pure black by default unless the Palette Contract or brand specifies it
 - No neon/outer glow shadows
-- No oversaturated accents
+- Avoid oversaturated accents by default unless the Palette Contract or brand specifies them
 - No excessive gradient text on large headers
 - No custom mouse cursors
 - No overlapping elements — clean spatial separation always
@@ -120,17 +117,11 @@ Encode these as explicit "NEVER DO" rules in the DESIGN.md:
 ## 1. Visual Theme & Atmosphere
 (Evocative description of the mood, density, variance, and motion intensity.
 Example: "A restrained, gallery-airy interface with confident asymmetric layouts
-and fluid spring-physics motion. The atmosphere is clinical yet warm — like a
+and optional, purposeful motion. The atmosphere is clinical yet warm — like a
 well-lit architecture studio.")
 
 ## 2. Color Palette & Roles
-- **Canvas White** (#F9FAFB) — Primary background surface
-- **Pure Surface** (#FFFFFF) — Card and container fill
-- **Charcoal Ink** (#18181B) — Primary text, Zinc-950 depth
-- **Muted Steel** (#71717A) — Secondary text, descriptions, metadata
-- **Whisper Border** (rgba(226,232,240,0.5)) — Card borders, 1px structural lines
-- **[Accent Name]** (#XXXXXX) — Single accent for CTAs, active states, focus rings
-(Max 1 accent. Saturation < 80%. No purple/neon.)
+Use the Palette Contract's role map and exact values here, preserving its source notation and token names. Include the roles needed for screen generation, such as surface, text, brand/action, focus, and semantic states when they are defined. Do not invent substitute colors or apply a generic accent limit when the contract specifies otherwise.
 
 ## 3. Typography Rules
 - **Display:** [Font Name] — Track-tight, controlled scale, weight-driven hierarchy
@@ -147,17 +138,17 @@ well-lit architecture studio.")
 
 ## 5. Layout Principles
 (Grid-first responsive architecture. Asymmetric splits for Hero sections.
-Strict single-column collapse below 768px. Max-width containment.
+Reflow columns based on content and controls rather than a universal breakpoint. Max-width containment.
 No flexbox percentage math. Generous internal padding.)
 
 ## 6. Motion & Interaction
-(Spring physics for all interactive elements. Staggered cascade reveals.
-Perpetual micro-loops on active dashboard components. Hardware-accelerated
-transforms only. Isolated Client Components for CPU-heavy animations.)
+(Purposeful motion for selected interactions, with reduced-motion behavior.
+Static states are valid. Use staggered reveals only when they clarify hierarchy.
+Prefer transform and opacity for animated properties.)
 
 ## 7. Anti-Patterns (Banned)
-(Explicit list of forbidden patterns: no emojis, no Inter, no pure black,
-no neon glows, no 3-column equal grids, no AI copywriting clichés,
+(Explicit list of forbidden patterns: no emojis, no Inter, avoid unrequested pure black,
+no unrequested neon colors, no 3-column equal grids, no AI copywriting clichés,
 no generic placeholder names, no broken image links.)
 ```
 
@@ -165,7 +156,7 @@ no generic placeholder names, no broken image links.)
 - **Be Descriptive:** "Deep Charcoal Ink (#18181B)" — not just "dark text"
 - **Be Functional:** Explain what each element is used for
 - **Be Consistent:** Same terminology throughout the document
-- **Be Precise:** Include exact hex codes, rem values, pixel values in parentheses
+- **Be Precise:** Include exact source color values and token names, plus rem/pixel values where useful
 - **Be Opinionated:** This is not a neutral template — it enforces a specific, premium aesthetic
 
 ## Tips for Success
@@ -177,7 +168,7 @@ no generic placeholder names, no broken image links.)
 
 ## Common Pitfalls to Avoid
 - Using technical jargon without translation ("rounded-xl" instead of "generously rounded corners")
-- Omitting hex codes or using only descriptive names
+- Omitting exact Palette Contract values or using descriptions without functional roles
 - Forgetting functional roles of design elements
 - Being too vague in atmosphere descriptions
 - Ignoring the anti-pattern list — these are what make the output premium

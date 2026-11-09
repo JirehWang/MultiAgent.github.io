@@ -1,8 +1,10 @@
-# skill-gatekeeper Model Assignment
+# skill-gatekeeper Runtime Policy
 
-| Runtime | Model |
-| --- | --- |
-| Codex | `gpt-5.4`, reasoning `medium` |
-| Antigravity | `Gemini 3.5 Flash` or `GPT-OSS-120b` for quick screening; escalate to `Gemini 3.1 Pro (high)` when the evidence is ambiguous |
+This profile does not pin a model or reasoning effort. Resolve both from
+`skills/using-superpowers/agent-routing-rules.yaml#model_effort_policy` and the
+inherited `dispatch_contract`.
 
-Use this tier for extension intake, supply-chain triage, and installation gate decisions.
+- Direct work inherits the current model and effort.
+- Delegated work uses the runtime and effort selected by the route.
+- A semantic profile defines role and constraints only; it must not override the routed runtime.
+- Explicit user model or effort requests remain subject to safety and domain contracts.

@@ -8,7 +8,7 @@ description: Use when a specification or multi-step request needs an implementat
 Write plans that make execution safer and easier.
 
 Before expanding scope, apply the anti-overengineering ladder from
-`C:\Users\105221\.codex\skills\using-superpowers\ANTI_OVERENGINEERING_POLICY.md`.
+`../using-superpowers/ANTI_OVERENGINEERING_POLICY.md`.
 Plans should prefer the smallest safe path that solves the requested problem.
 
 Use for medium or large changes, cross-file work, unclear sequencing, or requests where the user asks for a plan.

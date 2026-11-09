@@ -69,7 +69,7 @@ agy -p "Use using-superpowers to classify this task, then report the selected pr
 ## 4. 只安裝到單一專案
 
 ```powershell
-$projectRoot = 'D:\path\to\your-project'
+$projectRoot = (Resolve-Path .).Path # Run this example from the target project root
 $skillTarget = Join-Path $projectRoot '.agents\skills'
 ```
 

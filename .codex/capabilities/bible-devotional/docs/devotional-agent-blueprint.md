@@ -2,15 +2,15 @@
 
 ## Main agent
 
-- [devotional-orchestrator.toml](C:\Users\105221\.codex\agents\devotional-orchestrator.toml)
+- [devotional-orchestrator.toml](../../../agents/devotional-orchestrator.toml)
 
 ## Skills
 
-- [devotional-exegesis](C:\Users\105221\.codex\skills\devotional-exegesis\SKILL.md)
-- [biblical-theology-bridge](C:\Users\105221\.codex\skills\biblical-theology-bridge\SKILL.md)
-- [spiritual-formation-guide](C:\Users\105221\.codex\skills\spiritual-formation-guide\SKILL.md)
-- [devotional-question-architect](C:\Users\105221\.codex\skills\devotional-question-architect\SKILL.md)
-- [spiritual-slide-composer](C:\Users\105221\.codex\skills\spiritual-slide-composer\SKILL.md)
+- [devotional-exegesis](../../../skills/devotional-exegesis/SKILL.md)
+- [biblical-theology-bridge](../../../skills/biblical-theology-bridge/SKILL.md)
+- [spiritual-formation-guide](../../../skills/spiritual-formation-guide/SKILL.md)
+- [devotional-question-architect](../../../skills/devotional-question-architect/SKILL.md)
+- [spiritual-slide-composer](../../../skills/spiritual-slide-composer/SKILL.md)
 
 ## Intended flow
 
@@ -34,7 +34,7 @@ This keeps the theological process staged, but avoids over-fragmenting runtime c
 
 `Agent 0 / Question Architect` is represented by:
 
-- [devotional-question-architect](C:\Users\105221\.codex\skills\devotional-question-architect\SKILL.md)
+- [devotional-question-architect](../../../skills/devotional-question-architect/SKILL.md)
 
 Its job is now split into two explicit modes:
 

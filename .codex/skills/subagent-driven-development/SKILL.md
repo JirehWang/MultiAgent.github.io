@@ -8,7 +8,7 @@ description: Use when a decomposed plan has moderate or high complexity and incl
 Use subagents for substantial decomposed work, not small fixes.
 
 Apply the anti-overengineering ladder from
-`C:\Users\105221\.codex\skills\using-superpowers\ANTI_OVERENGINEERING_POLICY.md`
+[`ANTI_OVERENGINEERING_POLICY.md`](../using-superpowers/ANTI_OVERENGINEERING_POLICY.md)
 before dispatch. Do not multiply agents when a single well-scoped execution path is enough.
 
 ## Caveman Compression
@@ -67,6 +67,32 @@ Decomposition guard:
    - return summary format
 5. Keep prompts self-contained and narrow.
 6. Review returned work and run final verification yourself.
+
+## Astra–Luna workflow with independent acceptance
+
+SDD is used only after the global policy selects delegated decomposition. It is
+decomposition/child-dispatch control only; it is never a production runtime and does not own final acceptance.
+If the user explicitly forbids subagents, do not invoke SDD; retain applicable risk
+checks and disclose any unavailable independent review.
+
+For every child handoff:
+
+- Validate the parent packet before dispatch. After global validation normalization,
+  copy the parent's complete `dispatch_contract` exactly into the child:
+  `execution_required`, `runtime_overlay`, and `global_contract`.
+- The child may narrow only `objective`, `decomposition`, `ownership`, `constraints`,
+  and `acceptance_standards`. It cannot rewrite runtime, `validation_tier`, gates,
+  artifacts, or `acceptance_owner`.
+- Global validation normalization happens before child dispatch; no child may silently
+  downgrade the tier, gates, or artifacts.
+- A missing or invalid parent or child contract is `contract-invalid`: escalate
+  immediately and apply no defaults.
+- The implementer/Luna returns execution evidence only. The independent acceptance process returns `pass`,
+  `retry`, and `rollback`.
+- A child executes its bounded packet and does not restart global routing or create
+  unsolicited subdelegation.
+- Keep decomposition bounded. If children share a file, dispatch those children
+  serially.
 
 ## Review Budget
 

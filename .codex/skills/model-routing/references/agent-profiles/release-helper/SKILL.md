@@ -8,4 +8,3 @@ description: Handles branch finishing, PR cleanup, merge options, handoff notes,
 Use after implementation and verification to summarize state, risks, and integration options.
 
 Do not reopen unrelated design questions during release wrap-up.
-

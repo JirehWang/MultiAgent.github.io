@@ -5,23 +5,23 @@
   "updated": "2026-09-30",
   "scope": "Global agents and global skills only",
   "source_roots": [
-    "C:\\Users\\105221\\.codex\\agents",
-    "C:\\Users\\105221\\.codex\\skills"
+    ".codex/agents",
+    ".codex/skills"
   ],
   "key_routing_files": [
-    "C:\\Users\\105221\\.codex\\agents\\workflow-router.toml",
-    "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\SKILL.md",
-    "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\agent-routing-rules.yaml",
-    "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\AGENT_ROUTER_PROMPT.md",
-    "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\COMPRESSION_POLICY_ROUTING.md",
-    "C:\\Users\\105221\\.codex\\skills\\using-superpowers\\MCP_ROUTING_POLICY.md",
-    "C:\\Users\\105221\\.codex\\skills\\model-routing\\SKILL.md"
+    ".codex/agents/workflow-router.toml",
+    ".codex/skills/using-superpowers/SKILL.md",
+    ".codex/skills/using-superpowers/agent-routing-rules.yaml",
+    ".codex/skills/using-superpowers/AGENT_ROUTER_PROMPT.md",
+    ".codex/skills/using-superpowers/COMPRESSION_POLICY_ROUTING.md",
+    ".codex/skills/using-superpowers/MCP_ROUTING_POLICY.md",
+    ".codex/skills/model-routing/SKILL.md"
   ],
   "locator_note": "This file and its sibling markdown map are the workspace-local source that future sessions should use when they need the global relationship map.",
   "primary_files": [
-    "C:\\Users\\105221\\.codex\\global-agent-map\\README.md",
-    "C:\\Users\\105221\\.codex\\global-agent-map\\global-agent-skill-relationship-map.md",
-    "C:\\Users\\105221\\.codex\\global-agent-map\\global-agent-skill-relationship-map.json"
+    ".codex/global-agent-map/README.md",
+    ".codex/global-agent-map/global-agent-skill-relationship-map.md",
+    ".codex/global-agent-map/global-agent-skill-relationship-map.json"
   ],
   "routing_layers": {
     "entry": "workflow-router",

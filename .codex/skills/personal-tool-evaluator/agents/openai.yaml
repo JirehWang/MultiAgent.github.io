@@ -1,0 +1,7 @@
+interface:
+  display_name: "Personal Tool Evaluator"
+  short_description: "Evaluate tools for personal global use"
+  default_prompt: "Use $personal-tool-evaluator to assess whether this tool belongs in my global environment."
+
+policy:
+  allow_implicit_invocation: true

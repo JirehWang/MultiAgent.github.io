@@ -1,4 +1,4 @@
-﻿---
+---
 name: imagegen-frontend-mobile
 description: Elite mobile app image-generation skill for creating premium, app-native screen concepts and flows. Designed for iOS, Android, and cross-platform mobile products. Prioritizes clean hierarchy, comfortably readable text, strong multi-screen consistency, controlled color palettes, non-generic creative direction, textured surfaces, image-led composition, tasteful custom iconography, and clean phone mockup framing. By default, screens should be shown inside a subtle premium iPhone or similar phone mockup with a visible frame, while the main focus stays on the app content itself. This skill generates images only. It does not write code.
 ---
@@ -497,6 +497,10 @@ Do not:
 
 Mobile images should feel like real app screens, not posters.
 
+## TOUCH TARGETS AND VISUAL QA LIMIT
+
+Represent controls with enough visual area and separation to suggest comfortable interaction, following the target platform's guidance. Use the relevant [human-factors guidance](../ui-ux-pro-max/references/human-factors.md) for task grouping and control reach. When designing an implemented interface, evaluate the effective hit area rather than the icon alone; a generated image cannot prove the actual hitbox, focus behavior, or accessibility semantics. Keep labels, contrast, and status cues readable, and do not rely on color alone.
+
 ---
 
 ## 14. NAVIGATION RULE
@@ -875,7 +879,7 @@ These are image-direction cues, not code instructions.
 
 ## 23. COLOR PALETTE RULE
 
-Always use a clean, controlled color palette.
+Use the supplied Palette Contract or brand colors as the source of truth. If neither exists, infer a clean, controlled palette from the brief without adding a color questionnaire. Keep it consistent across the requested screens.
 
 Color should feel:
 - intentional
@@ -905,6 +909,8 @@ A palette can be:
 - atmospheric
 
 But it must still feel clean.
+
+The generated screens communicate color direction and continuity; they do not prove exact token values or contrast compliance.
 
 Good color direction should make the app feel:
 - distinctive

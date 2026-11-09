@@ -21,8 +21,8 @@
 
 Execution layer:
 - Git
-- Global `pre-push` hook at [pre-push](D:\py\git-hooks\pre-push)
-- Global skill at [SKILL.md](C:\Users\105221\.codex\skills\git-version-management\SKILL.md)
+- Optional host-managed pre-push hook; repository workflow does not depend on machine-specific hooks.
+- Repository skill at [SKILL.md](../../../skills/git-version-management/SKILL.md)
 
 Management layer:
 - PromptHub as the recommended future workspace for skill lifecycle management

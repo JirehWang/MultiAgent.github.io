@@ -1,15 +1,17 @@
 # Design Agent Strengthening Plan
 
-Date: 2026-06-18
+Date: 2026-10-08
+
+Status: Implemented. The active route definitions are in `agent-routing-rules.yaml`; this note summarizes the current design routing and follow-up criteria.
 
 Purpose:
-- document the new design routing signals
+- document the design routing signals and current skill assignments
 - state the invocation rules clearly
-- decide which additional design skills are worth adding later
+- prevent style overlays from overriding task, accessibility, or platform needs
 
 ## Current Routing Additions
 
-The router now recognizes these design signals:
+The router recognizes these design signals and artifacts:
 
 - `minimalist`
 - `brutalist`
@@ -18,89 +20,69 @@ The router now recognizes these design signals:
 - `mobile-flow`
 - `stitch`
 - `full-output-risk`
+- marketing-page direction
+- product UI direction
+- website and mobile image-only concepts
+- screenshot-to-implementation
 
 ## Invocation Rules
 
-### Installed-skill-first rule
+### Scope and precedence rule
 
-If a signal maps to a design direction but no dedicated overlay skill is installed yet, route to the nearest installed design specialist and add a handoff note explaining the missing specialist.
+Start product work with the user's goal, top tasks, information structure, interaction model, and applicable accessibility/platform guidance. Style overlays are optional visual layers. The marketing-page skill applies to landing pages and portfolios, not as the default strategy for forms, dashboards, or multi-step flows.
 
 ### Current signal-to-agent mapping
 
 - `minimalist`
-  - primary: `design-taste-frontend`
-  - support: `ui-ux-pro-max`
-  - use when the task wants restrained layout, editorial clarity, calmer motion, or lower visual density
+  - primary: `ui-ux-pro-max`
+  - overlay: `minimalist-ui`
+  - use when a restrained editorial direction is explicitly requested; keep product and accessibility requirements authoritative
 
 - `brutalist`
-  - primary: `design-taste-frontend`
-  - support: `ui-ux-pro-max`
-  - use when the task wants harder contrast, sharper geometry, experimental asymmetry, or Swiss / industrial language
+  - primary: `ui-ux-pro-max`
+  - overlay: `industrial-brutalist-ui`
+  - use the visual treatment only where it preserves readability and task clarity
 
 - `soft-premium`
-  - primary: `design-taste-frontend`
-  - support: `ui-ux-pro-max`
-  - use when the task wants expensive but calm UI, softer contrast, premium spacing, or luxury-product polish
+  - primary: `ui-ux-pro-max`
+  - overlay: `high-end-visual-design`
+  - keep motion purposeful and honor reduced-motion preferences
 
 - `brand-kit`
-  - primary: `ui-ux-pro-max`
-  - support: `writing-skills`
-  - use when the output is strategy, palette, type direction, or brand-system notes rather than implemented code
+  - primary: `brandkit`
+  - add `ui-ux-pro-max` when product UI tasks or interaction strategy are included
 
 - `mobile-flow`
   - primary: `ui-ux-pro-max`
-  - support: `design-taste-frontend`
   - use when the task is mainly mobile structure, screen sequencing, or flow planning
+  - use `imagegen-frontend-mobile` when the requested deliverable is image-only screen concepts
 
 - `stitch`
-  - primary: `web-design-polish`
+  - primary: `stitch-design-taste`
   - support: `ui-ux-pro-max`
   - use when the task needs `DESIGN.md`-style handoff or design-system export discipline
+
+- `marketing-page`
+  - primary: `design-taste-frontend`
+  - support: `ui-ux-pro-max`
+  - use only for landing pages and portfolios
+
+- `website image concept` / `mobile screen concept`
+  - primary: `imagegen-frontend-web` / `imagegen-frontend-mobile`
+  - use for image-only visual artifacts, not implemented UI
 
 - `full-output-risk`
   - primary: `web-design-polish`
   - support: `writing-skills`
   - use when the design task is likely to stop at half-polished output, placeholders, or incomplete implementation notes
 
-## Add-Skill Decisions
+## Existing Skills and Future Additions
 
-### Recommended to add if these requests recur
-
-- `high-end-visual-design`
-  - recommendation: yes
-  - reason: it cleanly covers `soft-premium` without overloading `design-taste-frontend`
-
-- `minimalist-ui`
-  - recommendation: yes
-  - reason: it gives a precise overlay for restrained editorial / product UI directions that currently rely on inferred dials only
-
-### Add only if the style is genuinely recurring
-
-- `industrial-brutalist-ui`
-  - recommendation: conditional
-  - reason: useful if brutalist / Swiss / industrial language shows up more than occasionally; otherwise fallback routing is enough
-
-- `stitch-design-taste`
-  - recommendation: conditional
-  - reason: valuable if Stitch-specific export or DESIGN.md interoperability becomes a repeated requirement
-
-### Add only if pure image deliverables are common
-
-- `imagegen-frontend-web`
-  - recommendation: conditional
-  - reason: use when the deliverable is website comps only, not implementation
-
-- `imagegen-frontend-mobile`
-  - recommendation: conditional
-  - reason: use when the deliverable is mobile screens or flows as images only
-
-- `brandkit`
-  - recommendation: conditional
-  - reason: use when the deliverable is a brand board or identity set rather than code or a strategy memo
+The global skill collection already includes `high-end-visual-design`, `minimalist-ui`, `industrial-brutalist-ui`, `stitch-design-taste`, `imagegen-frontend-web`, `imagegen-frontend-mobile`, and `brandkit`. Route to them directly for matching deliverables; do not describe them as missing or propose installing duplicates.
 
 ## Practical Threshold
 
-Add a missing specialist when one of these is true:
+Consider a new specialist only when one of these is true:
 
 - the same signal appears across 3 or more separate tasks
 - fallback routing keeps producing too much manual handoff text

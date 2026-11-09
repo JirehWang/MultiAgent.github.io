@@ -1,9 +1,12 @@
-﻿---
+---
 name: high-end-visual-design
 description: Teaches the AI to design like a high-end agency. Defines the exact fonts, spacing, shadows, card structures, and animations that make a website feel expensive. Blocks all the common defaults that make AI designs look cheap or generic.
 ---
 
 # Agent Skill: Principal UI/UX Architect & Motion Choreographer (Awwwards-Tier)
+
+## Scope and Precedence
+Use this as an optional visual direction for web experiences. A supplied Palette Contract, brand guidance, and existing design tokens take precedence over the color recipes below; treat those recipes as defaults only for unspecified roles. The user's goals, task flow, responsive behavior, accessibility, and platform conventions also take precedence. For product interaction decisions, consult [`ui-ux-pro-max/references/human-factors.md`](../ui-ux-pro-max/references/human-factors.md) and keep only style choices that support the task.
 
 ## 1. Meta Information & Core Directive
 - **Persona:** `Vanguard_UI_Architect`
@@ -28,31 +31,31 @@ Before writing code, silently "roll the dice" and select ONE combination from th
 
 ### B. Layout Archetypes (Pick 1)
 1. **The Asymmetrical Bento:** A masonry-like CSS Grid of varying card sizes (e.g., `col-span-8 row-span-2` next to stacked `col-span-4` cards) to break visual monotony.
-   - **Mobile Collapse:** Falls back to a single-column stack (`grid-cols-1`) with generous vertical gaps (`gap-6`). All `col-span` overrides reset to `col-span-1`.
+   - **Responsive Reflow:** Rework grid tracks and spans as the viewport and content require; use a single-column stack where it improves reading and interaction.
 2. **The Z-Axis Cascade:** Elements are stacked like physical cards, slightly overlapping each other with varying depths of field, some with a subtle `-2deg` or `3deg` rotation to break the digital grid.
-   - **Mobile Collapse:** Remove all rotations and negative-margin overlaps below `768px`. Stack vertically with standard spacing. Overlapping elements cause touch-target conflicts on mobile.
+   - **Responsive Reflow:** Remove rotations or negative-margin overlaps wherever they obscure content or interfere with controls; provide a clear reading and focus order at narrow viewports.
 3. **The Editorial Split:** Massive typography on the left half (`w-1/2`), with interactive, scrollable horizontal image pills or staggered interactive cards on the right.
-   - **Mobile Collapse:** Converts to a full-width vertical stack (`w-full`). Typography block sits on top, interactive content flows below with horizontal scroll preserved if needed.
+   - **Responsive Reflow:** Stack or rearrange the split when the content no longer fits; preserve a clear reading order and avoid horizontal scrolling for essential content.
 
-**Mobile Override (Universal):** Any asymmetric layout above `md:` MUST aggressively fall back to `w-full`, `px-4`, `py-8` on viewports below `768px`. Never use `h-screen` for full-height sections — always use `min-h-[100dvh]` to prevent iOS Safari viewport jumping.
+**Responsive Override:** Use the project's breakpoints and content fit to choose when layouts reflow. Avoid overlap, clipped content, and obstructed targets at every viewport. For full-height mobile sections, prefer dynamic viewport sizing where supported.
 
 ## 4. HAPTIC MICRO-AESTHETICS (COMPONENT MASTERY)
 
 ### A. The "Double-Bezel" (Doppelrand / Nested Architecture)
-Never place a premium card, image, or container flatly on the background. They must look like physical, machined hardware (like a glass plate sitting in an aluminum tray) using nested enclosures.
+Use nested enclosures as an optional motif when they fit the content and existing design system. Flat surfaces and simpler containers are valid when they improve hierarchy, reduce clutter, or support the product's conventions.
 - **Outer Shell:** A wrapper `div` with a subtle background (`bg-black/5` or `bg-white/5`), a hairline outer border (`ring-1 ring-black/5` or `border border-white/10`), a specific padding (e.g., `p-1.5` or `p-2`), and a large outer radius (`rounded-[2rem]`).
 - **Inner Core:** The actual content container inside the shell. It has its own distinct background color, its own inner highlight (`shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]`), and a mathematically calculated smaller radius (e.g., `rounded-[calc(2rem-0.375rem)]`) for concentric curves.
 
 ### B. Nested CTA & "Island" Button Architecture
-- **Structure:** Primary interactive buttons must be fully rounded pills (`rounded-full`) with generous padding (`px-6 py-3`). 
-- **The "Button-in-Button" Trailing Icon:** If a button has an arrow (`↗`), it NEVER sits naked next to the text. It must be nested inside its own distinct circular wrapper (e.g., `w-8 h-8 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center`) placed completely flush with the main button's right inner padding.
+- **Structure:** Choose button shape and spacing to match the design system, control hierarchy, and platform; pill buttons are one possible treatment.
+- **Trailing Icons:** An arrow or icon may have its own visual treatment when that improves recognition. Keep labels clear and provide a visible focus state and usable hit area.
 
 ### C. Spatial Rhythm & Tension
 - **Macro-Whitespace:** Double your standard padding. Use `py-24` to `py-40` for sections. Allow the design to breathe heavily.
-- **Eyebrow Tags:** Precede major H1/H2s with a microscopic, pill-shaped badge (`rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.2em] font-medium`).
+- **Eyebrow Tags:** Use a compact, legible eyebrow only when it adds useful context; do not make essential information depend on tiny text.
 
 ## 5. MOTION CHOREOGRAPHY (FLUID DYNAMICS)
-Never use default transitions. All motion must simulate real-world mass and spring physics. Use custom cubic-beziers (e.g., `transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]`).
+Use motion when it communicates feedback, hierarchy, or a state transition. Select timing and easing for the interaction; spring-like movement is one option, not a requirement. Honor reduced-motion preferences and keep all essential content available without animation.
 
 ### A. The "Fluid Island" Nav & Hamburger Reveal
 - **Closed State:** The Navbar is a floating glass pill detached from the top (`mt-6`, `mx-auto`, `w-max`, `rounded-full`).
@@ -60,13 +63,13 @@ Never use default transitions. All motion must simulate real-world mass and spri
 - **The Modal Expansion:** The menu should open as a massive, screen-filling overlay with a heavy glass effect (`backdrop-blur-3xl bg-black/80` or `bg-white/80`). 
 - **Staggered Mask Reveal:** The navigation links inside the expanded state do not just appear. They fade in and slide up from an invisible box (`translate-y-12 opacity-0` to `translate-y-0 opacity-100`) with a staggered delay (`delay-100`, `delay-150`, `delay-200` for each item).
 
-### B. Magnetic Button Hover Physics
-- Use the `group` utility. On hover, do not just change the background color.
-- Scale the entire button down slightly (`active:scale-[0.98]`) to simulate physical pressing.
-- The nested inner icon circle should translate diagonally (`group-hover:translate-x-1 group-hover:-translate-y-[1px]`) and scale up slightly (`scale-105`), creating internal kinetic tension.
+### B. Optional Button Feedback
+- Use hover or press feedback only when it suits the interaction and available input method.
+- Keep the control label, contrast, visible keyboard focus, and usable hit area clear.
+- Avoid magnetic movement for touch-first controls; honor reduced-motion preferences.
 
 ### C. Scroll Interpolation (Entry Animations)
-- Elements never appear statically on load. As they enter the viewport, they must execute a gentle, heavy fade-up (`translate-y-16 blur-md opacity-0` resolving to `translate-y-0 blur-0 opacity-100` over 800ms+).
+- Entry animation is optional. When it clarifies a sequence, keep it brief, avoid hiding essential content, and disable or simplify it for reduced-motion preferences.
 - For JavaScript-driven scroll reveals, use `IntersectionObserver` or Framer Motion's `whileInView`. Never use `window.addEventListener('scroll')` — it causes continuous reflows and kills mobile performance.
 
 ## 6. PERFORMANCE GUARDRAILS
@@ -79,20 +82,18 @@ Never use default transitions. All motion must simulate real-world mass and spri
 When generating UI code, follow this exact sequence:
 1. **[SILENT THOUGHT]** Roll the Variance Engine (Section 3). Choose your Vibe and Layout Archetypes based on the prompt's context to ensure a unique output.
 2. **[SCAFFOLD]** Establish the background texture, macro-whitespace scale, and massive typography sizes.
-3. **[ARCHITECT]** Build the DOM strictly using the "Double-Bezel" (Doppelrand) technique for all major cards, inputs, and feature grids. Use exaggerated squircle radii (`rounded-[2rem]`).
-4. **[CHOREOGRAPH]** Inject the custom `cubic-bezier` transitions, the staggered navigation reveals, and the button-in-button hover physics.
+3. **[ARCHITECT]** Apply the Double-Bezel treatment only where it supports the content and established component system; choose control shapes and spacing to fit the platform and task.
+4. **[CHOREOGRAPH]** Add only purposeful transitions and reveals, with reduced-motion behavior and no delay to essential content or controls.
 5. **[OUTPUT]** Deliver flawless, pixel-perfect React/Tailwind/HTML code. Do not include basic, generic fallbacks.
 
 ## 8. PRE-OUTPUT CHECKLIST
 Evaluate your code against this matrix before delivering. This is the last filter.
 - [ ] No banned fonts, icons, borders, shadows, layouts, or motion patterns from Section 2 are present
 - [ ] A Vibe Archetype and Layout Archetype from Section 3 were consciously selected and applied
-- [ ] All major cards and containers use the Double-Bezel nested architecture (outer shell + inner core)
-- [ ] CTA buttons use the Button-in-Button trailing icon pattern where applicable
-- [ ] Section padding is at minimum `py-24` — the layout breathes heavily
-- [ ] All transitions use custom cubic-bezier curves — no `linear` or `ease-in-out`
-- [ ] Scroll entry animations are present — no element appears statically
-- [ ] Layout collapses gracefully below `768px` to single-column with `w-full` and `px-4`
+- [ ] Card, button, and spacing treatments fit the existing design system and the user's task
+- [ ] Interactive controls have readable labels, visible focus, sufficient contrast, and usable hit areas
+- [ ] Motion serves a clear purpose and respects reduced-motion preferences
+- [ ] Layout reflows at content-appropriate breakpoints without clipping, obstructing controls, or losing reading order
 - [ ] All animations use only `transform` and `opacity` — no layout-triggering properties
 - [ ] `backdrop-blur` is only applied to fixed/sticky elements, never to scrolling content
 - [ ] The overall impression reads as "$150k agency build", not "template with nice fonts"

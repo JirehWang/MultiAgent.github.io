@@ -8,10 +8,10 @@ description: Use when a session needs the workspace-local map of the global agen
 This is a locator skill for the workspace-local global relationship map.
 
 Primary location:
-- `C:\Users\105221\.codex\global-agent-map\global-agent-skill-relationship-map.md`
+- [`global-agent-skill-relationship-map.md`](../../global-agent-map/global-agent-skill-relationship-map.md)
 
 Machine-readable manifest:
-- `C:\Users\105221\.codex\global-agent-map\global-agent-skill-relationship-map.json`
+- [`global-agent-skill-relationship-map.json`](../../global-agent-map/global-agent-skill-relationship-map.json)
 
 Purpose:
 - tell future sessions where the global relationship map lives

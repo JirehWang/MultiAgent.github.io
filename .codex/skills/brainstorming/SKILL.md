@@ -8,7 +8,7 @@ description: Use when creative features, UX, components, workflows, or behavior 
 Use this skill when the right direction is not yet obvious.
 
 Before expanding options, apply the anti-overengineering ladder from
-`C:\Users\105221\.codex\skills\using-superpowers\ANTI_OVERENGINEERING_POLICY.md`.
+[`ANTI_OVERENGINEERING_POLICY.md`](../using-superpowers/ANTI_OVERENGINEERING_POLICY.md).
 Bias toward the smallest safe solution that satisfies the actual request.
 
 ## Workflow

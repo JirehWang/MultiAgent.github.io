@@ -1,14 +1,544 @@
 version: 1
-date: 2026-09-30
+date: 2026-09-09
 
 purpose:
   - classify requests into a LangGraph-style workflow
   - check the specialized capability registry before broad global-skill fallback
+  - automatically apply architecture and reuse triage to substantive repository code changes
   - apply a global anti-overengineering decision ladder before adding structure
   - choose one primary agent
   - optionally choose up to two support agents
   - decide one compression policy for the routed agent
   - decide the next workflow node
+
+# Canonical model and reasoning-effort policy. Entry points summarize this block.
+model_effort_policy:
+  supported_efforts: [low, medium, high, max]
+  explicit_user_choice: wins_when_supported_and_within_safety_or_domain_contract
+  unsupported_explicit_choice:
+    outcome: reject_and_report
+    preserve_requested_values_in_diagnostics: true
+    never_silent_default_or_substitute: true
+  missing_choice: use_role_default
+  controller:
+    role: astra
+    model: gpt-6-astra
+    supported_models: [gpt-6-astra]
+    default_effort: medium
+    low_when: trivial_routing_or_status
+    high_when: complex_architecture_or_evaluation
+    max_when: material_high_risk_or_repeated_unresolved_reasoning_failure
+  executor:
+    role: luna
+    model: gpt-6-luna
+    supported_models: [gpt-6-luna]
+    default_effort: medium
+    low_when: mechanical_edit_with_explicit_output
+    high_when: bounded_cross_file_implementation_or_test_repair
+    max_when: bounded_difficult_retry_while_luna_eligible
+  complex_executor:
+    role: sol_complex_execution
+    model: gpt-6.1-sol
+    supported_models: [gpt-6.1-sol]
+    default_effort: medium
+    high_when: bounded_complex_coding_or_agentic_workflow
+    max_when: bounded_difficult_retry_with_resolved_acceptance_standards
+  acceptance:
+    role: acceptance_process
+    model: gpt-6.1-sol
+    supported_models: [gpt-6.1-sol]
+    default_effort: high
+    low_when: formatting_or_completeness_only
+    medium_when: narrow_low_risk_acceptance
+    max_when: high_consequence_security_or_compliance_or_conflicting_evidence
+    low_never_substitutes_for_substantive_independent_acceptance: true
+  packet_rule: record_selected_model_effort_and_short_reason; never_silently_lower_active_packet
+
+agent_profile_policy:
+  semantic_profiles_define: [role, instructions, constraints]
+  runtime_model_source: model_effort_policy_and_dispatch_contract
+  per_agent_model_pin: prohibited
+  per_agent_reasoning_effort_pin: prohibited
+
+execution_policy:
+  owner: using-superpowers
+  detailed_policy_source: this_file
+  controller:
+    direct: current_model
+    delegated: astra
+    evaluation: astra
+    model: gpt-6-astra
+    reasoning_effort: medium
+  compatibility_role_aliases:
+    root_sol: astra
+    sol_control_plane: astra_control_plane
+  acceptance_owner:
+    direct: current_model
+    delegated: acceptance_process_or_qualified_independent_reviewer
+  delegated_overlay: sol-luna-orchestration
+  apply_after_semantic_route_selection: true
+  classification:
+    execution_required_false_only_for:
+      - clarification
+      - routing
+      - decomposition
+      - approval-or-rejection
+      - verification-judgment
+      - status-reporting
+    execution_required_true_for:
+      - substantive-answer-or-decision-input
+      - artifact-production
+      - code-or-file-change
+      - research-or-analysis
+      - test-or-build
+      - extraction
+      - external-tool-operation
+  jev_optional_preflight:
+    owner: workflow-router
+    adapter_env: CODEX_JEV_ROUTER_PATH
+    optional: true
+    skip_when_unset: true
+    mode: global_fail_open
+    trigger_when_all:
+      - substantive_request_needs_routing
+      - typesafe_api_key_available
+    max_calls_per_request: 1
+    input_contract:
+      - one_line_routing_synopsis_only
+      - include_task_shape_requested_outcome_and_relevant_risk_signals
+      - exclude_source_code_attachments_credentials_and_full_conversation
+      - never_place_api_key_in_command_line_or_routing_payload
+    decision_handling:
+      auto_route: advisory_signal_for_native_router_and_astra
+      human_review: preserve_review_gate
+      fallback_or_error: continue_native_routing_without_retry
+    authority:
+      - explicit_user_instructions_remain_authoritative
+      - safety_and_domain_contracts_remain_authoritative
+      - native_validation_tier_and_gates_remain_authoritative
+      - astra_retains_final_route_authority
+      - jev_never_executes_or_dispatches_agents
+  astra_control_plane:
+    applies_when:
+      - delegated_execution_requested
+      - delegated_execution_required_by_risk_or_domain
+    responsibilities:
+      - understand_request
+      - design_task_architecture
+      - select_execution_target
+      - decompose_ownership
+      - define_acceptance_standards
+    prohibited:
+      - production_execution
+      - evidence_interpretation
+      - pass_fail_decision
+  luna_execution:
+    lane: internal_luna
+    runtime_agent_type: worker
+    runtime_model: gpt-6-luna
+    runtime_reasoning_effort: medium
+    eligibility_all_required:
+      - bounded_scope
+      - explicit_output
+      - low_ambiguity
+      - repeatable_or_batch_like
+      - material_aggregate_workload_benefit
+    benefit_policy:
+      evaluate_across_entire_batch: true
+      benefit_sources: [aggregate_token_demand, repeated_volume, latency_or_throughput]
+      exclude_when_dispatch_overhead_exceeds_expected_gain: true
+  sol_complex_execution:
+    lane: internal_sol_complex_executor
+    runtime_agent_type: worker
+    runtime_model: gpt-6.1-sol
+    runtime_reasoning_effort: medium
+    eligibility_all_required:
+      - bounded_scope
+      - explicit_output
+      - complex_coding_or_agentic_workflow
+      - architecture_and_acceptance_standards_resolved
+      - luna_not_fit_or_not_preferred
+      - gpt_6_1_sol_not_assigned_as_acceptance_runtime_for_same_packet
+    acceptance_guard:
+      if_independent_review_required: qualified_domain_reviewer_distinct_from_gpt_6_1_sol
+  acceptance_process:
+    lane: internal_acceptance_process
+    runtime_agent_type: worker
+    runtime_model: gpt-6.1-sol
+    runtime_reasoning_effort: high
+    applies:
+      - delegated_execution
+      - independent_review_required
+  visible_task_runtime:
+    lane: visible_luna_task
+    authorization: explicit-current-user-request
+    runtime_model: gpt-6-luna
+    runtime_reasoning_effort: medium
+  direct_execution:
+    allowed_when_all:
+      - request_and_artifact_are_clear
+      - low_risk
+      - bounded_scope
+      - no_material_cross_boundary
+      - no_explicit_delegation_or_review_request
+      - no_stronger_domain_contract
+    required_evidence:
+      - inspect_relevant_source_or_inputs
+      - verify_relevant_behavior_or_output
+      - tie_evidence_to_current_artifact_or_answer
+    independent_review: not_required_by_default
+  delegated_execution:
+    trigger_when_any:
+      - explicit_user_delegation_or_model_request
+      - explicit_independent_review_request
+      - high_risk_or_high_consequence
+      - material_cross_boundary_change
+      - unresolved_ambiguity_or_ownership
+      - stronger_domain_contract_requires_specialist_or_runtime
+    runtime_overlay: sol-luna-orchestration
+    controller: astra
+    worker_selection:
+      order:
+        - sol_complex_when_all
+        - luna_when_all
+        - selected_semantic_executor
+      sol_complex_when_all:
+        - bounded_scope
+        - explicit_output
+        - complex_coding_or_agentic_workflow
+        - architecture_and_acceptance_standards_resolved
+        - luna_not_fit_or_not_preferred
+        - gpt_6_1_sol_not_assigned_as_acceptance_runtime_for_same_packet
+      luna_when_all:
+        - bounded_scope
+        - explicit_output
+        - low_ambiguity
+        - repeatable_or_batch_like
+        - material_aggregate_workload_benefit
+      otherwise: selected_semantic_executor
+    independent_review:
+      required_when_any:
+        - high_risk_or_high_consequence
+        - explicit_independent_review_request
+        - stronger_domain_contract_requires_review
+      owner: acceptance_process_or_qualified_domain_reviewer
+    no_recursive_routing: true
+  user_precedence:
+    order:
+      - explicit_no_subagents_or_direct_execution
+      - explicit_model_request
+      - explicit_delegation_or_review_request
+      - stronger_domain_contract
+      - risk_and_scope_gates
+    limits:
+      - user_preferences_do_not_waive_safety_or_domain_gates
+      - no_subagents_on_high_risk_keeps_applicable_checks_and_discloses_unavailable_independent_review
+  evidence_policy:
+    completion_requires:
+      - inspected_current_artifact_or_answer
+      - artifact_version_or_digest
+      - environment_and_dependency_fingerprint
+      - verification_scope
+      - complete_applicable_result
+    reuse_only_when_unchanged:
+      - artifact_version_or_digest
+      - environment_and_dependency_fingerprint
+      - verification_scope
+      - result_complete_and_applicable
+    rerun_when_any:
+      - artifact_changed
+      - environment_or_dependency_changed
+      - verification_scope_changed
+      - prior_evidence_failed_or_incomplete
+      - new_symptom_or_missing_original_check
+    handoff_or_message_boundary_alone_does_not_invalidate: true
+  domain_contract_precedence:
+    principle: stronger_domain_contract_overrides_global_defaults
+    rules:
+      - global_simplification_must_not_weaken_specialist_or_domain_constraints
+      - explicit_domain_runtime_and_acceptance_constraints_remain_in_force
+      - previously_known_rohs_contract_is_luna_low_only_no_alternate_and_acceptance_process
+      - excluded_domain_sources_are_not_read_or_validated_by_this_stack_test
+  scaling:
+    small_execution_workers: 1
+    normal_execution_workers: 1
+    independent_execution_workers: 2-3
+    read_only_parallel_max: 4
+    shared_file_or_dependency_policy: serial
+  hard_rules:
+    - astra_must_not_execute_delegated_work
+    - astra_must_define_acceptance_standards_before_delegated_execution
+    - acceptance_process_must_apply_standards_before_delegated_acceptance
+    - luna_must_not_self_accept
+    - luna_is_not_universal_execution_runtime
+    - gpt_6_1_sol_must_not_execute_a_packet_that_uses_gpt_6_1_sol_for_independent_acceptance
+    - gpt_6_1_sol_complex_execution_is_limited_to_bounded_resolved_engineering_packets
+    - gpt_6_1_sol_is_not_the_fallback_for_every_luna_ineligible_task
+    - direct_execution_is_allowed_only_when_all_direct_execution_guards_pass
+    - delegated_workers_do_not_restart_routing_or_subdelegate_without_authorization
+    - explicit_user_preferences_win_within_safety_and_domain_limits
+    - evidence_reuse_requires_unchanged_artifact_environment_dependencies_and_scope
+    - preserve_semantic_primary_and_support_roles_when_luna_is_not_eligible
+    - astra_must_not_rescue_failed_worker_implementation
+    - supervisor-agent is advisory QA support only; it is not a primary executor, production worker, or final acceptance decision owner
+    - supervisor-agent must inherit the parent Astra dispatch_contract and escalate contract-invalid when it is missing or invalid
+    - subagent-driven-development is decomposition/child-dispatch control only; never a production runtime and never owns final acceptance
+    - Every SDD child clones the parent dispatch_contract exactly for execution_required, runtime_overlay, and global_contract
+    - An SDD child cannot change validation_tier, required_gates, required_artifacts, or acceptance_owner; no local downgrade is allowed
+    - Missing or invalid parent or child dispatch_contract is contract-invalid and must escalate
+    - Implementers and reviewers return evidence or advisory recommendations only; the acceptance process alone owns final pass, retry, and rollback
+
+validation_policy:
+  principle: risk-proportional-validation
+  purpose: keep development controlled without forcing every task through the full SDD-DDD-BDD-TDD chain
+  tiers:
+    basic:
+      applies_to:
+        - simple-question
+        - documentation
+        - mechanical-edit
+      required_gates:
+        - basic_correctness_check
+      required_artifacts:
+        - result_or_answer
+      forbidden_shortcuts:
+        - none
+    standard:
+      applies_to:
+        - single-module-feature
+        - single-module-bugfix
+        - behavior-change-with-narrow-surface
+      required_gates:
+        - lightweight_sdd
+        - tdd_or_strongest_practical_test
+        - completion_verification
+      required_artifacts:
+        - requirement_or_acceptance_criteria
+        - focused_test_or_regression_check
+        - verification_evidence
+      notes:
+        - lightweight_sdd may be one short acceptance checklist; do not create a separate document when the task context already carries it.
+        - If TDD is impractical, record the reason and use the next strongest verification.
+    multi_stage:
+      applies_to:
+        - multi-module-change
+        - api-change
+        - database-or-schema-change
+        - user-journey-change
+        - cross-service-integration
+      required_gates:
+        - sdd
+        - applicable_ddd
+        - applicable_bdd
+        - tdd
+        - integration_or_e2e_verification
+        - completion_verification
+      required_artifacts:
+        - scope_constraints_and_acceptance_criteria
+        - domain_model_or_explicit_ddd_exemption
+        - behavior_scenarios_or_explicit_bdd_exemption
+        - executable_tests
+        - integration_or_e2e_evidence
+        - verification_evidence
+      notes:
+        - DDD is required when domain rules, invariants, bounded contexts, or ownership boundaries are material.
+        - BDD is required when externally observable behavior, user journeys, or service contracts are material.
+        - A single living artifact may satisfy multiple documentation outputs when traceability is preserved.
+    high_risk:
+      applies_to:
+        - payment
+        - authorization
+        - regulated-data
+        - compliance
+        - security-sensitive-change
+        - high-consequence-change
+      required_gates:
+        - sdd
+        - ddd
+        - bdd
+        - tdd
+        - review
+        - security_or_domain_gate
+        - integration_or_e2e_verification
+        - completion_verification
+      required_artifacts:
+        - approved_scope_and_acceptance_criteria
+        - domain_model_and_invariants
+        - behavior_scenarios
+        - executable_tests
+        - independent_review_evidence
+        - security_or_domain_gate_evidence
+        - verification_evidence
+      notes:
+        - Do not promote status or claim completion when a required gate lacks evidence.
+  escalation:
+    - from: basic
+      when_any:
+        - code-change
+        - behavior-change
+      to: standard
+    - from: standard
+      when_any:
+        - multiple-subsystems
+        - api-boundary
+        - persistence-boundary
+        - user-journey
+        - cross-service
+        - unresolved-domain-rule
+      to: multi_stage
+    - from: multi_stage
+      when_any:
+        - payment
+        - authorization
+        - regulated-data
+        - compliance
+        - security-sensitive-change
+        - high-consequence-change
+      to: high_risk
+  control_rules:
+    - assign validation_tier before substantive execution
+    - choose the lowest tier that covers all observed risk signals
+    - never skip a required gate silently; record the gap, remaining risk, and escalation owner
+    - do not use passing tests alone as proof that requirements are satisfied
+    - allow feedback from BDD, integration, or E2E verification to reopen SDD or DDD
+
+validation_tier_normalization:
+  apply_after_route_selection: true
+  precedence:
+    - high_risk
+    - multi_stage
+    - standard
+    - basic
+  preserve:
+    - chosen_primary_agent
+    - chosen_support_agents
+    - workflow_node
+  overrides:
+    high_risk:
+      when_any:
+        - payment
+        - authorization
+        - regulated-data
+        - compliance
+        - security-sensitive-change
+        - high-consequence-change
+      required_gates_from: validation_policy.tiers.high_risk.required_gates
+      required_artifacts_from: validation_policy.tiers.high_risk.required_artifacts
+    multi_stage:
+      when_any:
+        - multiple-subsystems
+        - api-boundary
+        - api-change
+        - persistence-boundary
+        - database-or-schema-change
+        - user-journey
+        - user-journey-change
+        - cross-service
+        - cross-service-integration
+        - unresolved-domain-rule
+      required_gates_from: validation_policy.tiers.multi_stage.required_gates
+      required_artifacts_from: validation_policy.tiers.multi_stage.required_artifacts
+    standard:
+      when_any:
+        - code-change
+        - behavior-change
+        - single-module-feature
+        - single-module-bugfix
+      required_gates_from: validation_policy.tiers.standard.required_gates
+      required_artifacts_from: validation_policy.tiers.standard.required_artifacts
+    basic:
+      when_any:
+        - simple-question
+        - documentation
+        - mechanical-edit
+      required_gates_from: validation_policy.tiers.basic.required_gates
+      required_artifacts_from: validation_policy.tiers.basic.required_artifacts
+  merge_rules:
+    - higher-risk tiers override lower-risk route defaults
+    - required gates and artifacts come from the normalized tier
+    - normalization must not replace the selected workflow owner
+    - a normalized tier may not be silently downgraded later
+
+stage_contracts:
+  adapter: validation-standards
+  principle: use-open-standards-without-unreviewed-extension-installation
+  sdd:
+    reference: github/spec-kit-core
+    artifacts:
+      - specification
+      - plan
+      - tasks
+      - acceptance-checklist
+    pass_criteria:
+      - every-in-scope-requirement-has-observable-acceptance
+      - scope-and-non-goals-are-explicit
+      - no-critical-unresolved-ambiguity
+    failure_action: return-to-requirements-and-record-remaining-risk
+  ddd:
+    reference:
+      - ContextMapper/context-mapper-dsl
+      - TNG/ArchUnit-or-ArchUnitNET
+    applies_when:
+      - domain-rules-are-material
+      - invariants-are-material
+      - ownership-or-bounded-contexts-are-material
+      - service-decomposition-or-contracts-are-material
+    artifacts:
+      - ubiquitous-language
+      - bounded-contexts-and-ownership
+      - invariants-and-aggregate-boundaries
+      - integration-contracts
+    executable_boundary_check: use-project-native-architecture-tests-when-available
+    pass_criteria:
+      - each-material-domain-rule-has-owner-and-enforcement-point
+      - context-boundaries-and-cross-context-contracts-are-explicit
+      - structural-architecture-checks-do-not-stand-in-for-business-correctness
+    failure_action: return-to-sdd-or-ddd-and-record-contradiction
+  bdd:
+    reference:
+      - cucumber/gherkin
+      - cucumber-bdd-practices
+    applies_when:
+      - externally-observable-behavior-is-material
+      - user-journey-is-material
+      - service-contract-is-material
+    artifacts:
+      - gherkin-compatible-scenarios
+      - scenario-to-acceptance-trace
+    runner_policy: use-project-native-runner; do-not-force-cucumber-stack
+    pass_criteria:
+      - critical-acceptance-criteria-map-to-observable-scenarios
+      - relevant-happy-negative-edge-and-failure-paths-are-covered
+      - scenarios-are-executable-or-have-explicit-review-evidence
+    failure_action: return-to-sdd-or-ddd-and-record-contradiction
+
+supply_chain_policy:
+  decision: allow-core-only-with-standard-oss-notices
+  approved_references:
+    sdd:
+      - github/spec-kit-core
+      - Fission-AI/OpenSpec-core
+    ddd:
+      - ContextMapper/context-mapper-dsl
+      - TNG/ArchUnit
+      - TNG/ArchUnitNET
+    bdd:
+      - cucumber/gherkin
+      - project-native-cucumber-compatible-runner
+  mandatory_controls:
+    - pin-version-or-commit
+    - no-latest
+    - preserve-license-and-notice-files
+    - review-transitive-dependencies-and-sbom
+    - disable-openspec-telemetry-before-use
+    - review-spec-kit-shell-workflows-before-execution
+    - run-skill-gatekeeper-before-third-party-skill-or-extension-intake
+  prohibited_by_default:
+    - unreviewed-community-extension
+    - unreviewed-community-preset
+    - unreviewed-community-workflow
+    - unreviewed-community-schema
+    - unreviewed-third-party-skill
 
 capability_registry:
   semantics:
@@ -30,6 +560,7 @@ capability_registry:
 global_categories:
   router_control_plane:
     - using-superpowers
+    - sol-luna-orchestration
     - dispatching-parallel-agents
     - subagent-driven-development
     - using-git-worktrees
@@ -41,6 +572,7 @@ global_categories:
     - multi-agent-systems-architect
     - context-scout
     - oss-solution-scout
+    - personal-tool-evaluator
     - skill-gatekeeper
     - security-auditor
     - security-scan-contract
@@ -50,12 +582,17 @@ global_categories:
     - executing-plans
     - test-driven-development
     - systematic-debugging
+    - validation-standards
   review_quality_gates:
     - requesting-code-review
     - receiving-code-review
     - verification-before-completion
+  code_quality_overlays:
+    - architecture-review
   writing_documentation:
     - writing-skills
+    - doc-ops
+    - ppt-layout-reasoning
   frontend_design:
     - design-taste-frontend
     - redesign-existing-projects
@@ -63,6 +600,32 @@ global_categories:
     - visual-qa
     - image-to-code
     - ui-ux-pro-max
+  design_style_overlays:
+    - minimalist-ui
+    - industrial-brutalist-ui
+    - high-end-visual-design
+    - stitch-design-taste
+    - hallmark
+  visual_design_assets:
+    - brandkit
+    - imagegen-frontend-web
+    - imagegen-frontend-mobile
+
+skill_overlay_catalog:
+  architecture-review:
+    entrypoint: ../architecture-review/SKILL.md
+    entrypoint_resolution: relative_to_this_file
+    scorer_env: CODEX_JEV_ARCHITECTURE_SCORER
+    scorer_optional: true
+    skip_scorer_when_unset: true
+    invocation: load_before_implementation_code_diff_review_or_finalizing_qualifying_software_design
+    applies_to:
+      - substantive_repository_source_code_changes
+      - repository_code_diff_reviews
+      - substantive_software_design_proposals_with_long_lived_architecture_impact
+      - explicit_independent_software_design_reviews
+    ownership: preserve_route_primary
+    mode: automatic_lightweight_triage_with_conditional_fresh_context_goldfish_grill
 
 state_schema:
   required:
@@ -71,6 +634,7 @@ state_schema:
     - artifact_type
     - domain_signals
     - chosen_primary_agent
+    - execution_required
     - workflow_node
   optional:
     - chosen_support_agents
@@ -89,21 +653,60 @@ state_schema:
     - capability_category
     - cloud_sync_requested
     - cloud_sync_approved
+    - validation_tier
+    - required_gates
+    - required_artifacts
+    - verification_scope
+    - known_gaps
+    - remaining_risk
+    - validation_contract
+    - supply_chain_decision
+    - execution_lane
+    - runtime_agent_type
+    - runtime_model
+    - runtime_reasoning_effort
+    - acceptance_owner
+    - required_skill_overlays
+    - task_graph
+    - worker_count
 
 precedence:
   - detect_capability_registry_match
   - detect_domain_specialist
   - detect_workflow_mode
+  - apply_execution_policy
   - detect_compression_policy
   - detect_review_or_verification_gate
   - detect_finish_or_handoff_step
 
 hard_rules:
-  - primary values in route rules are workflow owners (usually skills); model-routing maps the selected owner to a custom agent profile when delegation is needed
+  - primary values in route rules are semantic workflow owners; Astra designs the task and chooses the executor, Luna is used only when its eligibility guard passes, and acceptance follows the independent acceptance process
   - choose exactly one primary agent
   - choose zero to two support agents
+  - supervisor-agent is advisory support only and never the primary executor or production worker
+  - supervisor-agent must not make the final acceptance decision or replace the selected semantic executor; its recommendation cannot override that decision
+  - direct low-risk execution may stay with the current model when the direct_execution guards pass and source or behavior evidence is collected
+  - explicit delegation, high-risk or ambiguous work, material boundary changes, and stronger domain contracts select delegated_execution or the required specialist path
+  - delegated execution applies sol-luna-orchestration, defines Astra acceptance standards, selects a bounded executor, and sends the result to the acceptance process or the qualified domain reviewer for acceptance
+  - astra_must_not_execute_delegated_work
+  - Astra owns architecture, executor selection, decomposition, and acceptance-standard definition for delegated work; direct work retains current-model responsibility for evidence and completion
+  - subagent-driven-development is decomposition/child-dispatch control only; never a production runtime and never owns final acceptance
+  - Every SDD child clones the parent dispatch_contract exactly for execution_required, runtime_overlay, and global_contract
+  - An SDD child cannot change validation_tier, required_gates, required_artifacts, or acceptance_owner; no local downgrade is allowed
+  - Missing or invalid parent or child dispatch_contract is contract-invalid and must escalate
+  - Implementers and reviewers return evidence or advisory recommendations only; the acceptance process or the qualified independent reviewer owns final acceptance when review is required
+  - Luna is eligible for low-ambiguity, repeatable/batch-like, explicit-output tasks when aggregate workload cost, latency, or throughput benefits materially; preserve selected capability and semantic roles otherwise
+  - Use GPT-6.1-Sol for bounded complex coding or agentic execution only after scope and acceptance standards are resolved; do not also assign GPT-6.1-Sol to accept the same packet
+  - delegated workers do not recursively route or subdelegate a bounded packet
   - choose exactly one compression policy per routed agent
   - prefer the smallest safe solution that already exists before adding new code, dependencies, or workflow stages
+  - for substantive repository source-code build, add, modify, delete, refactor, or code-review work, load the architecture-review skill as a required overlay before implementation or review; preserve the selected semantic primary owner
+  - for substantive software-design proposals that could set long-lived module/service ownership, public/shared contracts, data, deployment, or integration boundaries, load architecture-review before finalizing the design even when no code exists; do not route generic planning or documentation-only work through this overlay
+  - for an explicit independent software architecture/design review request, load architecture-review even when no code exists; an explicit request triggers at least focused Goldfish review unless the user asks for full depth or impact conditions require it
+  - architecture-review always performs lightweight impact and reuse triage for triggered code work; Goldfish runs only for a focused/full grill under the existing impact score and override thresholds or an explicit independent design-review request
+  - for a triggered Goldfish review, always run the baseline Zoom Out, Comprehension, and Design Critic lenses; add only the conditional roles matched by nonzero impact dimensions and artifact requirements in the architecture-review role matrix; use fresh-context read-only reviewers, preserve domain reviewer gates, and report NOT_RUN when context isolation is unavailable or subagents are declined
+  - Goldfish is a read-only review substage: preserve the selected semantic primary, production executor, and acceptance owner; dispatch only the selected reviewer lenses and do not delegate implementation merely because Goldfish ran
+  - Jev architecture scoring is invoked by the architecture-review workflow only after local evidence review yields two or three viable options and project data policy explicitly allows the sanitized summary to leave the environment; missing credentials, blocked network, or invalid response are non-blocking and must never be replaced with invented scores
   - prefer reuse, stdlib, native platform features, and installed dependencies before new abstractions
   - do not remove safety, validation, accessibility, or essential verification just to shrink the change
   - capability registry hits are preferred over broad global-skill search when the specialist fit is clear
@@ -124,9 +727,18 @@ hard_rules:
   - do not mistake a proposed abstraction or new subsystem for real task complexity
   - do not treat the capability tree as project codebase scope
   - do not hardcode personal capability domains into the top-level router when the registry can describe them
-  - third-party skill, MCP, prompt-pack, and agent-bundle installs must route through skill-gatekeeper before execution, installation, enablement, or promotion
+  - automatically route a request to evaluate, add, install, enable, promote, or connect a tool, CLI, SDK/library, skill, plugin, agent bundle, MCP server, app connector, or extension in the personal-global environment to personal-tool-evaluator before adoption work
+  - personal-tool-evaluator is the sole primary for personal-global fit; third-party proposals require skill-gatekeeper as mandatory trust support, while pure trust or security reports remain skill-gatekeeper primary
+  - only a YES may continue to a separately requested global action; TRY LOCALLY FIRST is project/local/sandbox only; NO stops global adoption until explicit user override or materially new evidence
+  - exclude ordinary usage help, documentation, debugging, and project-local dependency installation unless personal-global promotion is requested
+  - third-party skill, MCP, prompt-pack, and agent-bundle installs require skill-gatekeeper trust review before execution, installation, enablement, or promotion
   - security audits must define scope, evidence standard, and safe-testing boundary before execution
   - when trust-boundary overlaps with security-audit, appsec, auth-review, session-review, or exploitability, prefer security-auditor unless the artifact is explicitly workflow design
+  - normalize validation tier after route selection; high_risk overrides multi_stage, which overrides standard and basic
+  - user preferences for no subagents, a model, delegation, or review are honored within safety and domain limits
+  - a high-risk request with an explicit no-subagents preference retains applicable checks and discloses any unavailable independent review
+  - stronger domain contracts override global defaults; the known RoHS Luna Low-only/no-alternate execution and independent acceptance contract is preserved without reading excluded sources
+  - evidence may be reused only when artifact, environment/dependencies, and verification scope are unchanged and the prior result is complete and applicable
 
 workflow_nodes:
   - id: intent_router
@@ -137,6 +749,10 @@ workflow_nodes:
       - fast_track
       - full_workflow
       - likely_domain
+      - validation_tier
+      - required_gates
+      - required_artifacts
+      - validation_contract
       - next_node
   - id: domain_classification
     purpose: decide whether the task belongs to a specialist domain
@@ -146,6 +762,7 @@ workflow_nodes:
       - multi-agent-systems-architect
       - context-scout
       - oss-solution-scout
+      - personal-tool-evaluator
       - skill-gatekeeper
       - security-auditor
       - design-taste-frontend
@@ -162,25 +779,38 @@ workflow_nodes:
       - multi-agent-systems-architect
       - writing-skills
       - security-auditor
+      - security-scan-contract
+      - design-taste-frontend
+      - ui-ux-pro-max
+      - web-design-polish
+      - email-intelligence-engineer
+      - prompt-engineer
+      - validation-standards
+      - personal-tool-evaluator
+      - skill-gatekeeper
   - id: decomposition_dispatch
     purpose: split work when single-agent execution is not enough
     allowed_agents:
+      - sol-luna-orchestration
       - dispatching-parallel-agents
       - subagent-driven-development
       - multi-agent-systems-architect
   - id: execution
     purpose: perform the main work
     allowed_agents:
+      - sol-luna-orchestration
       - executing-plans
       - test-driven-development
       - systematic-debugging
       - writing-skills
+      - doc-ops
       - email-intelligence-engineer
       - prompt-engineer
       - multi-agent-systems-architect
       - context-scout
       - oss-solution-scout
       - skill-gatekeeper
+      - api-contract-governance
       - security-auditor
       - design-taste-frontend
       - redesign-existing-projects
@@ -198,6 +828,7 @@ workflow_nodes:
     purpose: prove that work is actually done
     allowed_agents:
       - verification-before-completion
+      - api-contract-governance
       - visual-qa
   - id: finish_integration
     purpose: merge, handoff, or clean up
@@ -207,6 +838,86 @@ workflow_nodes:
       - writing-skills
 
 route_rules:
+  - id: third_party_personal_global_intake
+    match:
+      all_domain_signals:
+        - personal-global-adoption
+        - third-party-intake
+      artifact_type:
+        - personal-global-adoption
+        - global-install-decision
+        - global-enable-decision
+        - global-promotion-decision
+        - global-connection-decision
+        - install-decision
+    select:
+      primary: personal-tool-evaluator
+      support:
+        - skill-gatekeeper
+      workflow_node: domain_classification
+      gate_decision: pending
+      handoff_notes:
+        - Keep personal-tool-evaluator as the only primary for personal-global fit and value.
+        - Require skill-gatekeeper trust output before any third-party global install, enable, promotion, or connection.
+        - YES may continue only to a separately requested global action; TRY LOCALLY FIRST is local/project/sandbox only; NO stops global adoption until explicit user override or materially new evidence.
+
+  - id: general_personal_global_intake
+    match:
+      any_domain_signals:
+        - personal-global-adoption
+        - global-install
+        - global-enable
+        - global-promotion
+        - global-connection
+      artifact_type:
+        - personal-global-adoption
+        - global-install-decision
+        - global-enable-decision
+        - global-promotion-decision
+        - global-connection-decision
+        - install-decision
+    select:
+      primary: personal-tool-evaluator
+      support: []
+      workflow_node: domain_classification
+      gate_decision: pending
+      handoff_notes:
+        - Evaluate personal-global fit before any adoption work; do not require an explicit skill invocation.
+        - YES may continue only to a separately requested global action; TRY LOCALLY FIRST is local/project/sandbox only; NO stops global adoption until explicit user override or materially new evidence.
+        - Exclude ordinary usage help, documentation, debugging, and project-local dependency installation unless personal-global promotion is requested.
+
+  - id: presentation_layout_reasoning
+    match:
+      any_domain_signals:
+        - ppt
+        - pptx
+        - powerpoint
+        - presentation
+        - slide-deck
+        - slide-layout
+        - slide-design
+        - presentation-layout
+        - presentation-design
+        - ppt-layout
+        - native-shape
+        - diagram-layout
+        - slide-review
+      artifact_type:
+        - presentation
+        - slide-deck
+        - pptx
+        - ppt-layout
+        - presentation-design
+        - slide-review
+    select:
+      primary: doc-ops
+      support: []
+      workflow_node: execution
+      required_skill_overlays: [ppt-layout-reasoning]
+      handoff_notes:
+        - Load `ppt-layout-reasoning` before slide planning or editing.
+        - Keep `doc-ops` as the primary document/presentation execution owner and use native presentation tooling.
+
   - id: extension_intake_review
     match:
       any_domain_signals:
@@ -230,7 +941,8 @@ route_rules:
       workflow_node: domain_classification
       gate_decision: pending
       handoff_notes:
-        - This route is a mandatory gate before any install, enable, or promotion step.
+        - This route is primary for pure trust or security review and non-global extension intake; the preceding personal-global routes own personal-global fit.
+        - This route is a mandatory trust gate before any third-party install, enable, or promotion step.
         - Produce an explicit decision: allow, manual-review, or block.
         - Record source, version or commit, key risks, and rationale with the decision.
 
@@ -275,13 +987,13 @@ route_rules:
         - polished-ui
         - frontend
     select:
-      primary: design-taste-frontend
+      primary: ui-ux-pro-max
       support:
-        - ui-ux-pro-max
+        - minimalist-ui
       workflow_node: framing_planning
       handoff_notes:
-        - Use a restrained editorial direction with lower variance, lower motion, and cleaner hierarchy.
-        - If minimalist requests become frequent enough to deserve a dedicated overlay, consider installing `minimalist-ui`.
+        - Treat `minimalist-ui` as an optional visual layer; preserve user tasks, accessibility, and platform conventions.
+        - Use `design-taste-frontend` only for marketing pages or portfolios; use `web-design-polish` to orchestrate implementation work.
 
   - id: brutalist_design_direction
     match:
@@ -295,13 +1007,13 @@ route_rules:
         - polished-ui
         - frontend
     select:
-      primary: design-taste-frontend
+      primary: ui-ux-pro-max
       support:
-        - ui-ux-pro-max
+        - industrial-brutalist-ui
       workflow_node: framing_planning
       handoff_notes:
-        - Push strong contrast, sharper structure, and deliberate anti-generic layout moves.
-        - If brutalist work becomes recurrent, consider installing `industrial-brutalist-ui` as a style overlay.
+        - Treat `industrial-brutalist-ui` as an optional visual layer; retain readable text, task clarity, accessibility, and platform conventions.
+        - Use `design-taste-frontend` only for marketing pages or portfolios; use `web-design-polish` to orchestrate implementation work.
 
   - id: soft_premium_design_direction
     match:
@@ -316,13 +1028,13 @@ route_rules:
         - polished-ui
         - frontend
     select:
-      primary: design-taste-frontend
+      primary: ui-ux-pro-max
       support:
-        - ui-ux-pro-max
+        - high-end-visual-design
       workflow_node: framing_planning
       handoff_notes:
-        - Bias toward calm premium spacing, softer contrast, and polished type rhythm.
-        - If this direction becomes frequent, consider installing `high-end-visual-design` as a reusable overlay.
+        - Treat `high-end-visual-design` as an optional web visual layer; keep motion purposeful and honor reduced-motion preferences. For native mobile controls, follow platform conventions.
+        - Use `design-taste-frontend` only for marketing pages or portfolios; use `web-design-polish` to orchestrate implementation work.
 
   - id: brand_kit_strategy
     match:
@@ -335,13 +1047,11 @@ route_rules:
         - design-direction
         - docs
     select:
-      primary: ui-ux-pro-max
-      support:
-        - writing-skills
+      primary: brandkit
+      support: []
       workflow_node: framing_planning
       handoff_notes:
-        - Current installed skills can define strategy, palette direction, typography, and handoff notes, but there is no dedicated brand-kit image skill installed.
-        - If pure brand-board deliverables are common, install `brandkit`.
+        - Use `ui-ux-pro-max` as additional support only when the request also includes product UI tasks or interaction strategy.
 
   - id: mobile_flow_strategy
     match:
@@ -355,12 +1065,11 @@ route_rules:
         - frontend
     select:
       primary: ui-ux-pro-max
-      support:
-        - design-taste-frontend
+      support: []
       workflow_node: framing_planning
       handoff_notes:
-        - Current installed skills can produce mobile strategy and implementation guidance, but there is no dedicated mobile image-comps skill installed.
-        - If pure mobile comp generation is common, install `imagegen-frontend-mobile`.
+        - Model mobile tasks, reach, safe areas, states, and platform conventions before choosing visuals.
+        - Use `imagegen-frontend-mobile` for image-only screen concepts; generated images do not verify implementation or hit areas.
 
   - id: stitch_design_export
     match:
@@ -373,13 +1082,12 @@ route_rules:
         - design-direction
         - docs
     select:
-      primary: web-design-polish
+      primary: stitch-design-taste
       support:
         - ui-ux-pro-max
       workflow_node: framing_planning
       handoff_notes:
-        - Current stack can produce a compact `DESIGN.md`, but there is no dedicated Stitch-compatible overlay installed.
-        - If Stitch-specific export or format compatibility becomes common, install `stitch-design-taste`.
+        - Treat Stitch-specific guidance as a visual and export-format layer; keep task, design-system, accessibility, and platform requirements authoritative.
 
   - id: full_output_risk_design_task
     match:
@@ -398,7 +1106,7 @@ route_rules:
       workflow_node: framing_planning
       handoff_notes:
         - Explicitly require complete deliverables, no placeholder comments, and no partial polish passes.
-        - If this failure mode recurs, install `full-output-enforcement`.
+        - If this failure mode recurs, load the existing `full-output-enforcement` skill.
 
   - id: fast_track_email_extraction
     match:
@@ -511,6 +1219,8 @@ route_rules:
       primary: requesting-code-review
       support: []
       workflow_node: review
+      required_skill_overlays:
+        - architecture-review
 
   - id: fast_track_receive_review
     match:
@@ -574,6 +1284,35 @@ route_rules:
       support:
         - email-intelligence-engineer
       workflow_node: execution
+
+  - id: subagent_driven_development
+    match:
+      any_domain_signals:
+        - subagent-driven-development
+        - sdd
+        - isolated-track
+        - isolated-tracks
+        - decomposed-plan
+        - parallel-implementation
+      artifact_type:
+        - implementation
+        - execution
+        - plan
+        - execution-plan
+        - workflow
+        - architecture
+        - routing-plan
+    select:
+      primary: subagent-driven-development
+      support: []
+      workflow_node: decomposition_dispatch
+      handoff_notes:
+        - SDD is decomposition/child-dispatch control only; never a production runtime and never the acceptance process.
+        - Every child clones the parent dispatch_contract exactly for execution_required, runtime_overlay, and global_contract.
+        - A child cannot change validation_tier, required_gates, required_artifacts, or acceptance_owner; no local downgrade is allowed.
+        - Missing or invalid parent or child dispatch_contract is contract-invalid and must escalate without applying defaults.
+        - Implementers and reviewers return evidence or advisory recommendations only; the acceptance process alone owns final pass, retry, and rollback.
+        - Carry parent/child packet context through the existing Astra–Luna task-packet handoff; do not create a child schema or runtime lane.
 
   - id: multi_agent_workflow
     match:
@@ -652,6 +1391,26 @@ route_rules:
       support: []
       workflow_node: domain_classification
 
+  - id: marketing_page_design_direction
+    match:
+      any_domain_signals:
+        - landing-page
+        - marketing-site
+        - portfolio
+      artifact_type:
+        - design-direction
+        - ui-plan
+        - polished-ui
+        - frontend
+    select:
+      primary: design-taste-frontend
+      support:
+        - ui-ux-pro-max
+      workflow_node: framing_planning
+      handoff_notes:
+        - Apply the shared human-factors reference to interaction or content choices; do not force layouts from fixed item counts.
+        - Use `web-design-polish` as the orchestrator when the task spans strategy, DESIGN.md handoff, and implementation.
+
   - id: design_direction
     match:
       any_domain_signals:
@@ -665,11 +1424,11 @@ route_rules:
         - ui-plan
         - polished-ui
     select:
-      primary: design-taste-frontend
-      support:
-        - ui-ux-pro-max
+      primary: ui-ux-pro-max
+      support: []
       workflow_node: framing_planning
       handoff_notes:
+        - Model user goals and product tasks before selecting a visual direction; keep marketing-page rules scoped to marketing surfaces.
         - Use `web-design-polish` as the orchestrator when the task spans strategy, DESIGN.md handoff, and implementation.
 
   - id: anti_overengineering_guard
@@ -695,6 +1454,43 @@ route_rules:
         - Apply `ANTI_OVERENGINEERING_POLICY.md` before adding a dependency, abstraction, helper layer, or extra workflow stage.
         - Prefer the smallest safe local change that satisfies the request.
 
+  - id: website_visual_concepts
+    match:
+      any_domain_signals:
+        - website-image-concept
+        - website-mockup
+        - landing-page-image
+        - web-visual-concept
+      artifact_type:
+        - image-comp
+        - image-generation
+        - visual-asset
+        - mockup
+    select:
+      primary: imagegen-frontend-web
+      support: []
+      workflow_node: execution
+      handoff_notes:
+        - This route produces website visual concepts or image comps; use `image-to-code` only when the requested deliverable is implemented UI.
+
+  - id: mobile_screen_concepts
+    match:
+      any_domain_signals:
+        - mobile-screen-concept
+        - app-screen-mockup
+        - mobile-image-concept
+      artifact_type:
+        - image-comp
+        - image-generation
+        - visual-asset
+        - mockup
+    select:
+      primary: imagegen-frontend-mobile
+      support: []
+      workflow_node: execution
+      handoff_notes:
+        - This route produces mobile screen concepts; an image does not verify implemented hit areas, focus behavior, or accessibility semantics.
+
   - id: screenshot_to_ui
     match:
       any_domain_signals:
@@ -709,7 +1505,7 @@ route_rules:
         - visual-qa
       workflow_node: execution
       handoff_notes:
-        - If the deliverable is image comps only and no code should be produced, the current stack is missing a dedicated image-only website skill. Consider `imagegen-frontend-web`.
+        - Use this route when the deliverable is UI implementation from a screenshot. For image-only concepts, use the matching website or mobile visual-concept route.
 
   - id: writing_docs
     match:
@@ -751,6 +1547,8 @@ route_rules:
       primary: executing-plans
       support: []
       workflow_node: execution
+      required_skill_overlays:
+        - architecture-review
 
   - id: api_contract_review
     match:
@@ -793,7 +1591,10 @@ route_rules:
         - api-contract-governance
       workflow_node: execution
       validation_tier: multi_stage
+      required_skill_overlays:
+        - architecture-review
       handoff_notes:
+        - Load architecture-review before implementation; keep test-driven-development as the primary execution owner and api-contract-governance as the API boundary support.
         - Keep the implementation owner responsible for the code change; api-contract-governance maps consumers/providers and verifies the affected contracts and architecture edges.
         - Use the project's existing lint, compatibility, architecture, and integration checks; do not install new tools.
 
@@ -810,6 +1611,16 @@ route_rules:
       primary: systematic-debugging
       support: []
       workflow_node: execution
+      validation_tier: standard
+      required_skill_overlays:
+        - architecture-review
+      required_gates:
+        - lightweight_sdd
+        - tdd_or_strongest_practical_test
+        - completion_verification
+      handoff_notes:
+        - Preserve the original symptom as a regression check.
+        - If the change crosses a subsystem, API, persistence, or user-journey boundary, escalate to multi_stage before implementation.
 
   - id: behavior_change
     match:
@@ -824,6 +1635,46 @@ route_rules:
       primary: test-driven-development
       support: []
       workflow_node: execution
+      validation_tier: standard
+      required_skill_overlays:
+        - architecture-review
+      required_gates:
+        - lightweight_sdd
+        - tdd_or_strongest_practical_test
+        - completion_verification
+      handoff_notes:
+        - Load the architecture-review overlay before code changes; perform evidence-based impact and reuse triage, and grill only when its escalation criteria are met.
+        - If multiple subsystems, API, database, user-journey, or cross-service signals are present, escalate to multi_stage.
+        - If payment, authorization, compliance, regulated-data, security-sensitive, or high-consequence signals are present, escalate to high_risk.
+
+  - id: validation_standards
+    match:
+      any_domain_signals:
+        - sdd-validation
+        - ddd-validation
+        - bdd-validation
+        - validation-standard
+        - supply-chain-policy
+      artifact_type:
+        - validation-contract
+        - workflow
+        - architecture
+        - routing-plan
+    select:
+      primary: validation-standards
+      support:
+        - skill-gatekeeper
+      workflow_node: framing_planning
+      validation_tier: multi_stage
+      required_gates:
+        - sdd
+        - applicable_ddd
+        - applicable_bdd
+        - supply_chain_review
+        - completion_verification
+      handoff_notes:
+        - Keep the adapter tool-neutral and do not install external extensions automatically.
+        - Escalate to high_risk when the policy itself governs payment, authorization, compliance, or security-sensitive changes.
 
   - id: request_review
     match:
@@ -839,6 +1690,10 @@ route_rules:
       primary: requesting-code-review
       support: []
       workflow_node: review
+      required_skill_overlays:
+        - architecture-review
+      handoff_notes:
+        - For repository code diffs, load architecture-review to check the frozen design/reuse criteria while keeping requesting-code-review as the review owner.
 
   - id: process_review_feedback
     match:
@@ -867,9 +1722,24 @@ route_rules:
       workflow_node: verification
 
 defaults:
+  control_only_request:
+    primary: using-superpowers
+    support: []
+    execution_required: false
+    acceptance_owner: astra
+    workflow_node: intent_router
   tiny_obvious_question:
     primary: using-superpowers
     support: []
+    execution_required: true
+    execution_lane: direct
+    runtime_agent_type: current_model
+    runtime_model: current_model
+    runtime_reasoning_effort: inherited
+    acceptance_owner: current_model
+    independent_review_required: false
+    luna_eligible: false
+    luna_ineligibility_reason: tiny-or-no-aggregate-workload-benefit
     compression_policy:
       profile: user-facing
       headroom: off
@@ -878,6 +1748,28 @@ defaults:
         - tiny-task
         - context-light
     workflow_node: intent_router
+  direct_low_risk_work:
+    primary: selected_semantic_agent
+    support: []
+    execution_required: true
+    execution_lane: direct
+    runtime_agent_type: current_model
+    runtime_model: current_model
+    runtime_reasoning_effort: inherited
+    acceptance_owner: current_model
+    independent_review_required: false
+    workflow_node: execution
+  delegated_or_reviewed_work:
+    primary: selected_semantic_agent
+    support: []
+    execution_required: true
+    execution_lane: delegated
+    runtime_agent_type: selected_semantic_agent_or_luna
+    runtime_model: inherited_or_sol_complex_or_luna_when_eligible
+    runtime_reasoning_effort: inherited_or_selected_effort
+    acceptance_owner: acceptance_process_or_qualified_independent_reviewer
+    independent_review_required: true
+    workflow_node: execution
   unclear_repo_task:
     primary: context-scout
     support: []

@@ -1,8 +1,10 @@
-# security-auditor Model Assignment
+# security-auditor Runtime Policy
 
-| Runtime | Model |
-| --- | --- |
-| Codex | `gpt-5.5`, reasoning `high` |
-| Antigravity | `Gemini 3.1 Pro (high)` or `Claude Sonnet 4.6 (thinking)` |
+This profile does not pin a model or reasoning effort. Resolve both from
+`skills/using-superpowers/agent-routing-rules.yaml#model_effort_policy` and the
+inherited `dispatch_contract`.
 
-Use this tier for vulnerability analysis, exploitability review, and high-scrutiny security reporting.
+- Direct work inherits the current model and effort.
+- Delegated work uses the runtime and effort selected by the route.
+- A semantic profile defines role and constraints only; it must not override the routed runtime.
+- Explicit user model or effort requests remain subject to safety and domain contracts.

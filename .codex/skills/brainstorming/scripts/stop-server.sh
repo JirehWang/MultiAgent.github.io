@@ -3,7 +3,7 @@
 # Usage: stop-server.sh <session_dir>
 #
 # Kills the server process. Only deletes session directory if it's
-# under /tmp (ephemeral). Persistent directories (.superpowers/) are
+# under the operating system temporary directory (ephemeral). Persistent directories (.superpowers/) are
 # kept so mockups can be reviewed later.
 
 SESSION_DIR="$1"
@@ -14,8 +14,17 @@ if [[ -z "$SESSION_DIR" ]]; then
 fi
 
 CANONICAL_SESSION_DIR=$(python3 -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "$SESSION_DIR" 2>/dev/null)
+CANONICAL_TEMP_ROOT=$(python3 -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "${TMPDIR:-/tmp}" 2>/dev/null)
 if [[ -z "$CANONICAL_SESSION_DIR" ]]; then
   echo '{"status": "failed", "error": "unable to resolve session directory"}'
+  exit 1
+fi
+if [[ -z "$CANONICAL_TEMP_ROOT" ]]; then
+  echo '{"status": "failed", "error": "unable to resolve temporary directory"}'
+  exit 1
+fi
+if [[ "$CANONICAL_TEMP_ROOT" == "/" ]]; then
+  echo '{"status": "failed", "error": "temporary directory cannot be the filesystem root"}'
   exit 1
 fi
 
@@ -51,8 +60,8 @@ if [[ -f "$PID_FILE" ]]; then
 
   rm -f "$PID_FILE" "${STATE_DIR}/server.log"
 
-  # Only delete ephemeral /tmp directories after resolving the real path.
-  if [[ "$CANONICAL_SESSION_DIR" == /tmp/* && "$CANONICAL_SESSION_DIR" != "/tmp" ]]; then
+  # Only delete session children of the resolved temporary root; never delete the root itself.
+  if [[ "$CANONICAL_SESSION_DIR" == "$CANONICAL_TEMP_ROOT"/* && "$CANONICAL_SESSION_DIR" != "$CANONICAL_TEMP_ROOT" ]]; then
     rm -rf "$CANONICAL_SESSION_DIR"
   fi
 

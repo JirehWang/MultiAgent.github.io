@@ -1,0 +1,4 @@
+interface:
+  display_name: "PPT Layout Reasoning"
+  short_description: "Plan editable PowerPoint composition and native-shape layouts"
+  default_prompt: "Use $ppt-layout-reasoning to plan or review a concise, editable PowerPoint slide composition."

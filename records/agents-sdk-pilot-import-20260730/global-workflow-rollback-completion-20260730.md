@@ -16,9 +16,9 @@ Checkpoint archive SHA256：
 
 完整 manifest 有 67 個檔案。回退前比較顯示只有以下 3 個檔案不同，因此只覆寫這 3 個目標：
 
-1. `C:\Users\105221\.codex\config.toml`
-2. `C:\Users\105221\.codex\skills\using-superpowers\agent-routing-rules.yaml`
-3. `C:\Users\105221\.codex\skills\using-superpowers\SKILL.md`
+1. `Codex user-profile config (host-specific)`
+2. `.codex/skills/using-superpowers/agent-routing-rules.yaml`
+3. `.codex/skills/using-superpowers/SKILL.md`
 
 ## 回退後驗證
 
@@ -47,7 +47,7 @@ ZIP 已重新解壓並驗證內部 manifest：31/31。
 
 原 runtime 目錄仍保留，但已無任何 global config/MCP/router reference 指向它：
 
-`C:\Users\105221\Documents\Codex\global-runtimes\agents-sdk-pilot`
+`host-specific global runtime: agents-sdk-pilot`
 
 它現在是 inactive record，不會由回退後的全域 workflow 自動啟動。
 

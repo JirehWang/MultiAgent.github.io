@@ -12,7 +12,13 @@ Pick one dominant pattern: hero-centric, trust-authority, social-proof-focused, 
 
 ## palette-type
 
-Pick 1-2 directions: warm neutral, civic trust, editorial monochrome, premium dark, soft wellness, technical blue, sustainable green, high-contrast creative, luxury muted, or playful bright. Do not enumerate full palettes unless needed.
+Use this module when the task needs a new palette decision. Preserve supplied brand colors, an existing design system, and project tokens; do not create a competing palette. Let the audience, task, brand, medium, and hierarchy determine the direction. Color-psychology associations are hypotheses, not universal meanings; check cultural and product context.
+
+Use color-harmony relationships (monochromatic, analogous, complementary, split-complementary, or triadic) as ways to structure a palette, not as formulas. Choose only the relationships that support the intended hierarchy. Assign colors by role—background/surface, text, brand, action/accent, border/focus, and semantic status where needed—so decorative accents do not replace functional status colors. Use a compact role map; provide exact values only when the next stage needs them.
+
+Check foreground/background contrast for relevant text and controls, and never use color as the only signal for status or interaction. Follow the project's color format and medium; do not impose a color space or convert existing tokens without a reason.
+
+Pass decisions downstream as a **Palette Contract**: direction and rationale; role map (existing token names/values when available); brand and system constraints; and applicable contrast, mode, or medium requirements. If the user or project already supplied the palette, record it as the contract rather than asking or choosing again.
 
 ## typography-pairing
 
